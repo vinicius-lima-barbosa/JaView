@@ -1,0 +1,9 @@
+db.users.find().pretty()
+db.users.find()
+show collections
+use jaview_test
+show dbs
+db.users.find()
+show collections
+use jaview_test
+show dbs
