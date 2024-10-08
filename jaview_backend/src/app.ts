@@ -20,5 +20,5 @@ app.use("/auth", authRoutes);
 app.use("/post", movieRoutes);
 
 app.listen(3333, () => {
-  console.log(`Server is listening in port ${PORT}`);
+  console.log(`Server is listening in port ${PORT} 🚀`);
 });
