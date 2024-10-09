@@ -2,6 +2,8 @@ import { Movie } from "../models/moviesModel";
 import connectDB from "../lib/mongodb";
 import { Response, Request } from "express";
 import { User } from "../models/usersModel";
+import { isReviewValid } from "./reviewService";
+
 
 export const addReview = async (request: Request, response: Response) => {
   try {
@@ -9,6 +11,15 @@ export const addReview = async (request: Request, response: Response) => {
     const { review, rating } = request.body;
     const userId = request.userId;
 
+    // Validação da review usando o Gemini
+    const isValid = await isReviewValid(review);
+    if (!isValid) {
+      return response.status(400).json({
+        error: true,
+        message: "Review considerada ofensiva e não foi aceita.",
+      });
+    }
+    
     let movie = await Movie.findById(movieId);
 
     if (!movie) {
