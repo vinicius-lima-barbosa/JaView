@@ -11,10 +11,11 @@ const PORT = process.env.APP_PORT || 3333;
 
 app.use(express.json());
 
-app.get("/", async (request, response) => {
-  await connectDB();
-  response.send({ message: "Test API" });
-});
+connectDB()
+  .then()
+  .catch((e) => {
+    message: e;
+  });
 
 app.use("/auth", authRoutes);
 app.use("/post", movieRoutes);
