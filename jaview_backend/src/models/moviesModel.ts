@@ -12,7 +12,7 @@ const reviewSchemaMovies = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    min: 1,
+    min: 0,
     max: 5,
     required: true,
   },
@@ -26,17 +26,6 @@ const movieSchema = new Schema({
   _id: {
     type: String,
     required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  poster_url: {
-    type: String,
-    required: true,
-  },
-  genre: {
-    type: String,
   },
   reviews: [reviewSchemaMovies],
 });
