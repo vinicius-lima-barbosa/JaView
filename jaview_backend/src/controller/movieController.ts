@@ -2,7 +2,7 @@ import { Movie } from "../models/moviesModel";
 import connectDB from "../lib/mongodb";
 import { Response, Request } from "express";
 import { User } from "../models/usersModel";
-import { isReviewValid } from "./reviewService";
+import { isReviewValid } from "../services/reviewService";
 
 
 export const addReview = async (request: Request, response: Response) => {
