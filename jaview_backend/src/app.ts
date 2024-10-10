@@ -7,19 +7,19 @@ import movieRoutes from "./routes/movieRoutes";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.APP_PORT || 3333;
+// const PORT = process.env.APP_PORT || 3333;
 
 app.use(express.json());
 
 connectDB()
-  .then()
-  .catch((e) => {
-    message: e;
+  .then(() => {
+    app.listen(3333, () => {
+      console.log(`Server is listening in port 3333 🚀`);
+    });
+  })
+  .catch((error) => {
+    message: `Error connecting with the database: ${error}`;
   });
 
 app.use("/auth", authRoutes);
-app.use("/post", movieRoutes);
-
-app.listen(3333, () => {
-  console.log(`Server is listening in port ${PORT} 🚀`);
-});
+app.use("/movies", movieRoutes);
