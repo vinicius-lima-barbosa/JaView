@@ -1,5 +1,5 @@
 import { Movie } from "../models/moviesModel";
-import connectDB from "../lib/mongodb";
+// import connectDB from "../lib/mongodb";
 import { Response, Request } from "express";
 import { User } from "../models/usersModel";
 
@@ -14,9 +14,6 @@ export const addReview = async (request: Request, response: Response) => {
     if (!movie) {
       movie = new Movie({
         _id: movieId,
-        title: `Simulated title for ${movieId}`,
-        poster_url: `https://example.com/poster/${movieId}.jpg`,
-        genre: "Simulated genre",
         reviews: [],
       });
     }
@@ -29,7 +26,9 @@ export const addReview = async (request: Request, response: Response) => {
     };
 
     movie.reviews.push(movieReview);
-    await movie.save();
+    const savedMovie = await movie.save();
+
+    const newReviewId = savedMovie.reviews[savedMovie.reviews.length - 1]._id;
 
     const user = await User.findById(userId);
     if (user) {
@@ -38,6 +37,7 @@ export const addReview = async (request: Request, response: Response) => {
         review,
         rating,
         created_at: new Date(),
+        _id: newReviewId,
       };
 
       user.reviews.push(userReview);
@@ -52,6 +52,60 @@ export const addReview = async (request: Request, response: Response) => {
   } catch (error) {
     return response.status(500).json({
       message: "An error occurred while adding the review!",
+      error: error.message,
+    });
+  }
+};
+
+export const removeReview = async (request: Request, response: Response) => {
+  try {
+    const { movieId, reviewId } = request.params;
+    const userId = request.userId;
+
+    const movie = await Movie.findById(movieId);
+
+    if (!movie) {
+      return response.status(404).json({
+        error: true,
+        message: "Movie not found!",
+      });
+    }
+
+    const reviewIdInMovie = movie.reviews.findIndex(
+      (review) =>
+        review._id.toString() === reviewId &&
+        review.user_id.toString() === userId
+    );
+    if (reviewIdInMovie === -1) {
+      return response
+        .status(404)
+        .json({ message: "Review not found for this movie!" });
+    }
+
+    movie.reviews.splice(reviewIdInMovie, 1);
+    await movie.save();
+
+    // ---
+    const user = await User.findById(userId);
+    const reviewIdInUser = user.reviews.findIndex(
+      (review) =>
+        review.movie_id === movieId && review._id.toString() === reviewId
+    );
+    if (reviewIdInUser === -1) {
+      return response
+        .status(404)
+        .json({ message: "Review not found for this movie!" });
+    }
+
+    user.reviews.splice(reviewIdInUser, 1);
+    await user.save();
+
+    return response
+      .status(200)
+      .json({ message: "Review deleted successfully!" });
+  } catch (error) {
+    return response.status(500).json({
+      message: "An error occurred while deleting the review!",
       error: error.message,
     });
   }
