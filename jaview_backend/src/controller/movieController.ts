@@ -1,5 +1,4 @@
 import { Movie } from "../models/moviesModel";
-// import connectDB from "../lib/mongodb";
 import { Response, Request } from "express";
 import { User } from "../models/usersModel";
 

@@ -2,7 +2,7 @@ export default function Aside() {
   return (
     <>
       <aside className="w-1/5 bg-gray-800 p-4 min-h-screen">
-        <div className="flex items-center mb-8">
+        <div className="flex items-center m-2 mb-8">
           <img
             src="https://placehold.co/50x50"
             alt="avatar"
@@ -15,6 +15,11 @@ export default function Aside() {
             <li className="mb-4">
               <a href="#" className="text-gray-400 hover:text-white">
                 My reviews
+              </a>
+            </li>
+            <li className="mb-4">
+              <a href="#" className="text-gray-400 hover:text-white">
+                Most rated movies
               </a>
             </li>
             <li className="mb-4">
