@@ -1,9 +1,7 @@
 import { Movie } from "../models/moviesModel";
-import connectDB from "../lib/mongodb";
 import { Response, Request } from "express";
 import { User } from "../models/usersModel";
-import { isReviewValid } from "../services/reviewService";
-
+import { verifyReview } from "../services/reviewService"; // Importação do serviço de verificação
 
 export const addReview = async (request: Request, response: Response) => {
   try {
@@ -11,23 +9,23 @@ export const addReview = async (request: Request, response: Response) => {
     const { review, rating } = request.body;
     const userId = request.userId;
 
-    // Validação da review usando o Gemini
-    const isValid = await isReviewValid(review);
-    if (!isValid) {
+    // Verificação da review pela IA
+    const { verificationResult, justification } = await verifyReview(review);
+
+    if (!verificationResult) {
       return response.status(400).json({
         error: true,
-        message: "Review considerada ofensiva e não foi aceita.",
+        message: "Review rejeitada: conteúdo ofensivo",
+        justification: justification, // Justificativa do porque foi marcada como ofensiva
       });
     }
-    
+
+    // Continua o processo de salvar a avaliação
     let movie = await Movie.findById(movieId);
 
     if (!movie) {
       movie = new Movie({
         _id: movieId,
-        title: `Simulated title for ${movieId}`,
-        poster_url: `https://example.com/poster/${movieId}.jpg`,
-        genre: "Simulated genre",
         reviews: [],
       });
     }
@@ -40,7 +38,9 @@ export const addReview = async (request: Request, response: Response) => {
     };
 
     movie.reviews.push(movieReview);
-    await movie.save();
+    const savedMovie = await movie.save();
+
+    const newReviewId = savedMovie.reviews[savedMovie.reviews.length - 1]._id;
 
     const user = await User.findById(userId);
     if (user) {
@@ -49,6 +49,7 @@ export const addReview = async (request: Request, response: Response) => {
         review,
         rating,
         created_at: new Date(),
+        _id: newReviewId,
       };
 
       user.reviews.push(userReview);
@@ -57,12 +58,12 @@ export const addReview = async (request: Request, response: Response) => {
 
     return response.status(201).json({
       error: false,
-      message: "Review added succesfully!",
+      message: "Review adicionada com sucesso!",
       movie,
     });
   } catch (error) {
     return response.status(500).json({
-      message: "An error occurred while adding the review!",
+      message: "Ocorreu um erro ao adicionar a avaliação!",
       error: error.message,
     });
   }
