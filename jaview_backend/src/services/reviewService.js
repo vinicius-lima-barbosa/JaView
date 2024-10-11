@@ -1,25 +1,27 @@
-const { model, generationConfig, safetySettings } = require('../config/geminiConfig');
+// reviewService.js
+const { model, generationConfig, safetySettings } = require("../lib/gemini");
 
 async function verifyReview(input) {
-  try {
-    const chatSession = model.startChat({
-      generationConfig,
-      safetySettings,
-    });
+  const chatSession = model.startChat({
+    generationConfig,
+    safetySettings,
+  });
 
-    const result = await chatSession.sendMessage(input);
+  const result = await chatSession.sendMessage(input);
 
-    // Acessa diretamente a resposta
-    const verificationResult = result.response;  // Assume-se que a resposta já é um objeto
-    const justification = result.justify;
+  // Faz o parse da resposta como JSON
+  const responseText = await result.response.text(); // Obtem a resposta em string
+  const jsonResponse = JSON.parse(responseText); // Converte a string em objeto JSON
 
-    return { verificationResult, justification };
-  } catch (error) {
-    console.error("Erro ao verificar a review:", error);
-    return { verificationResult: false, justification: "Erro ao processar a avaliação." };
-  }
+  // Acessa os campos 'response' e 'justify' e guarda os valores
+  const verificationResult = jsonResponse.response;
+  const justification = jsonResponse.justify;
+
+  // Log dos resultados
+  //console.log("O valor da verificação é:", verificationResult);
+  //console.log("Justificativa:", justification);
+
+  return { verificationResult, justification };
 }
 
-module.exports = {
-  verifyReview,
-};
+module.exports = { verifyReview };
