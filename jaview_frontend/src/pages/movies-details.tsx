@@ -41,7 +41,6 @@ export default function MoviesDetails() {
             className="rounded-2xl shadow-2xl w-full max-w-sm md:w-80"
           />
 
-          {/* Informações do Filme */}
           <div className="flex flex-col justify-start items-start text-pretty">
             <div className="flex items-center mb-4">
               <p className="text-lg font-bold text-white bg-orange-400 rounded-full p-2 w-11 h-11 flex items-center justify-center mr-4 shadow-2xl">
