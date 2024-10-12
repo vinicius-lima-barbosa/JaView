@@ -34,16 +34,17 @@ const MoviesList: React.FC = () => {
           <MovieCard key={movie.id} movie={movie} />
         </Link>
       ))}
-      <div className="flex justify-around items-center mt-3">
+      <div className="flex justify-center items-center mt-5 space-x-4">
         <button
-          className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+          className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-green-600 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1} // Desabilitar botão "Previous" na página 1
         >
           Previous
         </button>
-        <span className="font-medium">Page {page}</span>
+        <span className="font-medium text-gray-700 text-lg">Page {page}</span>
         <button
-          className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-200"
+          className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-green-600 transition duration-200"
           onClick={() => setPage((prev) => prev + 1)}
         >
           Next

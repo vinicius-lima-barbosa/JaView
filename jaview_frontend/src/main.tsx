@@ -6,6 +6,7 @@ import Aside from "./components/aside.tsx";
 import Header from "./components/header.tsx";
 import MoviesList from "./components/movies-list";
 import Footer from "./components/footer.tsx";
+import MoviesDetails from "./pages/movies-details.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -19,7 +20,7 @@ createRoot(document.getElementById("root")!).render(
           <Routes>
             <Route path="/" element={<MoviesList />} />
 
-            {/* <Route path="/movie/:id" element={<MoviesDetails />} /> */}
+            <Route path="/movie/:id" element={<MoviesDetails />} />
           </Routes>
         </main>
       </div>
