@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Aside from "./components/aside.tsx";
 import Header from "./components/header.tsx";
@@ -8,15 +9,21 @@ import Footer from "./components/footer.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div className="flex-h-screen flex">
-      <Aside />
-      <main className="flex-1 flex-col">
-        <div className="p-5">
-          <Header />
-        </div>
-        <MoviesList />
-      </main>
-    </div>
-    <Footer />
+    <Router>
+      <div className="flex-h-screen flex">
+        <Aside />
+        <main className="flex-1 flex-col">
+          <div className="p-5">
+            <Header />
+          </div>
+          <Routes>
+            <Route path="/" element={<MoviesList />} />
+
+            {/* <Route path="/movie/:id" element={<MoviesDetails />} /> */}
+          </Routes>
+        </main>
+      </div>
+      <Footer />
+    </Router>
   </StrictMode>
 );

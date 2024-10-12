@@ -1,13 +1,11 @@
+import avatar from "../../public/images/default_avatar.jpg";
+
 export default function Aside() {
   return (
     <>
       <aside className="w-1/5 bg-gray-800 p-4 min-h-screen">
         <div className="flex items-center m-2 mb-8">
-          <img
-            src="https://placehold.co/50x50"
-            alt="avatar"
-            className="rounded-full mr-4"
-          />
+          <img src={avatar} alt="avatar" className="rounded-full mr-4 w-14" />
           <span>Hi, user</span>
         </div>
         <nav>

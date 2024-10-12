@@ -1,13 +1,29 @@
-import { FaStar } from "react-icons/fa";
+const imagesURL = "https://image.tmdb.org/t/p/w500/";
 
-export default function MovieCard() {
+type Movie = {
+  id: number;
+  title: string;
+  poster_path: string;
+  vote_average: number;
+};
+
+interface MovieCardProps {
+  movie: Movie;
+}
+
+export default function MovieCard({ movie }: MovieCardProps) {
   return (
-    <div className=" w-60 relative flex-col">
-      <img src="" alt="" className="w-full rounded-lg" />
-      <h2 className="mt-2">title</h2>
-      <p className="text-gray-400">genre</p>
-      <div className="absolute bottom-2 right-2 bg-orange-500 text-white rounded-full px-2 py-1">
-        <FaStar />
+    <div>
+      <img
+        src={imagesURL + movie.poster_path}
+        alt={movie.title}
+        className="w-min-full h-min-full rounded-2xl transition duration-200 hover:brightness-75"
+      />
+      <div className="flex items-center mt-2">
+        <p className="text-lg font-bold text-white bg-orange-400 rounded-full p-2 w-11 h-11 flex items-center justify-center mr-2">
+          {movie.vote_average.toFixed(1)}
+        </p>
+        <h3 className="text-md font-semibold">{movie.title}</h3>
       </div>
     </div>
   );
