@@ -50,6 +50,6 @@ O JaView é um projeto desenvolvido e mantido pela nossa equipe, e todos os dire
 
 ![Logo do TMDB](/jaview_frontend/src/assets/logoLongoTMDB.svg)
 
-Este aplicativo utiliza a [API do TMDb](https://www.themoviedb.org/documentation/api) para fornecer informações sobre filmes, como sinopses, pôsteres e avaliações. No entanto, JaView não é endossado ou certificado pelo TMDb.
+Esta aplicação utiliza a [API do TMDb](https://www.themoviedb.org/documentation/api) para fornecer informações sobre filmes, como sinopses, pôsteres e avaliações. No entanto, JaView não é endossado ou certificado pelo TMDb.
 
 Para mais informações sobre a API do TMDb, visite o [site oficial](https://www.themoviedb.org).
