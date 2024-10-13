@@ -38,7 +38,7 @@ const MoviesList: React.FC = () => {
         <button
           className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-green-600 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1} // Desabilitar botão "Previous" na página 1
+          disabled={page === 1}
         >
           Previous
         </button>
