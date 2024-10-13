@@ -7,6 +7,7 @@ import Header from "./components/header.tsx";
 import MoviesList from "./components/movies-list";
 import Footer from "./components/footer.tsx";
 import MoviesDetails from "./pages/movies-details.tsx";
+import Search from "./pages/search.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -19,8 +20,8 @@ createRoot(document.getElementById("root")!).render(
           </div>
           <Routes>
             <Route path="/" element={<MoviesList />} />
-
             <Route path="/movie/:id" element={<MoviesDetails />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </main>
       </div>
