@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 type Movie = {
   id: number;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
   vote_average: number;
 };
 
@@ -28,14 +28,16 @@ export default function Search() {
     getSearchedMovies(searchWithQueryURL);
   }, [query]);
 
+  const filteredMovies = movies.filter((movie) => movie.poster_path);
+
   return (
     <div className="flex flex-col items-center p-5">
       <h2 className="text-3xl font-bold text-center mb-5">
         Results for: <span className="text-green-500">{query}</span>
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {movies.length > 0 ? (
-          movies.map((movie) => (
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
             <Link
               key={movie.id}
               className="movie-card"

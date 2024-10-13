@@ -5,7 +5,7 @@ import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
 type Movie = {
   id: number;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
   vote_average: number;
   runtime: number;
   overview: string;

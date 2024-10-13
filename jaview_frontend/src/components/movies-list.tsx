@@ -6,7 +6,7 @@ import MovieCard from "./movie-card";
 type Movie = {
   id: number;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
   vote_average: number;
 };
 
@@ -27,9 +27,11 @@ const MoviesList: React.FC = () => {
 
   if (loading) return <div>Loading...</div>;
 
+  const filteredMovies = movies.filter((movie) => movie.poster_path);
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ml-5 mr-5 mb-5">
-      {movies.map((movie) => (
+      {filteredMovies.map((movie) => (
         <Link key={movie.id} className="movie-card" to={`/movie/${movie.id}`}>
           <MovieCard key={movie.id} movie={movie} />
         </Link>
