@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/usersModel";
 import { Request, Response } from "express";
 import connectDB from "../lib/mongodb";
+import { userSchemaZod } from "../services/userValidation";
 
 const secret = process.env.JWT_SECRET || " ";
 
@@ -10,22 +11,18 @@ export const createUser = async (request: Request, response: Response) => {
   try {
     const { name, email, password, confirmedPassword } = request.body;
 
-    if (!name) {
-      return response.status(422).json({ msg: "The name is required!" });
-    }
+    const validationResult = userSchemaZod.safeParse({
+      name,
+      email,
+      password,
+      confirmedPassword,
+    });
 
-    if (!email) {
-      return response.status(422).json({ msg: "The email is required!" });
-    }
-
-    if (!password) {
-      return response.status(422).json({ msg: "The password is required!" });
-    }
-
-    if (password != confirmedPassword) {
-      return response
-        .status(422)
-        .json({ msg: "The passwords must be the same!" });
+    if (!validationResult.success) {
+      const errorMessages = validationResult.error.errors.map(
+        (err) => err.message
+      );
+      return response.status(422).json({ msg: errorMessages.join(" ") });
     }
 
     const userExists = await User.findOne({
