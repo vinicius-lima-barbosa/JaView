@@ -2,6 +2,7 @@ import { FetchMovies } from "../api/tmdb-api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MovieCard from "./movie-card";
+import { BallTriangle } from "react-loader-spinner";
 
 type Movie = {
   id: number;
@@ -25,7 +26,13 @@ const MoviesList: React.FC = () => {
     getMovies();
   }, [page]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <BallTriangle />
+      </div>
+    );
+  }
 
   const filteredMovies = movies.filter((movie) => movie.poster_path);
 

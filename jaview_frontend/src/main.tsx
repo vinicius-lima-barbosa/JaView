@@ -8,6 +8,8 @@ import MoviesList from "./components/movies-list";
 import Footer from "./components/footer.tsx";
 import MoviesDetails from "./pages/movies-details.tsx";
 import Search from "./pages/search.tsx";
+import Login from "./components/login.tsx";
+import Register from "./components/register.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,6 +22,8 @@ createRoot(document.getElementById("root")!).render(
           </div>
           <Routes>
             <Route path="/" element={<MoviesList />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/movie/:id" element={<MoviesDetails />} />
             <Route path="/search" element={<Search />} />
           </Routes>

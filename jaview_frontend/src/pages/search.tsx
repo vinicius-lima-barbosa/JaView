@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import MovieCard from "../components/movie-card";
 import { useEffect, useState } from "react";
+import { BallTriangle } from "react-loader-spinner";
 
 type Movie = {
   id: number;
@@ -47,7 +48,9 @@ export default function Search() {
             </Link>
           ))
         ) : (
-          <p className="text-lg font-semibold">No results found</p>
+          <div className="flex justify-center items-center">
+            <BallTriangle />
+          </div>
         )}
       </div>
     </div>
