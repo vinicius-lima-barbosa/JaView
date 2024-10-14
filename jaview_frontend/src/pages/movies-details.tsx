@@ -18,6 +18,7 @@ const imagesURL = import.meta.env.VITE_IMAGE;
 export default function MoviesDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [review, setReview] = useState("");
 
   const getMovie = async (url: string) => {
     const response = await fetch(url);
@@ -30,6 +31,11 @@ export default function MoviesDetails() {
     const movieUrl = `${BASE_URL}${id}?api_key=${apiKey}`;
     getMovie(movieUrl);
   }, [id]);
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(review);
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center p-5">
@@ -58,6 +64,26 @@ export default function MoviesDetails() {
               <BsFillFileEarmarkTextFill className="text-lg" />
               <p className="max-w-lg text-justify">{movie.overview}</p>
             </div>
+
+            <form onSubmit={handleReviewSubmit} className="w-full mt-4">
+              <label htmlFor="review" className="block text-white mb-2">
+                Write your review:
+              </label>
+              <textarea
+                id="review"
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                rows={5}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black "
+                placeholder="Share your opnion about the movie..."
+              />
+              <button
+                type="submit"
+                className="mt-4 bg-green-500 text-white p-2 rounded hover:bg-green-600 transition"
+              >
+                Send
+              </button>
+            </form>
           </div>
         </div>
       )}
