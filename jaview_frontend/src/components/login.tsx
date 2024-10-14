@@ -3,11 +3,37 @@ import { useState } from "react";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log({ email, password });
+    const data = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3333/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const dataTest = await response.json();
+      console.log(dataTest);
+
+      if (response.ok) {
+        localStorage.setItem("token", dataTest.token);
+        alert("Login successful!");
+      } else {
+        setError(dataTest.message || "Login failed!");
+      }
+    } catch (err) {
+      setError(`Something went wrong! ${err}`);
+    }
   };
 
   return (
@@ -16,6 +42,7 @@ export default function Login() {
         <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
           Login
         </h2>
+        {error && <p className="text-red-400 pb-2">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label

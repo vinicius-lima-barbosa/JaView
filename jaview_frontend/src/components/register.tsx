@@ -5,15 +5,43 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
-      alert("As senhas não coincidem.");
+      setError("The password not match");
       return;
     }
 
-    console.log({ name, email, password });
+    const data = {
+      name,
+      email,
+      password,
+      confirmedPassword: confirmPassword,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3333/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const dataTest = await response.json();
+      console.log(dataTest);
+
+      if (response.ok) {
+        alert("Registration successful!");
+      } else {
+        setError(dataTest.message || "Registration failed");
+      }
+    } catch (err) {
+      setError(`Something went wrong: ${err}`);
+    }
   };
 
   return (
@@ -22,6 +50,7 @@ export default function Register() {
         <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
           Register
         </h2>
+        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
