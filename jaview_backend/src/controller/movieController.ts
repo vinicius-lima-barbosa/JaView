@@ -16,7 +16,7 @@ export const addReview = async (request: Request, response: Response) => {
       );
 
       if (existingReview) {
-        return response.status(400).json({
+        return response.status(403).json({
           error: true,
           message: "You have already reviewed this movie.",
         });
