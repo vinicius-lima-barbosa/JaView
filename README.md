@@ -1,5 +1,5 @@
-# JaView <img src="/jaview_frontend/src/assets/logoJaViewCinza.jpeg" alt="Logo do JaView" width="75"/>
-
+# JaView 
+<img src="/jaview_frontend/src/assets/logoJaViewCinzaEsticado.jpeg" alt="Logo do JaView"/>
 JaView é uma rede social dedicada para os amantes do cinema, onde os usuários podem compartilhar suas opiniões e reviews sobre filmes.
 
 ## Funcionalidades
