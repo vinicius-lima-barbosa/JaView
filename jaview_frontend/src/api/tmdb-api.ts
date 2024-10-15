@@ -10,7 +10,6 @@ export async function FetchMovies(page = 1) {
     if (!response.ok) throw new Error("Failed to fetch Movies!");
 
     const data = await response.json();
-    console.log(data);
     return data.results;
   } catch (error) {
     console.log(`Error while fetching movies: ${error}`);
