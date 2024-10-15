@@ -24,7 +24,6 @@ export default function MoviesDetails() {
   const getMovie = async (url: string) => {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     setMovie(data);
   };
 
@@ -33,10 +32,39 @@ export default function MoviesDetails() {
     getMovie(movieUrl);
   }, [id]);
 
-  const handleReviewSubmit = (e: React.FormEvent) => {
+  const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Review:", review);
-    console.log("Rating:", rating);
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You need to be logged in to submit a review!");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3333/movies/post/${id}/reviews`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ review, rating }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("An error occurred while sending the review!");
+      }
+
+      const data = await response.json();
+      alert(data.message);
+    } catch (error) {
+      console.log(error);
+      alert("An error occured!");
+    }
   };
 
   return (
@@ -78,6 +106,7 @@ export default function MoviesDetails() {
                 rows={5}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
                 placeholder="Share your opinion about the movie..."
+                required
               />
 
               <label htmlFor="rating" className="block text-white mt-4 mb-2">
@@ -93,6 +122,7 @@ export default function MoviesDetails() {
                 onChange={(e) => setRating(parseFloat(e.target.value))}
                 className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
                 placeholder="Give a rating..."
+                required
               />
 
               <button
