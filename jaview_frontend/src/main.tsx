@@ -8,8 +8,8 @@ import MoviesList from "./components/movies-list";
 import Footer from "./components/footer.tsx";
 import MoviesDetails from "./pages/movies-details.tsx";
 import Search from "./pages/search.tsx";
-import Login from "./components/login.tsx";
-import Register from "./components/register.tsx";
+import Login from "./pages/login.tsx";
+import Register from "./pages/register.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
