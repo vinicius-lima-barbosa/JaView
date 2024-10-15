@@ -10,7 +10,18 @@ export const addReview = async (request: Request, response: Response) => {
 
     let movie = await Movie.findById(movieId);
 
-    if (!movie) {
+    if (movie) {
+      const existingReview = movie.reviews.find(
+        (r: any) => r.user_id.toString() === userId
+      );
+
+      if (existingReview) {
+        return response.status(400).json({
+          error: true,
+          message: "You have already reviewed this movie.",
+        });
+      }
+    } else {
       movie = new Movie({
         _id: movieId,
         reviews: [],
