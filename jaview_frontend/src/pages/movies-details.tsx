@@ -19,6 +19,7 @@ export default function MoviesDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [review, setReview] = useState("");
+  const [rating, setRating] = useState<number | "">("");
 
   const getMovie = async (url: string) => {
     const response = await fetch(url);
@@ -34,7 +35,8 @@ export default function MoviesDetails() {
 
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(review);
+    console.log("Review:", review);
+    console.log("Rating:", rating);
   };
 
   return (
@@ -74,9 +76,25 @@ export default function MoviesDetails() {
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 rows={5}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black "
-                placeholder="Share your opnion about the movie..."
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                placeholder="Share your opinion about the movie..."
               />
+
+              <label htmlFor="rating" className="block text-white mt-4 mb-2">
+                Rate the movie (0-5):
+              </label>
+              <input
+                id="rating"
+                type="number"
+                min={0}
+                max={5}
+                step={0.1}
+                value={rating}
+                onChange={(e) => setRating(parseFloat(e.target.value))}
+                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                placeholder="Give a rating..."
+              />
+
               <button
                 type="submit"
                 className="mt-4 bg-green-500 text-white p-2 rounded hover:bg-green-600 transition"
