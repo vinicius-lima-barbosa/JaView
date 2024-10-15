@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -85,6 +86,12 @@ export default function Login() {
             Log in
           </button>
         </form>
+        <div className="text-slate-900 flex justify-between items-center mt-2">
+          <p>Not have a account?</p>
+          <Link to={"/register"} className="text-blue-900">
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );
