@@ -33,7 +33,6 @@ export const createUser = async (request: Request, response: Response) => {
 
     if (userExists) {
       return response.status(400).json({
-        error: true,
         message: "User already exists!",
       });
     }
@@ -49,12 +48,10 @@ export const createUser = async (request: Request, response: Response) => {
     await newUser.save();
 
     return response.status(201).json({
-      error: false,
       message: "User created!",
     });
   } catch (error) {
     return response.status(500).json({
-      error: true,
       message: `Error while register: ${error}`,
     });
   }
@@ -89,6 +86,29 @@ export const loginUser = async (request: Request, response: Response) => {
   } catch (error) {
     return response.status(500).json({
       message: `Error while logging: ${error}`,
+    });
+  }
+};
+
+export const getUserReviews = async (request: Request, response: Response) => {
+  try {
+    const userId = request.userId;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return response.status(404).json({
+        message: "User not found!",
+      });
+    }
+
+    const reviews = user.reviews;
+
+    return response.status(200).json({
+      reviews,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: `Error while fetching the movies! ${error}`,
     });
   }
 };
