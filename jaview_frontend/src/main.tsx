@@ -10,6 +10,7 @@ import MoviesDetails from "./pages/movies-details.tsx";
 import Search from "./pages/search.tsx";
 import Login from "./pages/login.tsx";
 import Register from "./pages/register.tsx";
+import UserReviews from "./pages/user-reviews.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/register" element={<Register />} />
             <Route path="/movie/:id" element={<MoviesDetails />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/user/reviews" element={<UserReviews />} />
           </Routes>
         </main>
       </div>
