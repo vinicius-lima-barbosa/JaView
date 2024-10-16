@@ -2,6 +2,7 @@ import express, { response } from "express";
 import connectDB from "./lib/mongodb";
 import authRoutes from "./routes/authRoutes";
 import movieRoutes from "./routes/movieRoutes";
+import userRoutes from "./routes/userRoutes";
 import cors from "cors";
 
 const app = express();
@@ -25,4 +26,5 @@ connectDB()
   });
 
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 app.use("/movies", movieRoutes);

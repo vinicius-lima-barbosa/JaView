@@ -17,7 +17,6 @@ export const addReview = async (request: Request, response: Response) => {
 
       if (existingReview) {
         return response.status(403).json({
-          error: true,
           message: "You have already reviewed this movie.",
         });
       }
@@ -55,20 +54,20 @@ export const addReview = async (request: Request, response: Response) => {
     }
 
     return response.status(201).json({
-      error: false,
       message: "Review added succesfully!",
       movie,
     });
   } catch (error) {
     return response.status(500).json({
       message: "An error occurred while adding the review!",
-      error: error.message,
     });
   }
 };
 
 export const removeReview = async (request: Request, response: Response) => {
   try {
+    // Movie
+
     const { movieId, reviewId } = request.params;
     const userId = request.userId;
 
@@ -76,7 +75,6 @@ export const removeReview = async (request: Request, response: Response) => {
 
     if (!movie) {
       return response.status(404).json({
-        error: true,
         message: "Movie not found!",
       });
     }
@@ -95,7 +93,8 @@ export const removeReview = async (request: Request, response: Response) => {
     movie.reviews.splice(reviewIdInMovie, 1);
     await movie.save();
 
-    // ---
+    // User
+
     const user = await User.findById(userId);
     const reviewIdInUser = user.reviews.findIndex(
       (review) =>
@@ -116,7 +115,6 @@ export const removeReview = async (request: Request, response: Response) => {
   } catch (error) {
     return response.status(500).json({
       message: "An error occurred while deleting the review!",
-      error: error.message,
     });
   }
 };
