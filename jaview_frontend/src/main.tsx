@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Aside from "./components/aside.tsx";
 import Header from "./components/header.tsx";
-import MoviesList from "./components/movies-list";
+import MoviesList from "./pages/movies-list.tsx";
 import Footer from "./components/footer.tsx";
 import MoviesDetails from "./pages/movies-details.tsx";
 import Search from "./pages/search.tsx";

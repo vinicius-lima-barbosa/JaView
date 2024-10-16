@@ -1,7 +1,7 @@
 import { FetchMovies } from "../api/tmdb-api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import MovieCard from "./movie-card";
+import MovieCard from "../components/movie-card";
 import { BallTriangle } from "react-loader-spinner";
 
 type Movie = {
