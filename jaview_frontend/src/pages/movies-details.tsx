@@ -14,6 +14,7 @@ type Movie = {
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
 const imagesURL = import.meta.env.VITE_IMAGE;
+const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function MoviesDetails() {
   const { id } = useParams();
@@ -43,17 +44,14 @@ export default function MoviesDetails() {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3333/movies/post/${id}/reviews`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ review, rating }),
-        }
-      );
+      const response = await fetch(`${API_BACKEND}movies/${id}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ review, rating }),
+      });
 
       if (!response.ok) {
         throw new Error("An error occurred while sending the review!");

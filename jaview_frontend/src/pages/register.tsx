@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_BACKEND = import.meta.env.VITE_BACKEND;
+
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ export default function Register() {
     };
 
     try {
-      const response = await fetch("http://localhost:3333/auth/register", {
+      const response = await fetch(`${API_BACKEND}auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +34,6 @@ export default function Register() {
       });
 
       const dataTest = await response.json();
-      console.log(dataTest);
 
       if (response.ok) {
         alert("Registration successful!");

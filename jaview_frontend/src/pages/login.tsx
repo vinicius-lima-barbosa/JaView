@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+const API_BACKEND = import.meta.env.VITE_BACKEND;
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +17,7 @@ export default function Login() {
     };
 
     try {
-      const response = await fetch("http://localhost:3333/auth/login", {
+      const response = await fetch(`${API_BACKEND}auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +26,6 @@ export default function Login() {
       });
 
       const dataTest = await response.json();
-      console.log(dataTest);
 
       if (response.ok) {
         localStorage.setItem("token", dataTest.token);

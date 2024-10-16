@@ -1,6 +1,7 @@
 import { useState } from "react";
 import avatar from "../images/default_avatar.jpg";
 import { AiOutlineMenu } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export default function Aside() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,19 +27,25 @@ export default function Aside() {
         <nav>
           <ul>
             <li className="mb-4">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <Link
+                to={"/user/reviews"}
+                className="text-gray-400 hover:text-white"
+              >
                 My reviews
-              </a>
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="text-gray-400 hover:text-white">
-                Most rated movies
-              </a>
+              <Link
+                to={"/topMovies"}
+                className="text-gray-400 hover:text-white"
+              >
+                Top rated movies
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="#" className="text-gray-400 hover:text-white">
+              <Link to={"/login"} className="text-gray-400 hover:text-white">
                 Login
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
