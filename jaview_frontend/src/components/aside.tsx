@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import avatar from "../images/default_avatar.jpg";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Aside() {
   const [isOpen, setIsOpen] = useState(false);
-
-  const token = localStorage.getItem("token");
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setLoggedIn(false);
+    navigate("/login");
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <>
@@ -24,40 +33,48 @@ export default function Aside() {
       <aside
         className={`${
           isOpen ? "block" : "hidden"
-        } lg:block lg:w-1/5 bg-gray-800 p-4 min-h-screen absolute lg:relative z-50 w-full`}
+        } lg:block lg:w-1/5 bg-gray-800 p-4 min-h-screen absolute lg:relative z-50 w-full shadow-xl`}
       >
         <div className="flex items-center m-2 mb-8">
-          <img src={avatar} alt="avatar" className="rounded-full mr-4 w-14" />
-          <span className="text-white">Hi, user</span>
+          <img
+            src={avatar}
+            alt="avatar"
+            className="rounded-full mr-4 w-14 h-14 object-cover border-2 border-white"
+          />
+          <span className="text-white font-semibold text-lg">Hi, User</span>
         </div>
+
         <nav>
-          <ul>
-            <li className="mb-4">
+          <ul className="space-y-4">
+            <li>
               <Link
-                to={"/user/reviews"}
-                className="text-gray-400 hover:text-white"
+                to="/user/reviews"
+                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
               >
-                My reviews
+                My Reviews
               </Link>
             </li>
-            <li className="mb-4">
+            <li>
               <Link
-                to={"/topRatedMovies"}
-                className="text-gray-400 hover:text-white"
+                to="/topRatedMovies"
+                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
               >
-                Top rated movies
+                Top Rated Movies
               </Link>
             </li>
-            {!token ? (
-              <li className="mb-4">
-                <Link to={"/login"} className="text-green-600 hover:text-white">
+            {!loggedIn ? (
+              <li>
+                <Link
+                  to="/login"
+                  className="block text-green-500 hover:text-white text-lg transition-all duration-200"
+                >
                   Login
                 </Link>
               </li>
             ) : (
-              <li className="mb-4">
+              <li>
                 <button
-                  className="text-red-600 hover:text-white"
+                  className="block text-red-500 hover:text-white text-lg transition-all duration-200"
                   onClick={handleLogout}
                 >
                   Logout
