@@ -6,6 +6,12 @@ import { Link } from "react-router-dom";
 export default function Aside() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+  };
+
   return (
     <>
       <button
@@ -36,17 +42,28 @@ export default function Aside() {
             </li>
             <li className="mb-4">
               <Link
-                to={"/topMovies"}
+                to={"/topRatedMovies"}
                 className="text-gray-400 hover:text-white"
               >
                 Top rated movies
               </Link>
             </li>
-            <li className="mb-4">
-              <Link to={"/login"} className="text-gray-400 hover:text-white">
-                Login
-              </Link>
-            </li>
+            {!token ? (
+              <li className="mb-4">
+                <Link to={"/login"} className="text-green-600 hover:text-white">
+                  Login
+                </Link>
+              </li>
+            ) : (
+              <li className="mb-4">
+                <button
+                  className="text-red-600 hover:text-white"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
       </aside>
