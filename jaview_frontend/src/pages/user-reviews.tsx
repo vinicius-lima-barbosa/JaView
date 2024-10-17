@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 interface Review {
   _id: string;
@@ -26,6 +27,7 @@ const API_BACKEND = import.meta.env.VITE_BACKEND;
 export default function UserReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -33,7 +35,8 @@ export default function UserReviews() {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          throw new Error("You have to login!");
+          navigate("/error", { state: { message: "You must be logged in!" } });
+          return;
         }
 
         const response = await fetch(`${API_BACKEND}user/reviews`, {
@@ -60,19 +63,20 @@ export default function UserReviews() {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        alert("An error occurred!");
+        navigate("/error", { state: { message: "An error occurred!" } });
       }
     };
 
     fetchReviews();
-  }, []);
+  }, [navigate]);
 
   const handleDeleteReview = async (movieId: string, reviewId: string) => {
     try {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        throw new Error("You have to login!");
+        navigate("/error", { state: { message: "You must be logged in!" } });
+        return;
       }
 
       const response = await fetch(
@@ -87,13 +91,14 @@ export default function UserReviews() {
 
       if (response.ok) {
         setReviews(reviews.filter((review) => review._id !== reviewId));
-        alert("Review deleted successfully!");
       } else {
-        alert("Failed to delete the review.");
+        navigate("/error", {
+          state: { message: "Failed to delete the review." },
+        });
       }
     } catch (error) {
       console.log(error);
-      alert("Error deleting review!");
+      navigate("/error", { state: { message: "Error deleting review!" } });
     }
   };
 
@@ -107,37 +112,48 @@ export default function UserReviews() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Your Reviews</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-slate-200">
+        Your Reviews
+      </h1>
       {reviews.length === 0 ? (
-        <p>You haven't reviewed any movies yet.</p>
+        <p className="text-center text-gray-500">
+          You haven't reviewed any movies yet.
+        </p>
       ) : (
-        <ul>
+        <ul className="space-y-6">
           {reviews.map((review) => (
-            <li key={review._id} className="mb-6">
+            <li
+              key={review._id}
+              className="bg-slate-200 rounded-lg shadow-lg p-6"
+            >
               <div className="flex">
                 <img
                   src={`https://image.tmdb.org/t/p/w200${review.movie.poster_path}`}
                   alt={review.movie.title}
-                  className="w-24 h-36 rounded-xl shadow-xl"
+                  className="w-24 h-36 rounded-lg shadow-black shadow-2xl"
                 />
-                <div className="ml-4">
-                  <h2 className="text-xl font-bold">{review.movie.title}</h2>
-                  <p className="text-orange-400">
-                    {review.rating} <span className="text-gray-600">of 5</span>
+                <div className="ml-6 flex-grow">
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-bold text-gray-800">
+                      {review.movie.title}
+                    </h2>
+                    <button
+                      className="bg-red-500 text-white p-2 rounded-md hover:bg-red-700 transition duration-300 ease-in-out"
+                      onClick={() =>
+                        handleDeleteReview(review.movie_id, review._id)
+                      }
+                    >
+                      <FaRegTrashAlt />
+                    </button>
+                  </div>
+                  <p className="text-orange-400 mt-2 text-lg">
+                    {review.rating} <span className="text-gray-600">/ 5</span>
                   </p>
-                  <p>{review.review}</p>
-                  <p className="text-gray-500 text-sm">
+                  <p className="text-gray-700 mt-2">{review.review}</p>
+                  <p className="text-gray-500 text-sm mt-4">
                     Reviewed on:{" "}
                     {new Date(review.created_at).toLocaleDateString()}
                   </p>
-                  <button
-                    className="bg-red-500 text-white p-2 mt-4 rounded shadow-xl hover:bg-red-800"
-                    onClick={() =>
-                      handleDeleteReview(review.movie_id, review._id)
-                    }
-                  >
-                    <FaRegTrashAlt />
-                  </button>
                 </div>
               </div>
             </li>
