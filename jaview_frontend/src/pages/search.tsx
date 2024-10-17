@@ -48,7 +48,7 @@ export default function Search() {
             </Link>
           ))
         ) : (
-          <div className="flex justify-center items-center">
+          <div className="flex-col justify-center items-center h-full">
             <BallTriangle />
           </div>
         )}
