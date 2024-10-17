@@ -6,7 +6,7 @@ interface Review {
   _id: string;
   id: string;
   review: string;
-  movie_id: number;
+  movie_id: string;
   rating: number;
   created_at: string;
   movie: {
@@ -41,6 +41,7 @@ export default function UserReviews() {
             Authorization: `Bearer ${token}`,
           },
         });
+
         const data = await response.json();
         const getDetails = await Promise.all(
           data.reviews.map(async (review: Review) => {
