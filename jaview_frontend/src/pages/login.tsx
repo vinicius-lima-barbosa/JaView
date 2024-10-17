@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
@@ -7,6 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +30,10 @@ export default function Login() {
 
       if (response.ok) {
         localStorage.setItem("token", dataTest.token);
-        alert("Login successful!");
+        // alert("Login successful!");
+
+        navigate("/");
+        window.location.reload();
       } else {
         setError(dataTest.message || "Login failed!");
       }
@@ -40,33 +44,35 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
+      <div className="bg-white p-10 rounded-lg shadow-xl w-full max-w-md">
+        <h2 className="text-3xl font-extrabold mb-6 text-center text-gray-800">
           Login
         </h2>
-        {error && <p className="text-red-400 pb-2">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <p className="text-red-500 text-center mb-4 font-semibold">{error}</p>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Email
             </label>
             <input
-              type="text"
+              type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded mt-1 text-black"
-              placeholder="Type the email"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              placeholder="Type your email"
               required
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 mb-1"
             >
               Password
             </label>
@@ -75,21 +81,21 @@ export default function Login() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded mt-1 text-black"
-              placeholder="Type the password"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              placeholder="Type your password"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition"
+            className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 transition duration-300"
           >
             Log in
           </button>
         </form>
-        <div className="text-slate-900 flex justify-between items-center mt-2">
-          <p>Not have a account?</p>
-          <Link to={"/register"} className="text-blue-900">
+        <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
+          <p>Don't have an account?</p>
+          <Link to={"/register"} className="text-blue-600 hover:text-blue-800">
             Register
           </Link>
         </div>

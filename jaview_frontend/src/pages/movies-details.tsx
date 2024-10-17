@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
 
 type Movie = {
@@ -21,6 +21,7 @@ export default function MoviesDetails() {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState<number | "">("");
+  const navigate = useNavigate();
 
   const getMovie = async (url: string) => {
     const response = await fetch(url);
@@ -58,6 +59,7 @@ export default function MoviesDetails() {
       }
 
       const data = await response.json();
+      navigate("/");
       alert(data.message);
     } catch (error) {
       console.log(error);
