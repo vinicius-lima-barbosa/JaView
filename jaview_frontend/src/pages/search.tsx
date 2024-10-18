@@ -16,12 +16,15 @@ const apiKey = import.meta.env.VITE_API_KEY;
 export default function Search() {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
   const query = searchParams.get("q");
 
   const getSearchedMovies = async (url: string) => {
+    setLoading(true);
     const response = await fetch(url);
     const data = await response.json();
     setMovies(data.results);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -36,23 +39,28 @@ export default function Search() {
       <h2 className="text-3xl font-bold text-center mb-5">
         Results for: <span className="text-green-500">{query}</span>
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {filteredMovies.length > 0 ? (
-          filteredMovies.map((movie) => (
-            <Link
-              key={movie.id}
-              className="movie-card"
-              to={`/movie/${movie.id}`}
-            >
-              <MovieCard key={movie.id} movie={movie} />
-            </Link>
-          ))
-        ) : (
-          <div className="flex-col justify-center items-center h-full">
-            <BallTriangle />
-          </div>
-        )}
-      </div>
+
+      {loading ? (
+        <div className="flex justify-center items-center h-[100vh]">
+          <BallTriangle />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {filteredMovies.length > 0 ? (
+            filteredMovies.map((movie) => (
+              <Link
+                key={movie.id}
+                className="movie-card"
+                to={`/movie/${movie.id}`}
+              >
+                <MovieCard key={movie.id} movie={movie} />
+              </Link>
+            ))
+          ) : (
+            <p>No results found.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
