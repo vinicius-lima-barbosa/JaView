@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Aside() {
   const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [userName, setUserName] = useState("user");
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -14,12 +15,41 @@ export default function Aside() {
     navigate("/login");
   };
 
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND}user/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+
+        const data = await response.json();
+        setUserName(data.name);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setLoggedIn(true);
+      fetchUserData();
+    } else {
+      setUserName("user");
     }
-  }, []);
+  }, [loggedIn]);
 
   return (
     <>
@@ -41,7 +71,9 @@ export default function Aside() {
             alt="avatar"
             className="rounded-full mr-4 w-14 h-14 object-cover border-2 border-white"
           />
-          <span className="text-white font-semibold text-lg">Hi, User</span>
+          <span className="text-white font-semibold text-lg">
+            Hi, {userName}
+          </span>
         </div>
 
         <nav>
