@@ -129,7 +129,7 @@ export const getUserProfile = async (request: Request, response: Response) => {
     });
   } catch (error) {
     return response.status(500).json({
-      message: `Error while fetching user profile: ${error}`,
+      message: `Error while fetching user profile! ${error}`,
     });
   }
 };

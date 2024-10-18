@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { addReview, removeReview } from "../controller/movieController";
+import {
+  addReview,
+  getMovieReviews,
+  removeReview,
+} from "../controller/movieController";
 
 const router = Router();
 
@@ -11,5 +15,7 @@ router.delete(
   authMiddleware as any,
   removeReview as any
 );
+
+router.get("/:movieId/reviews", getMovieReviews as any);
 
 export default router;

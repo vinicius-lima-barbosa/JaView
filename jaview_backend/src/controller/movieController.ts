@@ -118,3 +118,31 @@ export const removeReview = async (request: Request, response: Response) => {
     });
   }
 };
+
+export const getMovieReviews = async (request: Request, response: Response) => {
+  try {
+    const { movieId } = request.params;
+
+    const movie = await Movie.findById(movieId).populate({
+      path: "reviews.user_id",
+      select: "name",
+    });
+
+    if (!movie) {
+      return response.status(404).json({
+        message: "Movie not found!",
+      });
+    }
+
+    const reviews = movie.reviews;
+    console.log(reviews);
+
+    return response.status(200).json({
+      reviews,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: `Error while fetching reviews! ${error}`,
+    });
+  }
+};
