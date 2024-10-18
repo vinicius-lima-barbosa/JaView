@@ -1,5 +1,5 @@
 # JaView
-<img src="/jaview_frontend/src/assets/LogoJaViewEsticado.png" alt="Logo JaView" width="900">
+<img src="/jaview_frontend/src/assets/images/logos/LogoJaViewEsticado.png" alt="Logo JaView" width="900">
 
 JaView é uma rede social dedicada para os amantes do cinema, onde os usuários podem compartilhar suas opiniões e reviews sobre filmes.
 
@@ -49,7 +49,7 @@ O JaView é um projeto desenvolvido e mantido pela nossa equipe, e todos os dire
 
 ### Atribuição à API do TMDb
 
-![Logo do TMDB](/jaview_frontend/src/assets/logoLongoTMDB.svg)
+![Logo do TMDB](/jaview_frontend/src/assets/images/logos/logoLongoTMDB.svg)
 
 Este aplicativo utiliza a [API do TMDb](https://www.themoviedb.org/documentation/api) para fornecer informações sobre filmes, como sinopses, pôsteres e avaliações. No entanto, JaView não é endossado ou certificado pelo TMDb.
 
