@@ -112,3 +112,24 @@ export const getUserReviews = async (request: Request, response: Response) => {
     });
   }
 };
+
+export const getUserProfile = async (request: Request, response: Response) => {
+  try {
+    const userId = request.userId;
+
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found!" });
+    }
+
+    return response.status(200).json({
+      name: user.name,
+      email: user.email,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: `Error while fetching user profile: ${error}`,
+    });
+  }
+};
