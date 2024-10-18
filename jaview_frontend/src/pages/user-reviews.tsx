@@ -124,7 +124,7 @@ export default function UserReviews() {
           {reviews.map((review) => (
             <li
               key={review._id}
-              className="bg-slate-200 rounded-lg shadow-lg p-6"
+              className="bg-gray-900 rounded-lg shadow-lg p-6"
             >
               <div className="flex">
                 <img
@@ -134,7 +134,7 @@ export default function UserReviews() {
                 />
                 <div className="ml-6 flex-grow">
                   <div className="flex justify-between items-center">
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-2xl font-bold text-slate-200">
                       {review.movie.title}
                     </h2>
                     <button
@@ -149,7 +149,7 @@ export default function UserReviews() {
                   <p className="text-orange-400 mt-2 text-lg">
                     {review.rating} <span className="text-gray-600">/ 5</span>
                   </p>
-                  <p className="text-gray-700 mt-2">{review.review}</p>
+                  <p className="text-slate-200 mt-2">{review.review}</p>
                   <p className="text-gray-500 text-sm mt-4">
                     Reviewed on:{" "}
                     {new Date(review.created_at).toLocaleDateString()}
