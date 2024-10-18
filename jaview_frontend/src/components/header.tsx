@@ -43,16 +43,13 @@ export default function Header() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="outline-none px-3 py-1 text-gray-700 w-full"
             />
-            <button
-              type="submit"
-              className="text-green-500 hover:text-green-700 p-1"
-            >
+            <button type="submit" className="text-green-700 p-1">
               <IoIosSearch size={24} />
             </button>
           </form>
         </div>
         <button
-          className="bg-green-500 p-3 rounded-full"
+          className="bg-green-500 hover:bg-green-700 transition-all duration-200 p-2 rounded-full"
           onClick={handleSearchClick}
         >
           <i className="text-white text-2xl">
