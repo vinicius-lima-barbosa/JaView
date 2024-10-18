@@ -44,7 +44,7 @@ export default function MoviesDetails() {
   const getMovieReviews = async () => {
     const response = await fetch(`${API_BACKEND}movies/${id}/reviews`);
     const data = await response.json();
-    setReviews(data.reviews);
+    setReviews(data.reviews || []);
   };
 
   useEffect(() => {

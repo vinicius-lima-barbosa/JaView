@@ -134,8 +134,7 @@ export const getMovieReviews = async (request: Request, response: Response) => {
       });
     }
 
-    const reviews = movie.reviews;
-    console.log(reviews);
+    const reviews = movie.reviews || [];
 
     return response.status(200).json({
       reviews,
