@@ -11,6 +11,15 @@ type Movie = {
   overview: string;
 };
 
+type Review = {
+  user: string;
+  rating: number;
+  review: string;
+  user_id: {
+    name: string;
+  };
+};
+
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
 const imagesURL = import.meta.env.VITE_IMAGE;
@@ -21,6 +30,7 @@ export default function MoviesDetails() {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState<number | "">("");
+  const [reviews, setReviews] = useState<Review[]>([]);
   const navigate = useNavigate();
 
   const getMovie = async (url: string) => {
@@ -29,9 +39,16 @@ export default function MoviesDetails() {
     setMovie(data);
   };
 
+  const getMovieReviews = async () => {
+    const response = await fetch(`${API_BACKEND}movies/${id}/reviews`);
+    const data = await response.json();
+    setReviews(data.reviews);
+  };
+
   useEffect(() => {
     const movieUrl = `${BASE_URL}${id}?api_key=${apiKey}`;
     getMovie(movieUrl);
+    getMovieReviews();
   }, [id]);
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
@@ -58,12 +75,15 @@ export default function MoviesDetails() {
         throw new Error("An error occurred while sending the review!");
       }
 
-      const data = await response.json();
+      // const data = await response.json();
+      // alert(data.message);
+      setReview("");
+      setRating("");
       navigate("/");
-      alert(data.message);
+      getMovieReviews();
     } catch (error) {
       console.log(error);
-      alert("An error occured!");
+      alert("An error occurred!");
     }
   };
 
@@ -132,6 +152,29 @@ export default function MoviesDetails() {
                 Send
               </button>
             </form>
+
+            <div className="w-full mt-8">
+              <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+              {reviews.length > 0 ? (
+                reviews.map((review, index) => (
+                  <div
+                    key={index}
+                    className="mb-4 p-4 bg-gray-800 rounded-lg shadow-md"
+                  >
+                    <p className="text-green-500 font-bold">
+                      {review.user_id.name}
+                    </p>
+                    <p>
+                      Rating:{" "}
+                      <span className="text-orange-400">{review.rating}</span>
+                    </p>
+                    <p>{review.review}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews yet for this movie.</p>
+              )}
+            </div>
           </div>
         </div>
       )}
