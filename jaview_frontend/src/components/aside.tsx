@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import avatar from "../images/default_avatar.jpg";
+import avatar from "../assets/images/avatar/default_avatar.jpg";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 
