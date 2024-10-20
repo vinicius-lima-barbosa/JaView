@@ -13,6 +13,7 @@ import Register from "./pages/register.tsx";
 import UserReviews from "./pages/user-reviews.tsx";
 import TopRatedMovies from "./pages/top-rated-movies.tsx";
 import ErrorPage from "./pages/error.tsx";
+import SuccessPage from "./pages/success.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -32,6 +33,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/user/reviews" element={<UserReviews />} />
             <Route path="/topRatedMovies" element={<TopRatedMovies />} />
             <Route path="/error" element={<ErrorPage />} />
+            <Route path="/success" element={<SuccessPage />} />
           </Routes>
         </main>
       </div>

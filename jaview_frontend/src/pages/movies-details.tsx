@@ -59,7 +59,7 @@ export default function MoviesDetails() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("You need to be logged in to submit a review!");
+      navigate("/error", { state: { message: "You must be logged in!" } });
       return;
     }
 
@@ -74,18 +74,20 @@ export default function MoviesDetails() {
       });
 
       if (!response.ok) {
-        throw new Error("An error occurred while sending the review!");
+        navigate("/error", {
+          state: { message: "An error occurred while sending the review!" },
+        });
       }
 
-      // const data = await response.json();
-      // alert(data.message);
       setReview("");
       setRating("");
-      navigate("/");
+      navigate("/success");
       getMovieReviews();
     } catch (error) {
       console.log(error);
-      alert("An error occurred!");
+      navigate("/error", {
+        state: { message: "An error occurred!" },
+      });
     }
   };
 
