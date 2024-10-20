@@ -68,7 +68,7 @@ export default function Register() {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
               placeholder="Type your name"
               required
             />
@@ -85,7 +85,7 @@ export default function Register() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
               placeholder="Type your email"
               required
             />
@@ -102,7 +102,7 @@ export default function Register() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
               placeholder="Type your password"
               required
             />
@@ -119,7 +119,7 @@ export default function Register() {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-black"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
               placeholder="Confirm your password"
               required
             />
