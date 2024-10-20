@@ -22,7 +22,7 @@ connectDB()
     });
   })
   .catch((error) => {
-    message: `Error connecting with the database: ${error}`;
+    `Error connecting with the database: ${error}`;
   });
 
 app.use("/auth", authRoutes);
