@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
 
@@ -41,17 +41,17 @@ export default function MoviesDetails() {
     setMovie(data);
   };
 
-  const getMovieReviews = async () => {
+  const getMovieReviews = useCallback(async () => {
     const response = await fetch(`${API_BACKEND}movies/${id}/reviews`);
     const data = await response.json();
     setReviews(data.reviews || []);
-  };
+  }, [id]);
 
   useEffect(() => {
     const movieUrl = `${BASE_URL}${id}?api_key=${apiKey}`;
     getMovie(movieUrl);
     getMovieReviews();
-  }, [id]);
+  }, [id, getMovieReviews]);
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
