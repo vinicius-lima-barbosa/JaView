@@ -3,13 +3,7 @@ import { FetchTopRatedMovies } from "../api/tmdb-top-movies";
 import { BallTriangle } from "react-loader-spinner";
 import MovieCard from "../components/movie-card";
 import { Link } from "react-router-dom";
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number;
-};
+import { Movie } from "../types/movie-type";
 
 export default function TopRatedMovies() {
   const [topMovies, setTopMovies] = useState<Movie[]>([]);

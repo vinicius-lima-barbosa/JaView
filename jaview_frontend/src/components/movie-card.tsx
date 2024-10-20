@@ -1,11 +1,5 @@
 const imagesURL = import.meta.env.VITE_IMAGE;
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number;
-};
+import { Movie } from "../types/movie-type";
 
 interface MovieCardProps {
   movie: Movie;

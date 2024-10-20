@@ -1,24 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number;
-  runtime: number;
-  overview: string;
-};
-
-type Review = {
-  user: string;
-  rating: number;
-  review: string;
-  user_id: {
-    name: string;
-  };
-};
+import { Movie } from "../types/movie-type.ts";
+import { Review } from "../types/review-type.ts";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;

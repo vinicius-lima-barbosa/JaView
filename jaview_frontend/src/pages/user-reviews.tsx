@@ -2,23 +2,7 @@ import { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
-interface Review {
-  _id: string;
-  id: string;
-  review: string;
-  movie_id: string;
-  rating: number;
-  created_at: string;
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string | null;
-    vote_average: number;
-    runtime: number;
-    overview: string;
-  };
-}
+import { Review } from "../types/review-type";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -128,14 +112,14 @@ export default function UserReviews() {
             >
               <div className="flex">
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${review.movie.poster_path}`}
-                  alt={review.movie.title}
+                  src={`https://image.tmdb.org/t/p/w200${review.movie?.poster_path}`}
+                  alt={review.movie?.title}
                   className="w-24 h-36 rounded-lg shadow-black shadow-2xl"
                 />
                 <div className="ml-6 flex-grow">
                   <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-bold text-slate-200">
-                      {review.movie.title}
+                      {review.movie?.title}
                     </h2>
                     <button
                       className="bg-red-500 text-white p-2 rounded-md hover:bg-red-700 transition duration-300 ease-in-out"
