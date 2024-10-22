@@ -7,14 +7,14 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (password !== confirmedPassword) {
       setError("Passwords do not match!");
       return;
     }
@@ -23,6 +23,7 @@ export default function Register() {
       name,
       email,
       password,
+      confirmedPassword,
     };
 
     try {
@@ -37,7 +38,9 @@ export default function Register() {
       const dataTest = await response.json();
 
       if (response.ok) {
-        navigate("/login");
+        localStorage.setItem("token", dataTest.token);
+        navigate("/success", { state: { message: "Successfully registred!" } });
+        window.location.reload();
       } else {
         setError(dataTest.message || "Registration failed!");
       }
@@ -109,16 +112,16 @@ export default function Register() {
           </div>
           <div>
             <label
-              htmlFor="confirmPassword"
+              htmlFor="confirmedPassword"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
               Confirm Password
             </label>
             <input
               type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              id="confirmedPassword"
+              value={confirmedPassword}
+              onChange={(e) => setConfirmedPassword(e.target.value)}
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
               placeholder="Confirm your password"
               required

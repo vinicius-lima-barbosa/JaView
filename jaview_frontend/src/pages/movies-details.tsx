@@ -63,7 +63,9 @@ export default function MoviesDetails() {
 
       setReview("");
       setRating("");
-      navigate("/success");
+      navigate("/success", {
+        state: { message: "Your review was submitted successfully!" },
+      });
       getMovieReviews();
     } catch (error) {
       console.log(error);

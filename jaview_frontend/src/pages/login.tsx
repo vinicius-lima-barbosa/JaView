@@ -30,7 +30,6 @@ export default function Login() {
 
       if (response.ok) {
         localStorage.setItem("token", dataTest.token);
-        // alert("Login successful!");
 
         navigate("/");
         window.location.reload();
