@@ -47,7 +47,12 @@ export const createUser = async (request: Request, response: Response) => {
 
     await newUser.save();
 
+    const token = jwt.sign({ id: newUser._id, email: newUser.email }, secret, {
+      expiresIn: "1d",
+    });
+
     return response.status(201).json({
+      token,
       message: "User created!",
     });
   } catch (error) {
