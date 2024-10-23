@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
-// `mongodb://${username}:${password}@${domain}:${port}/${db}?authSource=admin`
-// "mongodb://root:password@localhost:3333/jaview_test?authSource=admin"
+import dotenv from "dotenv";
+dotenv.config();
 
-// const username = process.env.DB_USERNAME;
-// const password = process.env.DB_PASSWORD;
-// const domain = process.env.DB_DOMAIN;
-// const port = process.env.DB_PORT;
-// const db = process.env.DB_DATABASE;
+const db_user = process.env.DB_USERNAME;
+const db_password = process.env.DB_PASSWORD;
+const db_domain = process.env.DB_DOMAIN;
+const db_name = process.env.DB_DATABASE;
 
 const mongoPATH =
   process.env.MONGODB_URI ||
-  "mongodb://root:password@localhost:27017/jaview_test?authSource=admin";
+  `mongodb+srv://${db_user}:${db_password}@${db_domain}.mongodb.net/${db_name}?retryWrites=true&w=majority`;
 
 const connectDB = async () => {
   try {
