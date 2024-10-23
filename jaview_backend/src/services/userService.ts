@@ -5,7 +5,7 @@ import { userSchemaZod } from "./userValidation";
 
 const secret = process.env.JWT_SECRET || " ";
 
-export const createUser = async (
+export const createUserService = async (
   name: string,
   email: string,
   password: string,
@@ -37,7 +37,7 @@ export const createUser = async (
   return { token, message: "User created!" };
 };
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUserService = async (email: string, password: string) => {
   const user = await User.findOne({ email });
   if (!user) throw new Error("User not found!");
 
@@ -48,7 +48,7 @@ export const loginUser = async (email: string, password: string) => {
   return { token, message: "Successful Login!" };
 };
 
-export const fetchUserReviews = async (userId: string) => {
+export const getUserReviewsService = async (userId: string) => {
   const user = await User.findById(userId);
 
   if (!user) {
@@ -58,7 +58,7 @@ export const fetchUserReviews = async (userId: string) => {
   return user.reviews;
 };
 
-export const fetchUserProfile = async (userId: string) => {
+export const getUserProfileService = async (userId: string) => {
   const user = await User.findById(userId).select("-password");
 
   if (!user) {

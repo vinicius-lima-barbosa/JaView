@@ -1,11 +1,14 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { getUserProfile, getUserReviews } from "../controller/userController";
+import {
+  getUserProfileController,
+  getUserReviewsController,
+} from "../controller/userController";
 
 const router = Router();
 
-router.get("/reviews", authMiddleware as any, getUserReviews as any);
+router.get("/reviews", authMiddleware as any, getUserReviewsController as any);
 
-router.get("/profile", authMiddleware as any, getUserProfile as any);
+router.get("/profile", authMiddleware as any, getUserProfileController as any);
 
 export default router;
