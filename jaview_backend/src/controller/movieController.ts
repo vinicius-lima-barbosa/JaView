@@ -1,147 +1,56 @@
-import { Movie } from "../models/moviesModel";
-import { Response, Request } from "express";
-import { User } from "../models/usersModel";
+import { Request, Response } from "express";
+import {
+  addReviewService,
+  getMovieReviewsService,
+  removeReviewService,
+} from "../services/movieService";
 
-export const addReview = async (request: Request, response: Response) => {
+export const addReviewController = async (req: Request, res: Response) => {
   try {
-    const { movieId } = request.params;
-    const { review, rating } = request.body;
-    const userId = request.userId;
+    const { movieId } = req.params;
+    const { review, rating } = req.body;
+    const userId = req.userId;
 
-    let movie = await Movie.findById(movieId);
-
-    if (movie) {
-      const existingReview = movie.reviews.find(
-        (r: any) => r.user_id.toString() === userId
-      );
-
-      if (existingReview) {
-        return response.status(403).json({
-          message: "You have already reviewed this movie.",
-        });
-      }
-    } else {
-      movie = new Movie({
-        _id: movieId,
-        reviews: [],
-      });
-    }
-
-    const movieReview = {
-      user_id: userId,
-      review,
-      rating,
-      created_at: new Date(),
-    };
-
-    movie.reviews.push(movieReview);
-    const savedMovie = await movie.save();
-
-    const newReviewId = savedMovie.reviews[savedMovie.reviews.length - 1]._id;
-
-    const user = await User.findById(userId);
-    if (user) {
-      const userReview = {
-        movie_id: movieId,
-        review,
-        rating,
-        created_at: new Date(),
-        _id: newReviewId,
-      };
-
-      user.reviews.push(userReview);
-      await user.save();
-    }
-
-    return response.status(201).json({
-      message: "Review added succesfully!",
-      movie,
-    });
+    const result = await addReviewService(userId, movieId, review, rating);
+    return res.status(201).json(result);
   } catch (error) {
-    return response.status(500).json({
-      message: "An error occurred while adding the review!",
-    });
+    return res.status(500).json({ message: error.message });
   }
 };
 
-export const removeReview = async (request: Request, response: Response) => {
+export const removeReviewController = async (
+  request: Request,
+  response: Response
+) => {
   try {
-    // Movie
-
     const { movieId, reviewId } = request.params;
     const userId = request.userId;
 
-    const movie = await Movie.findById(movieId);
-
-    if (!movie) {
-      return response.status(404).json({
-        message: "Movie not found!",
-      });
-    }
-
-    const reviewIdInMovie = movie.reviews.findIndex(
-      (review) =>
-        review._id.toString() === reviewId &&
-        review.user_id.toString() === userId
-    );
-    if (reviewIdInMovie === -1) {
-      return response
-        .status(404)
-        .json({ message: "Review not found for this movie!" });
-    }
-
-    movie.reviews.splice(reviewIdInMovie, 1);
-    await movie.save();
-
-    // User
-
-    const user = await User.findById(userId);
-    const reviewIdInUser = user.reviews.findIndex(
-      (review) =>
-        review.movie_id === movieId && review._id.toString() === reviewId
-    );
-    if (reviewIdInUser === -1) {
-      return response
-        .status(404)
-        .json({ message: "Review not found for this movie!" });
-    }
-
-    user.reviews.splice(reviewIdInUser, 1);
-    await user.save();
+    await removeReviewService(movieId, reviewId, userId);
 
     return response
       .status(200)
       .json({ message: "Review deleted successfully!" });
   } catch (error) {
     return response.status(500).json({
-      message: "An error occurred while deleting the review!",
+      message: `An error occurred while deleting the review! ${error.message}`,
     });
   }
 };
 
-export const getMovieReviews = async (request: Request, response: Response) => {
+export const getMovieReviewsController = async (
+  request: Request,
+  response: Response
+) => {
   try {
     const { movieId } = request.params;
 
-    const movie = await Movie.findById(movieId).populate({
-      path: "reviews.user_id",
-      select: "name",
-    });
+    const reviews = await getMovieReviewsService(movieId);
 
-    if (!movie) {
-      return response.status(404).json({
-        message: "Movie not found!",
-      });
-    }
-
-    const reviews = movie.reviews || [];
-
-    return response.status(200).json({
-      reviews,
-    });
+    return response.status(200).json({ reviews });
   } catch (error) {
     return response.status(500).json({
-      message: `Error while fetching reviews! ${error}`,
+      message: `Error while fetching reviews! ${error.message}`,
     });
   }
 };
