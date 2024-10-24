@@ -70,3 +70,23 @@ export const getUserProfileService = async (userId: string) => {
     email: user.email,
   };
 };
+
+export const updateUserProfileService = async (
+  userId: string,
+  name: string
+) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { name },
+    { new: true }
+  ).select("-password");
+
+  if (!updatedUser) {
+    throw new Error("User not found");
+  }
+
+  return {
+    name: updatedUser.name,
+    email: updatedUser.email,
+  };
+};

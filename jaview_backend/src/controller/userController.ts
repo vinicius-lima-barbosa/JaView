@@ -4,6 +4,7 @@ import {
   getUserProfileService,
   getUserReviewsService,
   loginUserService,
+  updateUserProfileService,
 } from "../services/userService";
 
 export const createUserController = async (
@@ -47,9 +48,7 @@ export const getUserReviewsController = async (
 
     return response.status(200).json({ reviews });
   } catch (error) {
-    return response
-      .status(500)
-      .json({ message: `Error while fetching the reviews! ${error.message}` });
+    return response.status(500).json({ message: error.message });
   }
 };
 
@@ -63,8 +62,22 @@ export const getUserProfileController = async (
 
     return response.status(200).json(profile);
   } catch (error) {
-    return response
-      .status(500)
-      .json({ message: `Error while fetching user profile! ${error.message}` });
+    return response.status(500).json({ message: error.message });
+  }
+};
+
+export const updateUserProfileController = async (
+  request: Request,
+  response: Response
+) => {
+  try {
+    const userId = request.userId;
+    const { name } = request.body;
+
+    const newProfile = await updateUserProfileService(userId, name);
+
+    return response.status(200).json(newProfile);
+  } catch (error) {
+    return response.status(500).json({ message: error.message });
   }
 };
