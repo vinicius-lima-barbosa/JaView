@@ -3,6 +3,8 @@ import avatar from "../assets/images/avatar/default_avatar.jpg";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_BACKEND = import.meta.env.VITE_BACKEND;
+
 export default function Aside() {
   const [isOpen, setIsOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -20,14 +22,11 @@ export default function Aside() {
 
     if (token) {
       try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND}user/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BACKEND}user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
@@ -78,6 +77,14 @@ export default function Aside() {
 
         <nav>
           <ul className="space-y-4">
+            <li>
+              <Link
+                to={"/profile"}
+                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
+              >
+                Profile
+              </Link>
+            </li>
             <li>
               <Link
                 to="/user/reviews"
