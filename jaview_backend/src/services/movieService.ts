@@ -11,7 +11,7 @@ export const addReviewService = async (
 
   if (movie) {
     const existingReview = movie.reviews.find(
-      (r) => r.user_id.toString() === userId
+      (review) => review.user_id.toString() === userId
     );
     if (existingReview)
       throw new Error("You have already reviewed this movie.");

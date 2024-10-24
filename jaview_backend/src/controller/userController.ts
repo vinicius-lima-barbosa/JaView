@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   createUserService,
+  getUserByUsernameService,
   getUserProfileService,
   getUserReviewsService,
   loginUserService,
@@ -77,6 +78,21 @@ export const updateUserProfileController = async (
     const newProfile = await updateUserProfileService(userId, name);
 
     return response.status(200).json(newProfile);
+  } catch (error) {
+    return response.status(500).json({ message: error.message });
+  }
+};
+
+export const getUserByUsernameController = async (
+  request: Request,
+  response: Response
+) => {
+  try {
+    const { username } = request.params;
+
+    const user = await getUserByUsernameService(username);
+
+    return response.status(200).json(user);
   } catch (error) {
     return response.status(500).json({ message: error.message });
   }

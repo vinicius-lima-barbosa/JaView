@@ -90,3 +90,15 @@ export const updateUserProfileService = async (
     email: updatedUser.email,
   };
 };
+
+export const getUserByUsernameService = async (username: string) => {
+  const user = (
+    await User.findOne({ name: username }).select("-password")
+  ).populate("reviews.movie_id");
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user;
+};
