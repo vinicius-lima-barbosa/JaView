@@ -6,28 +6,34 @@ import {
   loginUserService,
 } from "../services/userService";
 
-export const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (
+  request: Request,
+  response: Response
+) => {
   try {
-    const { name, email, password, confirmedPassword } = req.body;
+    const { name, email, password, confirmedPassword } = request.body;
     const result = await createUserService(
       name,
       email,
       password,
       confirmedPassword
     );
-    return res.status(201).json(result);
+    return response.status(201).json(result);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return response.status(500).json({ message: error.message });
   }
 };
 
-export const loginUserController = async (req: Request, res: Response) => {
+export const loginUserController = async (
+  request: Request,
+  response: Response
+) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = request.body;
     const result = await loginUserService(email, password);
-    return res.status(200).json(result);
+    return response.status(200).json(result);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return response.status(500).json({ message: error.message });
   }
 };
 

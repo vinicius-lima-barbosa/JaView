@@ -5,16 +5,19 @@ import {
   removeReviewService,
 } from "../services/movieService";
 
-export const addReviewController = async (req: Request, res: Response) => {
+export const addReviewController = async (
+  request: Request,
+  response: Response
+) => {
   try {
-    const { movieId } = req.params;
-    const { review, rating } = req.body;
-    const userId = req.userId;
+    const { movieId } = request.params;
+    const { review, rating } = request.body;
+    const userId = request.userId;
 
     const result = await addReviewService(userId, movieId, review, rating);
-    return res.status(201).json(result);
+    return response.status(201).json(result);
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return response.status(500).json({ message: error.message });
   }
 };
 
