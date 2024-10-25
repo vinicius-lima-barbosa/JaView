@@ -13,6 +13,7 @@ import ErrorPage from "./pages/error.tsx";
 import SuccessPage from "./pages/success.tsx";
 import Layout from "./layout.tsx";
 import UserProfile from "./pages/user-profile.tsx";
+import SearchUser from "./pages/search-user.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -29,6 +30,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/search-user" element={<SearchUser />} />
         </Routes>
       </Layout>
     </Router>

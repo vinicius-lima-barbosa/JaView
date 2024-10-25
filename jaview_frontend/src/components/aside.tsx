@@ -101,6 +101,14 @@ export default function Aside() {
                 Top Rated Movies
               </Link>
             </li>
+            <li>
+              <Link
+                to={"/search-user"}
+                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
+              >
+                Search users
+              </Link>
+            </li>
             {!loggedIn ? (
               <li>
                 <Link
