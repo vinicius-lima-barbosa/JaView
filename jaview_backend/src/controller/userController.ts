@@ -88,11 +88,11 @@ export const getUserByUsernameController = async (
   response: Response
 ) => {
   try {
-    const { username } = request.params;
+    const { username } = request.query;
 
-    const user = await getUserByUsernameService(username);
+    const users = await getUserByUsernameService(username as string);
 
-    return response.status(200).json(user);
+    return response.status(200).json({ users });
   } catch (error) {
     return response.status(500).json({ message: error.message });
   }

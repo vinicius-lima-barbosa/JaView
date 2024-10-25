@@ -92,13 +92,11 @@ export const updateUserProfileService = async (
 };
 
 export const getUserByUsernameService = async (username: string) => {
-  const user = (
-    await User.findOne({ name: username }).select("-password")
-  ).populate("reviews.movie_id");
+  const users = await User.find({ name: username }).select("-password");
 
-  if (!user) {
+  if (!users) {
     throw new Error("User not found");
   }
 
-  return user;
+  return users || [];
 };
