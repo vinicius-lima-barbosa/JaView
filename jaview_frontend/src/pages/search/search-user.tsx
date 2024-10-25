@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User } from "../types/user-type";
+import { User } from "../../types/user-type";
 import { IoIosSearch } from "react-icons/io";
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
@@ -60,7 +60,7 @@ export default function SearchUser() {
               <li key={user._id} className="p-4">
                 <Link
                   to={`/users/${user._id}`}
-                  className="font-semibold text-green-500 hover:text-green-200 transition-all duration-200"
+                  className="font-semibold text-green-500 hover:text-green-200 transition-all duration-300"
                 >
                   {user.name}
                 </Link>

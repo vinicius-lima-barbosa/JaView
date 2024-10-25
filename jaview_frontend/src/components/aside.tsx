@@ -95,7 +95,7 @@ export default function Aside() {
             </li>
             <li>
               <Link
-                to="/topRatedMovies"
+                to="/top-rated-movies"
                 className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
               >
                 Top Rated Movies

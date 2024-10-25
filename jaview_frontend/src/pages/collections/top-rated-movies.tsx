@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { FetchTopRatedMovies } from "../api/tmdb-top-movies";
+import { FetchTopRatedMovies } from "../../api/tmdb-top-movies";
 import { BallTriangle } from "react-loader-spinner";
-import MovieCard from "../components/movie-card";
+import MovieCard from "../../components/movie-card";
 import { Link } from "react-router-dom";
-import { Movie } from "../types/movie-type";
+import { Movie } from "../../types/movie-type";
 
 export default function TopRatedMovies() {
   const [topMovies, setTopMovies] = useState<Movie[]>([]);

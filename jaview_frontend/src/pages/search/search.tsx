@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import MovieCard from "../components/movie-card";
+import MovieCard from "../../components/movie-card";
 import { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
 

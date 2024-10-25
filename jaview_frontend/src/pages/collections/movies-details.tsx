@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
-import { Movie } from "../types/movie-type.ts";
-import { Review } from "../types/review-type.ts";
+import { Movie } from "../../types/movie-type.ts";
+import { Review } from "../../types/review-type.ts";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;

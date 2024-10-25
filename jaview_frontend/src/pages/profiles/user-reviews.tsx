@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Review } from "../types/review-type";
+import { Review } from "../../types/review-type";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;

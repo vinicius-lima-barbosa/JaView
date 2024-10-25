@@ -1,9 +1,9 @@
-import { FetchMovies } from "../api/tmdb-api";
+import { FetchMovies } from "../../api/tmdb-api";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import MovieCard from "../components/movie-card";
+import MovieCard from "../../components/movie-card";
 import { BallTriangle } from "react-loader-spinner";
-import { Movie } from "../types/movie-type";
+import { Movie } from "../../types/movie-type";
 
 const MoviesList: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
