@@ -24,6 +24,9 @@ export const createUserService = async (
     throw new Error(errorMessages.join(" "));
   }
 
+  const nameExists = await User.find({ name });
+  if (nameExists) throw new Error("Name already exists");
+
   const userExists = await User.findOne({ email });
   if (userExists) throw new Error("User already exists!");
 
