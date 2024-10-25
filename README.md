@@ -1,4 +1,5 @@
 # JaView
+
 <img src="/jaview_frontend/src/assets/images/logos/LogoJaViewEsticado.png" alt="Logo JaView" width="900">
 
 JaView é uma rede social dedicada para os amantes do cinema, onde os usuários podem compartilhar suas opiniões e reviews sobre filmes.
@@ -13,7 +14,7 @@ JaView é uma rede social dedicada para os amantes do cinema, onde os usuários 
 
 - **Frontend**: React
 - **Backend**: Node.js, Express, TypeScript e JavaScript
-- **Banco de Dados**: MongoDB (Docker)
+- **Banco de Dados**: MongoDb / Mongo atlas
 - **Autenticação**: JWT
 - **Hospedagem**: ...
 
