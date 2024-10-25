@@ -92,7 +92,9 @@ export const updateUserProfileService = async (
 };
 
 export const getUserByUsernameService = async (username: string) => {
-  const users = await User.find({ name: username }).select("-password");
+  const users = await User.find({
+    name: { $regex: username, $options: "i" },
+  }).select("-password");
 
   if (!users) {
     throw new Error("User not found");
