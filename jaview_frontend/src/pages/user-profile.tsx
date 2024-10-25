@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface UserProfile {
   name: string;
@@ -12,12 +12,22 @@ const UserProfile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile>({ name: "", email: "" });
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/error", {
+        state: { message: "You must be logged in!" },
+      });
+      return;
+    }
+
     const fetchProfile = async () => {
       const response = await fetch(`${API_BACKEND}user/profile`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       const data = await response.json();
@@ -26,19 +36,21 @@ const UserProfile: React.FC = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const toggleEdit = () => {
     setEditing(!editing);
   };
 
   const updateProfile = async () => {
+    const token = localStorage.getItem("token");
+
     try {
       const response = await fetch(`${API_BACKEND}user/update-profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name: newName }),
       });
