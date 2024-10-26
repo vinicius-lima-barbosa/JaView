@@ -56,7 +56,9 @@ const UserProfile: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update profile");
+        navigate("/error", {
+          state: { message: "User already exists!" },
+        });
       }
 
       const data = await response.json();
@@ -65,6 +67,9 @@ const UserProfile: React.FC = () => {
       window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
+      navigate("/error", {
+        state: { message: "An error occurred while updating your profile!" },
+      });
     }
   };
 

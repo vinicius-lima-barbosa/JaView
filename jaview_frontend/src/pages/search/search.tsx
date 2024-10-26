@@ -2,13 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import MovieCard from "../../components/movie-card";
 import { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
-
-type Movie = {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number;
-};
+import { Movie } from "../../types/movie-type";
 
 const searchURL = import.meta.env.VITE_SEARCH;
 const apiKey = import.meta.env.VITE_API_KEY;
