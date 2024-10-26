@@ -78,6 +78,11 @@ export const updateUserProfileService = async (
   userId: string,
   name: string
 ) => {
+  const nameExists = await User.findOne({ name });
+  if (nameExists) {
+    throw new Error("Name already exists");
+  }
+
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     { name },
