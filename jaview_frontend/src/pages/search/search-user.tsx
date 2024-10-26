@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../../types/user-type";
 import { IoIosSearch } from "react-icons/io";
+import { Review } from "../../types/review-type";
 
+const apiKey = import.meta.env.VITE_API_KEY;
+const BASE_URL = import.meta.env.VITE_URL;
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function SearchUser() {
@@ -26,8 +29,28 @@ export default function SearchUser() {
       );
 
       const data = await response.json();
-      console.log(data);
-      setResults(data.users || []);
+      const usersWithMovieDetails = await Promise.all(
+        data.users.map(async (user: User) => {
+          const reviewsWithDetails = await Promise.all(
+            user.reviews.map(async (review: Review) => {
+              const movieResponse = await fetch(
+                `${BASE_URL}${review.movie_id}?api_key=${apiKey}`
+              );
+              const movieData = await movieResponse.json();
+              return {
+                ...review,
+                movie: movieData,
+              };
+            })
+          );
+          return {
+            ...user,
+            reviews: reviewsWithDetails,
+          };
+        })
+      );
+
+      setResults(usersWithMovieDetails || []);
     } catch (error) {
       console.error("Error searching for users:", error);
       navigate("/error", { state: { message: "An error occurred!" } });
@@ -60,6 +83,7 @@ export default function SearchUser() {
               <li key={user._id} className="p-4">
                 <Link
                   to={`/users/${user._id}`}
+                  state={{ user }}
                   className="font-semibold text-green-500 hover:text-green-200 transition-all duration-300"
                 >
                   {user.name}
