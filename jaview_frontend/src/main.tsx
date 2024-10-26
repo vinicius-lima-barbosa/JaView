@@ -14,6 +14,7 @@ import SuccessPage from "./pages/responses/success.tsx";
 import Layout from "./layout.tsx";
 import UserProfile from "./pages/profiles/user-profile.tsx";
 import SearchUser from "./pages/search/search-user.tsx";
+import SearchedUserProfile from "./pages/profiles/searched-user-profile.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -31,7 +32,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/success" element={<SuccessPage />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/search-user" element={<SearchUser />} />
-          {/* <Route path="/users/:userId" element={<SearchUser />} /> */}
+          <Route path="/users/:userId" element={<SearchedUserProfile />} />
         </Routes>
       </Layout>
     </Router>
