@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import avatar from "../../assets/images/avatar/default_avatar.jpg";
 
 interface UserProfile {
   name: string;
@@ -80,7 +81,14 @@ const UserProfile: React.FC = () => {
       </h1>
       <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-2xl">
         {!editing ? (
-          <>
+          <div className="flex flex-col">
+            <div className="flex justify-center items-center mb-5">
+              <img
+                src={avatar}
+                alt="avatar"
+                className="rounded-full mr-4 w-28 h-28 object-cover border-2 border-white "
+              />
+            </div>
             <div className="flex justify-between mb-3">
               <div className="mb-4">
                 <label className="block text-slate-200">Name:</label>
@@ -105,7 +113,7 @@ const UserProfile: React.FC = () => {
                 View your reviews
               </Link>
             </div>
-          </>
+          </div>
         ) : (
           <>
             <div className="mb-4">
