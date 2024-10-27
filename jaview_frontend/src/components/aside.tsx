@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 import avatar from "../assets/images/avatar/default_avatar.jpg";
-import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import {
+  FaUser,
+  FaStar,
+  FaFilm,
+  FaSearch,
+  FaSignInAlt,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import NavItem from "./nav-items";
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function Aside() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
   const [userName, setUserName] = useState("user");
   const navigate = useNavigate();
@@ -53,75 +62,71 @@ export default function Aside() {
   return (
     <>
       <button
-        className="block lg:hidden p-4 text-gray-400 focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="lg:hidden fixed top-4 right-4 z-50 bg-gray-800 text-white p-2 rounded-md shadow-md"
       >
-        <AiOutlineMenu size={24} />
+        {isExpanded ? (
+          <AiOutlineClose size={24} />
+        ) : (
+          <AiOutlineMenu size={24} />
+        )}
       </button>
 
       <aside
         className={`${
-          isOpen ? "block" : "hidden"
-        } lg:block lg:w-1/5 bg-gray-800 p-4 min-h-screen absolute lg:relative z-50 w-full shadow-xl`}
+          isExpanded ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 transform lg:w-64 w-64 bg-gray-800 p-4 min-h-screen transition-transform duration-300 fixed lg:relative z-40 shadow-xl`}
       >
-        <div className="flex items-center m-2 mb-8">
+        <div className="flex items-center mb-8">
           <img
             src={avatar}
             alt="avatar"
-            className="rounded-full mr-4 w-14 h-14 object-cover border-2 border-white"
+            className="rounded-full w-14 h-14 object-cover border-2 border-white"
           />
-          <span className="text-white font-semibold text-lg">
+          <span className="text-white font-semibold text-lg ml-4">
             Hi, {userName}
           </span>
         </div>
 
         <nav>
           <ul className="space-y-4">
-            <li>
-              <Link
-                to={"/profile"}
-                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/user/reviews"
-                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
-              >
-                My Reviews
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/top-rated-movies"
-                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
-              >
-                Top Rated Movies
-              </Link>
-            </li>
-            <li>
-              <Link
-                to={"/search-user"}
-                className="block text-gray-300 hover:text-white text-lg transition-all duration-200"
-              >
-                Search users
-              </Link>
-            </li>
+            <NavItem
+              to="/profile"
+              icon={<FaUser size={20} />}
+              label="Profile"
+              isExpanded={true}
+            />
+            <NavItem
+              to="/user/reviews"
+              icon={<FaStar size={20} />}
+              label="My Reviews"
+              isExpanded={true}
+            />
+            <NavItem
+              to="/top-rated-movies"
+              icon={<FaFilm size={20} />}
+              label="Top Rated Movies"
+              isExpanded={true}
+            />
+            <NavItem
+              to="/search-user"
+              icon={<FaSearch size={20} />}
+              label="Search Users"
+              isExpanded={true}
+            />
             {!loggedIn ? (
-              <li>
-                <Link
-                  to="/login"
-                  className="block text-green-500 hover:text-white text-lg transition-all duration-200"
-                >
-                  Login
-                </Link>
-              </li>
+              <NavItem
+                to="/login"
+                icon={<FaSignInAlt size={20} />}
+                label="Login"
+                isExpanded={true}
+                color="text-green-500"
+              />
             ) : (
-              <li>
+              <li className="flex items-center space-x-2">
+                <FaSignOutAlt size={20} className="text-red-500" />
                 <button
-                  className="block text-red-500 hover:text-white text-lg transition-all duration-200"
+                  className="text-red-500 hover:text-white text-lg transition-all duration-200"
                   onClick={handleLogout}
                 >
                   Logout
