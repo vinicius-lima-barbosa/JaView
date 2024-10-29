@@ -4,11 +4,16 @@ import authRoutes from "./routes/authRoutes";
 import movieRoutes from "./routes/movieRoutes";
 import userRoutes from "./routes/userRoutes";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+
+const url_front = process.env.FRONT_URL;
+const port = process.env.APP_PORT;
 
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: url_front,
   optionsSuccessStatus: 200,
 };
 
@@ -17,8 +22,8 @@ app.use(express.json());
 
 connectDB()
   .then(() => {
-    app.listen(3333, () => {
-      console.log(`Server is listening in port 3333 🚀`);
+    app.listen(port, () => {
+      console.log(`Server is listening in port ${port} 🚀`);
     });
   })
   .catch((error) => {
