@@ -63,7 +63,7 @@ export default function SearchUser() {
       <div className="flex items-center overflow-hidden transition-all duration-300 ease-in-out bg-white rounded-full shadow-md mr-4 p-1 mb-4">
         <input
           type="text"
-          placeholder="Search movies..."
+          placeholder="Search users..."
           value={searchUser}
           onChange={(e) => setSearchUser(e.target.value)}
           className="outline-none px-3 py-1 text-gray-700 w-full"
