@@ -3,6 +3,7 @@
 <img src="/jaview_frontend/src/assets/images/logos/LogoJaViewEsticado.png" alt="Logo JaView" width="900">
 
 JaView é uma rede social dedicada para os amantes do cinema, onde os usuários podem compartilhar suas opiniões e reviews sobre filmes.
+v0.1 - https://ja-view.vercel.app
 
 ## Funcionalidades
 
@@ -16,7 +17,7 @@ JaView é uma rede social dedicada para os amantes do cinema, onde os usuários 
 - **Backend**: Node.js, Express, TypeScript e JavaScript
 - **Banco de Dados**: MongoDb / Mongo atlas
 - **Autenticação**: JWT
-- **Hospedagem**: ...
+- **Hospedagem**: backend - Render / frontend - Vercel
 
 ## Instalação
 
