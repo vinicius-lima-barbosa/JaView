@@ -90,18 +90,22 @@ export default function Aside() {
 
         <nav>
           <ul className="space-y-4">
-            <NavItem
-              to="/profile"
-              icon={<FaUser size={20} />}
-              label="Profile"
-              isExpanded={true}
-            />
-            <NavItem
-              to="/user/reviews"
-              icon={<FaStar size={20} />}
-              label="My Reviews"
-              isExpanded={true}
-            />
+            {loggedIn && (
+              <>
+                <NavItem
+                  to="/profile"
+                  icon={<FaUser size={20} />}
+                  label="Profile"
+                  isExpanded={true}
+                />
+                <NavItem
+                  to="/user/reviews"
+                  icon={<FaStar size={20} />}
+                  label="My Reviews"
+                  isExpanded={true}
+                />
+              </>
+            )}
             <NavItem
               to="/top-rated-movies"
               icon={<FaFilm size={20} />}
