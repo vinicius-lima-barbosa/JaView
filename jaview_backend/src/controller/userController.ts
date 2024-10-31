@@ -73,9 +73,9 @@ export const updateUserProfileController = async (
 ) => {
   try {
     const userId = request.userId;
-    const { name } = request.body;
+    const { name, bio } = request.body;
 
-    const newProfile = await updateUserProfileService(userId, name);
+    const newProfile = await updateUserProfileService(userId, name, bio);
 
     return response.status(200).json(newProfile);
   } catch (error) {

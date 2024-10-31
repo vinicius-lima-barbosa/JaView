@@ -71,21 +71,23 @@ export const getUserProfileService = async (userId: string) => {
   return {
     name: user.name,
     email: user.email,
+    bio: user.bio,
   };
 };
 
 export const updateUserProfileService = async (
   userId: string,
-  name: string
+  name: string,
+  bio: string
 ) => {
-  const nameExists = await User.findOne({ name });
+  const nameExists = await User.findOne({ name, _id: { $ne: userId } });
   if (nameExists) {
     throw new Error("Name already exists");
   }
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { name },
+    { name, bio },
     { new: true }
   ).select("-password");
 
