@@ -31,13 +31,15 @@ export default function TopRatedMovies() {
   const filteredMovies = topMovies.filter((movie) => movie.poster_path);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ml-5 mr-5 mb-5">
-      {filteredMovies.map((movie) => (
-        <Link key={movie.id} className="movie-card" to={`/movie/${movie.id}`}>
-          <MovieCard key={movie.id} movie={movie} />
-        </Link>
-      ))}
-      <div className="flex justify-center items-center mt-5 space-x-4">
+    <div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ml-5 mr-5 mb-5">
+        {filteredMovies.map((movie) => (
+          <Link key={movie.id} className="movie-card" to={`/movie/${movie.id}`}>
+            <MovieCard key={movie.id} movie={movie} />
+          </Link>
+        ))}
+      </div>
+      <div className="flex justify-center items-center mt-5 mb-5 space-x-4">
         <button
           className="bg-green-500 text-white font-semibold py-2 px-4 rounded-full hover:bg-green-600 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
