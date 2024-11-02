@@ -95,8 +95,8 @@ export const getMovieReviewsService = async (movieId: string) => {
   });
 
   if (!movie) {
-    throw new Error("Movie not found");
+    return [];
   }
 
-  return movie.reviews || [];
+  return movie.reviews;
 };
