@@ -98,18 +98,24 @@ const UserProfile: React.FC = () => {
             </div>
             <div>
               <div className="flex flex-col mb-3">
-                <label className="text-sm ml-1 text-slate-200">Name:</label>
+                <label className="text-sm ml-1 font-bold text-slate-200">
+                  Name:
+                </label>
                 <div className="mb-4 bg-slate-700 rounded-lg p-2">
                   <p className="text-lg">{profile.name}</p>
                 </div>
-                <label className="text-sm ml-1 text-slate-200">Email:</label>
-                <div className="mb-4 bg-slate-700 rounded-lg p-2">
+                <label className="text-sm ml-1 font-bold text-slate-200">
+                  Email:
+                </label>
+                <div className="mb-4 bg-slate-700 rounded-lg shadow-md p-2">
                   <p className="text-lg">{profile.email}</p>
                 </div>
                 {profile.bio && (
                   <>
-                    <label className="text-sm ml-1 text-slate-200">Bio:</label>
-                    <div className="mb-4 bg-slate-700 rounded-lg p-2">
+                    <label className="text-sm ml-1 font-bold text-slate-200">
+                      Bio:
+                    </label>
+                    <div className="mb-4 bg-slate-700 rounded-lg shadow-md p-2">
                       <p className="text-lg">{profile.bio}</p>
                     </div>
                   </>
@@ -152,13 +158,13 @@ const UserProfile: React.FC = () => {
               />
             </div>
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded"
+              className="bg-green-500 hover:bg-green-700 transition-all duration-200 text-white px-4 py-2 rounded"
               onClick={updateProfile}
             >
               Save Changes
             </button>
             <button
-              className="ml-2 bg-gray-500 text-white px-4 py-2 rounded"
+              className="ml-2 bg-gray-500 hover:bg-gray-600 transition-all duration-200 text-white px-4 py-2 rounded"
               onClick={toggleEdit}
             >
               Cancel
