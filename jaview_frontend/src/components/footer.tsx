@@ -14,9 +14,7 @@ export default function Footer() {
 
         <p>
           Contact us:{" "}
-          <a className="text-green-400 hover:underline">
-            viniciusbarbosa0202@gmail.com
-          </a>
+          <a className="text-green-400 hover:underline">jaview@email.com</a>
         </p>
       </div>
 
