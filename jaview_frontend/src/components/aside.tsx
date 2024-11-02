@@ -44,7 +44,7 @@ export default function Aside() {
         const data = await response.json();
         setUserName(data.name);
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error(error);
       }
     }
   };
