@@ -16,17 +16,11 @@ export default function SearchUser() {
 
   const handleSearch = async () => {
     if (searchUser.trim() === "") return;
-    const token = localStorage.getItem("token");
     setLoading(true);
 
     try {
       const response = await fetch(
-        `${API_BACKEND}user/search-user?username=${searchUser}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${API_BACKEND}user/search-user?username=${searchUser}`
       );
 
       const data = await response.json();
