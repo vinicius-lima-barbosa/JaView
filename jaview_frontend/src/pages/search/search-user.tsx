@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { User } from "../../types/user-type";
 import { IoIosSearch } from "react-icons/io";
 import { Review } from "../../types/review-type";
+import { BallTriangle } from "react-loader-spinner";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -75,7 +76,9 @@ export default function SearchUser() {
       </div>
 
       {loading ? (
-        <p className="text-lg font-semibold text-gray-700">Searching...</p>
+        <div className="flex justify-center items-center h-screen">
+          <BallTriangle />
+        </div>
       ) : results.length > 0 ? (
         <div className="w-full max-w-3xl mt-8">
           <h1 className="text-xl font-semibold mb-4">
