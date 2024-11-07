@@ -146,15 +146,17 @@ const UserProfile: React.FC = () => {
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
+                placeholder="Enter your name..."
               />
             </div>
             <div className="mb-4">
               <label className="block text-slate-200">Bio:</label>
-              <input
-                type="text"
+              <textarea
                 value={newBio}
                 onChange={(e) => setBio(e.target.value)}
+                rows={3}
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
+                placeholder="Tell us about yourself..."
               />
             </div>
             <button
