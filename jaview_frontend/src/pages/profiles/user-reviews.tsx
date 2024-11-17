@@ -95,7 +95,7 @@ export default function UserReviews() {
   }
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6">
       <h1 className="text-3xl font-bold mb-6 text-center text-slate-200">
         Your Reviews
       </h1>
