@@ -15,7 +15,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
       />
       <div className="flex items-center mt-2">
         <p className="text-lg font-bold text-white bg-orange-400 rounded-full p-2 w-11 h-11 flex items-center justify-center mr-2 shadow-2xl">
-          {movie.vote_average.toFixed(1)}
+          {movie.vote_average ? movie.vote_average.toFixed(1) : "NR"}
         </p>
         <h3 className="text-md font-semibold">{movie.title}</h3>
       </div>
