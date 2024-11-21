@@ -17,7 +17,11 @@ export const addReviewController = async (
     const result = await addReviewService(userId, movieId, review, rating);
     return response.status(201).json(result);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    return response
+      .status(500)
+      .json({
+        message: `An error occurred while deleting the review! ${error.message}`,
+      });
   }
 };
 
