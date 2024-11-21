@@ -3,8 +3,24 @@
 @tailwind utilities;
 
 :root {
-    margin: 0;
-    padding: 0;
-    background-color: #222f36;
-    color: white;
+  margin: 0;
+  padding: 0;
+  background-color: #222f36;
+  color: white;
+}
+
+@layer utilities {
+  @keyframes fade {
+    0%,
+    90% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-fade {
+    animation: fade 3s ease-in-out forwards;
+  }
 }
