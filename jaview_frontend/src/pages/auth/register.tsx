@@ -39,7 +39,9 @@ export default function Register() {
 
       if (response.ok) {
         localStorage.setItem("token", dataTest.token);
-        navigate("/success", { state: { message: "Successfully registred!" } });
+        navigate("/", {
+          state: { message: "Successfully registred!", type: "success" },
+        });
         window.location.reload();
       } else {
         setError(dataTest.message || "Registration failed!");

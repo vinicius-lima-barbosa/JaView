@@ -31,7 +31,9 @@ export default function Login() {
       if (response.ok) {
         localStorage.setItem("token", dataTest.token);
 
-        navigate("/");
+        navigate("/", {
+          state: { message: "Successfully login!", type: "success" },
+        });
         window.location.reload();
       } else {
         setError(dataTest.message || "Login failed!");

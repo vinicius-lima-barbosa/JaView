@@ -19,6 +19,9 @@ const UserProfile: React.FC = () => {
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const [newBio, setBio] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
+  const [type, setType] = useState<"success" | "error">("success");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,19 +35,37 @@ const UserProfile: React.FC = () => {
     }
 
     const fetchProfile = async () => {
-      const response = await fetch(`${API_BACKEND}user/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setProfile(data);
-      setNewName(data.name);
-      setBio(data.bio);
+      try {
+        const response = await fetch(`${API_BACKEND}user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile.");
+        }
+
+        const data = await response.json();
+        setProfile(data);
+        setNewName(data.name);
+        setBio(data.bio);
+      } catch (error) {
+        setMessage("An error occurred while fetching your profile.");
+        setType("error");
+        console.log(error);
+      }
     };
 
     fetchProfile();
   }, [navigate]);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const toggleEdit = () => {
     setEditing(!editing);
@@ -63,26 +84,39 @@ const UserProfile: React.FC = () => {
         body: JSON.stringify({ name: newName, bio: newBio }),
       });
 
-      if (!response.ok) {
-        navigate("/error", {
-          state: { message: "User already exists!" },
-        });
-      }
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data);
+        setEditing(false);
 
-      const data = await response.json();
-      setProfile(data);
-      setEditing(false);
-      window.location.reload();
+        setMessage("Profile updated successfully!");
+        setType("success");
+      } else {
+        setMessage("User already exists!");
+        setType("error");
+      }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      navigate("/error", {
-        state: { message: "An error occurred while updating your profile!" },
-      });
+      setMessage("An error occurred while updating your profile.");
+      setType("error");
+      console.log(error);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10">
+      {/* Mensagem de Alerta */}
+      {message && (
+        <div
+          className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-md text-center transition duration-500 ${
+            type === "success"
+              ? "bg-green-100 text-green-800 border border-green-400"
+              : "bg-red-100 text-red-800 border border-red-400"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <h1 className="text-3xl font-bold mb-6 text-center">
         {profile.name}'s Profile
       </h1>

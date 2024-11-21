@@ -55,22 +55,27 @@ export default function MoviesDetails() {
         body: JSON.stringify({ review, rating }),
       });
 
-      if (!response.ok) {
-        navigate("/error", {
-          state: { message: "An error occurred while sending the review!" },
+      if (response.ok) {
+        setReview("");
+        setRating("");
+        navigate("/", {
+          state: {
+            message: "Your review was submitted successfully!",
+            type: "success",
+          },
+        });
+        getMovieReviews();
+      } else {
+        navigate("/", {
+          state: {
+            message: "An error occurred while sending the review!",
+            type: "error",
+          },
         });
       }
-
-      setReview("");
-      setRating("");
-      navigate("/success", {
-        state: { message: "Your review was submitted successfully!" },
-      });
-      getMovieReviews();
     } catch (error) {
-      console.log(error);
       navigate("/error", {
-        state: { message: "An error occurred!" },
+        state: { message: `An error occurred`, error },
       });
     }
   };
