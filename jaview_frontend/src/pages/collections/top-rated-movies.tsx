@@ -31,7 +31,7 @@ export default function TopRatedMovies() {
   const filteredMovies = topMovies.filter((movie) => movie.poster_path);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 ml-5 mr-5 mb-5">
         {filteredMovies.map((movie) => (
           <Link key={movie.id} className="movie-card" to={`/movie/${movie.id}`}>

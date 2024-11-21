@@ -4,8 +4,8 @@ import Header from "./components/header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <div className="flex-h-screen flex">
+    <div className="min-h-screen">
+      <div className="flex-min-h-screen flex">
         <Aside />
         <main className="flex-1 flex-col">
           <div className="p-5">
@@ -15,6 +15,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </main>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
