@@ -104,7 +104,6 @@ const UserProfile: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10">
-      {/* Mensagem de Alerta */}
       {message && (
         <div
           className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-md text-center transition duration-500 ${
