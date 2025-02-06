@@ -128,7 +128,10 @@ export default function Aside() {
               />
             ) : (
               <li className="flex items-center space-x-2">
-                <FaSignOutAlt size={20} className="text-red-500" />
+                <FaSignOutAlt
+                  size={20}
+                  className="text-red-500 hover:text-white cursor-pointer"
+                />
                 <button
                   className="text-red-500 hover:text-white text-lg transition-all duration-200"
                   onClick={handleLogout}

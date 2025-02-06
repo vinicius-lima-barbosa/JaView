@@ -30,7 +30,7 @@ export default function Search() {
 
   return (
     <div className="flex flex-col items-center p-5">
-      <h2 className="text-3xl font-bold text-center mb-5">
+      <h2 className="text-2xl font-bold text-center mb-5">
         Results for: <span className="text-green-500">{query}</span>
       </h2>
 

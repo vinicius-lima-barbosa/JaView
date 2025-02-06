@@ -47,7 +47,7 @@ const MoviesList: React.FC = () => {
   const filteredMovies = movies.filter((movie) => movie.poster_path);
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen">
       {showMessage && (
         <div
           className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-md text-center transition duration-500 ${

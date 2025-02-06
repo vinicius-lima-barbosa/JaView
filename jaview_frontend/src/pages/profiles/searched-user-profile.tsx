@@ -8,7 +8,7 @@ export default function SearchedUserProfile() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 text-center text-slate-100">
+      <h1 className="text-3xl font-bold mb-8 text-center text-slate-100">
         Profile
       </h1>
       <div className="flex items-center bg-gray-900 p-6 rounded-lg shadow-lg mb-8">
@@ -38,7 +38,7 @@ export default function SearchedUserProfile() {
           )}
         </div>
       </div>
-      <h1 className="text-4xl font-bold mb-8 text-center text-slate-100">
+      <h1 className="text-3xl font-bold mb-8 text-center text-slate-100">
         Reviews
       </h1>
       {user.reviews.length === 0 ? (
