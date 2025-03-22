@@ -1,0 +1,80 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: jaview
+      MONGO_INITDB_ROOT_PASSWORD: jaview123
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - jaview_network
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: jaview
+      ME_CONFIG_MONGODB_ADMINPASSWORD: jaview123
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+    networks:
+      - jaview_network
+
+  api:
+    build:
+      context: ./jaview_backend
+      dockerfile: Dockerfile
+    container_name: jaview_api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: "mongodb://jaview:jaview123@mongo:27017/jaview_db?authSource=admin"
+      APP_PORT: "3000"
+      JWT_SECRET: "jaview-secret"
+      FRONT_URL: "http://localhost:5173"
+    depends_on:
+      - mongo
+    volumes:
+      - ./jaview_backend:/app
+      - /app/node_modules
+    networks:
+      - jaview_network
+
+  frontend:
+    build:
+      context: ./jaview_frontend
+      dockerfile: Dockerfile
+    container_name: jaview_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_BACKEND=http://localhost:3000/
+    env_file:
+      - ./jaview_frontend/.env
+    volumes:
+      - ./jaview_frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api
+    networks:
+      - jaview_network
+
+networks:
+  jaview_network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
