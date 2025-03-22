@@ -22,7 +22,7 @@ app.use(express.json());
 
 connectDB()
   .then(() => {
-    app.listen(port, () => {
+    app.listen(Number(port), '0.0.0.0', () => {
       console.log(`Server is listening in port ${port} 🚀`);
     });
   })
