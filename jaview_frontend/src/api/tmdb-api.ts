@@ -7,7 +7,7 @@ export async function FetchMovies(page = 1) {
       `${BASE_URL}popular?api_key=${apiKey}&language=en-US&page=${page}`
     );
 
-    if (!response.ok) throw new Error("Failed to fetch Movies!");
+    if (!response.ok) throw new Error('Failed to fetch Movies!');
 
     const data = await response.json();
     return data.results;

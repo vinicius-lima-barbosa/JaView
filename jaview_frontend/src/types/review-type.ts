@@ -1,4 +1,4 @@
-import { Movie } from "./movie-type";
+import { Movie } from './movie-type';
 
 export type Review = {
   _id: string;

@@ -1,44 +1,44 @@
-import { useState, useEffect } from "react";
-import avatar from "../assets/images/avatar/default_avatar.jpg";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useState, useEffect } from 'react';
+import avatar from '../assets/images/avatar/default_avatar.jpg';
+import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import {
   FaUser,
   FaStar,
   FaFilm,
   FaSearch,
   FaSignInAlt,
-  FaSignOutAlt,
-} from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import NavItem from "./nav-items";
+  FaSignOutAlt
+} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import NavItem from './nav-items';
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function Aside() {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("token"));
-  const [userName, setUserName] = useState("user");
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [userName, setUserName] = useState('user');
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setLoggedIn(false);
-    navigate("/login");
+    navigate('/login');
   };
 
   const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (token) {
       try {
         const response = await fetch(`${API_BACKEND}user/profile`, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch user data");
+          throw new Error('Failed to fetch user data');
         }
 
         const data = await response.json();
@@ -50,12 +50,12 @@ export default function Aside() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       setLoggedIn(true);
       fetchUserData();
     } else {
-      setUserName("user");
+      setUserName('user');
     }
   }, [loggedIn]);
 
@@ -74,7 +74,7 @@ export default function Aside() {
 
       <aside
         className={`${
-          isExpanded ? "translate-x-0" : "-translate-x-full"
+          isExpanded ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 transform lg:w-64 w-64 bg-gray-800 p-4 min-h-screen transition-transform duration-300 fixed lg:relative z-40 shadow-xl`}
       >
         <div className="flex items-center mb-8">

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { BsFillFileEarmarkTextFill, BsHourglassSplit } from "react-icons/bs";
-import { Movie } from "../../types/movie-type.ts";
-import { Review } from "../../types/review-type.ts";
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { BsFillFileEarmarkTextFill, BsHourglassSplit } from 'react-icons/bs';
+import { Movie } from '../../types/movie-type.ts';
+import { Review } from '../../types/review-type.ts';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -12,8 +12,8 @@ const API_BACKEND = import.meta.env.VITE_BACKEND;
 export default function MoviesDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState<number | "">("");
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState<number | ''>('');
   const [reviews, setReviews] = useState<Review[]>([]);
   const navigate = useNavigate();
 
@@ -38,44 +38,44 @@ export default function MoviesDetails() {
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (!token) {
-      navigate("/error", { state: { message: "You must be logged in!" } });
+      navigate('/error', { state: { message: 'You must be logged in!' } });
       return;
     }
 
     try {
       const response = await fetch(`${API_BACKEND}movies/${id}/reviews`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ review, rating }),
+        body: JSON.stringify({ review, rating })
       });
 
       if (response.ok) {
-        setReview("");
-        setRating("");
-        navigate("/", {
+        setReview('');
+        setRating('');
+        navigate('/', {
           state: {
-            message: "Your review was submitted successfully!",
-            type: "success",
-          },
+            message: 'Your review was submitted successfully!',
+            type: 'success'
+          }
         });
         getMovieReviews();
       } else {
-        navigate("/", {
+        navigate('/', {
           state: {
-            message: "You already reviewed this movie!",
-            type: "error",
-          },
+            message: 'You already reviewed this movie!',
+            type: 'error'
+          }
         });
       }
     } catch (error) {
-      navigate("/error", {
-        state: { message: `An error occurred`, error },
+      navigate('/error', {
+        state: { message: `An error occurred`, error }
       });
     }
   };
@@ -160,7 +160,7 @@ export default function MoviesDetails() {
                     {review.user_id.name}
                   </p>
                   <p>
-                    Rating:{" "}
+                    Rating:{' '}
                     <span className="text-orange-400">{review.rating}</span>
                   </p>
                   <p>{review.review}</p>

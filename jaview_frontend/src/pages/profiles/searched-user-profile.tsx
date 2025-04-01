@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
-import { Review } from "../../types/review-type";
-import avatar from "../../assets/images/avatar/default_avatar.jpg";
+import { useLocation } from 'react-router-dom';
+import { Review } from '../../types/review-type';
+import avatar from '../../assets/images/avatar/default_avatar.jpg';
 
 export default function SearchedUserProfile() {
   const location = useLocation();
@@ -68,7 +68,7 @@ export default function SearchedUserProfile() {
                   {review.review}
                 </p>
                 <p className="text-gray-400 text-sm mt-4">
-                  Reviewed on:{" "}
+                  Reviewed on:{' '}
                   {new Date(review.created_at).toLocaleDateString()}
                 </p>
               </div>

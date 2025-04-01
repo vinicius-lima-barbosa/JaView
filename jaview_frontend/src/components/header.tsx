@@ -1,11 +1,11 @@
-import { IoIosSearch } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { IoIosSearch } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Header() {
   const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchClick = () => {
     setIsSearchOpen((prev) => !prev);
@@ -13,7 +13,7 @@ export default function Header() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim() !== "") {
+    if (searchQuery.trim() !== '') {
       navigate(`/search?q=${searchQuery}`);
     }
   };
@@ -22,14 +22,14 @@ export default function Header() {
     <header className="flex flex-col sm:flex-row justify-between items-center mb-8 relative">
       <h1
         className="text-4xl font-bold cursor-pointer mb-4 sm:mb-0"
-        onClick={() => navigate("/")}
+        onClick={() => navigate('/')}
       >
         JaView
       </h1>
       <div className="flex items-center w-full sm:w-auto">
         <div
           className={`${
-            isSearchOpen ? "w-full sm:w-64 opacity-100" : "w-0 opacity-0"
+            isSearchOpen ? 'w-full sm:w-64 opacity-100' : 'w-0 opacity-0'
           } overflow-hidden transition-all duration-300 ease-in-out flex items-center bg-white rounded-full shadow-md mr-4`}
         >
           <form

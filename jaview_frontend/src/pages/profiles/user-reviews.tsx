@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { BallTriangle } from "react-loader-spinner";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { Review } from "../../types/review-type";
+import { useEffect, useState } from 'react';
+import { BallTriangle } from 'react-loader-spinner';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { Review } from '../../types/review-type';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -16,17 +16,17 @@ export default function UserReviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
 
         if (!token) {
-          navigate("/error", { state: { message: "You must be logged in!" } });
+          navigate('/error', { state: { message: 'You must be logged in!' } });
           return;
         }
 
         const response = await fetch(`${API_BACKEND}user/reviews`, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         const data = await response.json();
@@ -38,7 +38,7 @@ export default function UserReviews() {
             const movieData = await movieResponse.json();
             return {
               ...review,
-              movie: movieData,
+              movie: movieData
             };
           })
         );
@@ -47,7 +47,7 @@ export default function UserReviews() {
         setLoading(false);
       } catch (error) {
         console.log(error);
-        navigate("/error", { state: { message: "An error occurred!" } });
+        navigate('/error', { state: { message: 'An error occurred!' } });
       }
     };
 
@@ -56,10 +56,10 @@ export default function UserReviews() {
 
   const handleDeleteReview = async (movieId: string, reviewId: string) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
 
       if (!token) {
-        navigate("/error", { state: { message: "You must be logged in!" } });
+        navigate('/error', { state: { message: 'You must be logged in!' } });
         return;
       }
 
@@ -67,22 +67,22 @@ export default function UserReviews() {
         `${API_BACKEND}movies/${movieId}/reviews/${reviewId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
           },
-          method: "DELETE",
+          method: 'DELETE'
         }
       );
 
       if (response.ok) {
         setReviews(reviews.filter((review) => review._id !== reviewId));
       } else {
-        navigate("/error", {
-          state: { message: "Failed to delete the review." },
+        navigate('/error', {
+          state: { message: 'Failed to delete the review.' }
         });
       }
     } catch (error) {
       console.log(error);
-      navigate("/error", { state: { message: "Error deleting review!" } });
+      navigate('/error', { state: { message: 'Error deleting review!' } });
     }
   };
 
@@ -135,7 +135,7 @@ export default function UserReviews() {
                   </p>
                   <p className="text-slate-200 mt-2">{review.review}</p>
                   <p className="text-gray-500 text-sm mt-4">
-                    Reviewed on:{" "}
+                    Reviewed on:{' '}
                     {new Date(review.created_at).toLocaleDateString()}
                   </p>
                 </div>

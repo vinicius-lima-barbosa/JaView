@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { User } from "../../types/user-type";
-import { IoIosSearch } from "react-icons/io";
-import { Review } from "../../types/review-type";
-import { BallTriangle } from "react-loader-spinner";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { User } from '../../types/user-type';
+import { IoIosSearch } from 'react-icons/io';
+import { Review } from '../../types/review-type';
+import { BallTriangle } from 'react-loader-spinner';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function SearchUser() {
-  const [searchUser, setSearchUser] = useState("");
+  const [searchUser, setSearchUser] = useState('');
   const [results, setResults] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = async () => {
-    if (searchUser.trim() === "") return;
+    if (searchUser.trim() === '') return;
     setLoading(true);
 
     try {
@@ -35,21 +35,21 @@ export default function SearchUser() {
               const movieData = await movieResponse.json();
               return {
                 ...review,
-                movie: movieData,
+                movie: movieData
               };
             })
           );
           return {
             ...user,
-            reviews: reviewsWithDetails,
+            reviews: reviewsWithDetails
           };
         })
       );
 
       setResults(usersWithMovieDetails || []);
     } catch (error) {
-      console.error("Error searching for users:", error);
-      navigate("/error", { state: { message: "An error occurred!" } });
+      console.error('Error searching for users:', error);
+      navigate('/error', { state: { message: 'An error occurred!' } });
     } finally {
       setLoading(false);
     }

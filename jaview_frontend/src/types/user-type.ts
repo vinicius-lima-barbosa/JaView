@@ -1,4 +1,4 @@
-import { Review } from "./review-type";
+import { Review } from './review-type';
 
 export type User = {
   _id: string;

@@ -1,8 +1,8 @@
-import { Link, useSearchParams } from "react-router-dom";
-import MovieCard from "../../components/movie-card";
-import { useEffect, useState } from "react";
-import { BallTriangle } from "react-loader-spinner";
-import { Movie } from "../../types/movie-type";
+import { Link, useSearchParams } from 'react-router-dom';
+import MovieCard from '../../components/movie-card';
+import { useEffect, useState } from 'react';
+import { BallTriangle } from 'react-loader-spinner';
+import { Movie } from '../../types/movie-type';
 
 const searchURL = import.meta.env.VITE_SEARCH;
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -11,7 +11,7 @@ export default function Search() {
   const [searchParams] = useSearchParams();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
-  const query = searchParams.get("q");
+  const query = searchParams.get('q');
 
   const getSearchedMovies = async (url: string) => {
     setLoading(true);

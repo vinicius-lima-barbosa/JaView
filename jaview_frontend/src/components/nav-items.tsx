@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 interface NavItemProps {
   to: string;
@@ -13,14 +13,14 @@ export default function NavItem({
   icon,
   label,
   isExpanded,
-  color,
+  color
 }: NavItemProps) {
   return (
     <li className="flex items-center space-x-2">
       <Link
         to={to}
         className={`${
-          color ? color : "text-gray-300"
+          color ? color : 'text-gray-300'
         } hover:text-white flex items-center text-lg transition-all duration-200`}
       >
         {icon}

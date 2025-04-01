@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmedPassword, setConfirmedPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (password !== confirmedPassword) {
-      setError("Passwords do not match!");
+      setError('Passwords do not match!');
       return;
     }
 
@@ -23,28 +23,28 @@ export default function Register() {
       name,
       email,
       password,
-      confirmedPassword,
+      confirmedPassword
     };
 
     try {
       const response = await fetch(`${API_BACKEND}auth/register`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       });
 
       const dataTest = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", dataTest.token);
-        navigate("/", {
-          state: { message: "Successfully registred!", type: "success" },
+        localStorage.setItem('token', dataTest.token);
+        navigate('/', {
+          state: { message: 'Successfully registred!', type: 'success' }
         });
         window.location.reload();
       } else {
-        setError(dataTest.message || "Registration failed!");
+        setError(dataTest.message || 'Registration failed!');
       }
     } catch (err) {
       setError(`Something went wrong! ${err}`);
@@ -138,7 +138,7 @@ export default function Register() {
         </form>
         <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
           <p>Already have an account?</p>
-          <Link to={"/login"} className="text-blue-600 hover:text-blue-800">
+          <Link to={'/login'} className="text-blue-600 hover:text-blue-800">
             Log in
           </Link>
         </div>

@@ -1,9 +1,9 @@
-import { FetchMovies } from "../../api/tmdb-api";
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import MovieCard from "../../components/movie-card";
-import { BallTriangle } from "react-loader-spinner";
-import { Movie } from "../../types/movie-type";
+import { FetchMovies } from '../../api/tmdb-api';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import MovieCard from '../../components/movie-card';
+import { BallTriangle } from 'react-loader-spinner';
+import { Movie } from '../../types/movie-type';
 
 const MoviesList: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -14,7 +14,7 @@ const MoviesList: React.FC = () => {
     !!location.state?.message
   );
   const message = location.state?.message;
-  const type = location.state?.type || "success";
+  const type = location.state?.type || 'success';
 
   useEffect(() => {
     const getMovies = async () => {
@@ -51,9 +51,9 @@ const MoviesList: React.FC = () => {
       {showMessage && (
         <div
           className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-md text-center transition duration-500 ${
-            type === "success"
-              ? "bg-green-100 text-green-800 border border-green-400"
-              : "bg-red-100 text-red-800 border border-red-400"
+            type === 'success'
+              ? 'bg-green-100 text-green-800 border border-green-400'
+              : 'bg-red-100 text-red-800 border border-red-400'
           }`}
         >
           {message}

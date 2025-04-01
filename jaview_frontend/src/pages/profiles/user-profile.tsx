@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import avatar from "../../assets/images/avatar/default_avatar.jpg";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import avatar from '../../assets/images/avatar/default_avatar.jpg';
 
 interface UserProfile {
   name: string;
@@ -12,24 +12,24 @@ const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 const UserProfile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile>({
-    name: "",
-    email: "",
-    bio: "",
+    name: '',
+    email: '',
+    bio: ''
   });
   const [editing, setEditing] = useState(false);
-  const [newName, setNewName] = useState("");
-  const [newBio, setBio] = useState("");
+  const [newName, setNewName] = useState('');
+  const [newBio, setBio] = useState('');
   const [message, setMessage] = useState<string | null>(null);
-  const [type, setType] = useState<"success" | "error">("success");
+  const [type, setType] = useState<'success' | 'error'>('success');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     if (!token) {
-      navigate("/error", {
-        state: { message: "You must be logged in!" },
+      navigate('/error', {
+        state: { message: 'You must be logged in!' }
       });
       return;
     }
@@ -38,12 +38,12 @@ const UserProfile: React.FC = () => {
       try {
         const response = await fetch(`${API_BACKEND}user/profile`, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch profile.");
+          throw new Error('Failed to fetch profile.');
         }
 
         const data = await response.json();
@@ -51,8 +51,8 @@ const UserProfile: React.FC = () => {
         setNewName(data.name);
         setBio(data.bio);
       } catch (error) {
-        setMessage("An error occurred while fetching your profile.");
-        setType("error");
+        setMessage('An error occurred while fetching your profile.');
+        setType('error');
         console.log(error);
       }
     };
@@ -72,16 +72,16 @@ const UserProfile: React.FC = () => {
   };
 
   const updateProfile = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     try {
       const response = await fetch(`${API_BACKEND}user/update-profile`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ name: newName, bio: newBio }),
+        body: JSON.stringify({ name: newName, bio: newBio })
       });
 
       if (response.ok) {
@@ -89,15 +89,15 @@ const UserProfile: React.FC = () => {
         setProfile(data);
         setEditing(false);
 
-        setMessage("Profile updated successfully!");
-        setType("success");
+        setMessage('Profile updated successfully!');
+        setType('success');
       } else {
-        setMessage("User already exists!");
-        setType("error");
+        setMessage('User already exists!');
+        setType('error');
       }
     } catch (error) {
-      setMessage("An error occurred while updating your profile.");
-      setType("error");
+      setMessage('An error occurred while updating your profile.');
+      setType('error');
       console.log(error);
     }
   };
@@ -107,9 +107,9 @@ const UserProfile: React.FC = () => {
       {message && (
         <div
           className={`fixed top-5 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-md text-center transition duration-500 ${
-            type === "success"
-              ? "bg-green-100 text-green-800 border border-green-400"
-              : "bg-red-100 text-red-800 border border-red-400"
+            type === 'success'
+              ? 'bg-green-100 text-green-800 border border-green-400'
+              : 'bg-red-100 text-red-800 border border-red-400'
           }`}
         >
           {message}
@@ -164,7 +164,7 @@ const UserProfile: React.FC = () => {
               </button>
               <Link
                 className="bg-green-500 hover:bg-green-700 transition-all duration-200 text-white px-4 py-2 rounded"
-                to={"/user/reviews"}
+                to={'/user/reviews'}
               >
                 View your reviews
               </Link>

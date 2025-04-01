@@ -1,4 +1,4 @@
-import logoTmdb from "../assets/images/logos/logoLongoTMDB.svg";
+import logoTmdb from '../assets/images/logos/logoLongoTMDB.svg';
 
 export default function Footer() {
   return (
@@ -13,7 +13,7 @@ export default function Footer() {
         </div>
 
         <p>
-          Contact us:{" "}
+          Contact us:{' '}
           <a className="text-green-400 hover:underline">jaview@email.com</a>
         </p>
       </div>
