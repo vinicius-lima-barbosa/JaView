@@ -1,22 +1,22 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./index.css";
-import MoviesList from "./pages/collections/movies-list.tsx";
-import MoviesDetails from "./pages/collections/movies-details.tsx";
-import Search from "./pages/search/search.tsx";
-import Login from "./pages/auth/login.tsx";
-import Register from "./pages/auth/register.tsx";
-import UserReviews from "./pages/profiles/user-reviews.tsx";
-import TopRatedMovies from "./pages/collections/top-rated-movies.tsx";
-import ErrorPage from "./pages/responses/error.tsx";
-import SuccessPage from "./pages/responses/success.tsx";
-import Layout from "./layout.tsx";
-import UserProfile from "./pages/profiles/user-profile.tsx";
-import SearchUser from "./pages/search/search-user.tsx";
-import SearchedUserProfile from "./pages/profiles/searched-user-profile.tsx";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './index.css';
+import MoviesList from './pages/collections/movies-list.tsx';
+import MoviesDetails from './pages/collections/movies-details.tsx';
+import Search from './pages/search/search.tsx';
+import Login from './pages/auth/login.tsx';
+import Register from './pages/auth/register.tsx';
+import UserReviews from './pages/profiles/user-reviews.tsx';
+import TopRatedMovies from './pages/collections/top-rated-movies.tsx';
+import ErrorPage from './pages/responses/error.tsx';
+import SuccessPage from './pages/responses/success.tsx';
+import Layout from './layout.tsx';
+import UserProfile from './pages/profiles/user-profile.tsx';
+import SearchUser from './pages/search/search-user.tsx';
+import SearchedUserProfile from './pages/profiles/searched-user-profile.tsx';
 
-createRoot(document.getElementById("root")!).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
       <Layout>
