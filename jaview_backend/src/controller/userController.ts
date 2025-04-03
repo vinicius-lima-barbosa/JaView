@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   createUserService,
   getUserByUsernameService,
   getUserProfileService,
   getUserReviewsService,
   loginUserService,
-  updateUserProfileService,
-} from "../services/userService";
+  updateUserProfileService
+} from '../services/userService';
 
 export const createUserController = async (
   request: Request,

@@ -1,9 +1,9 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { User } from "../models/usersModel";
-import { userSchemaZod } from "./userValidation";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { User } from '../models/usersModel';
+import { userSchemaZod } from './userValidation';
 
-const secret = process.env.JWT_SECRET || " ";
+const secret = process.env.JWT_SECRET || ' ';
 
 export const createUserService = async (
   name: string,
@@ -15,63 +15,63 @@ export const createUserService = async (
     name,
     email,
     password,
-    confirmedPassword,
+    confirmedPassword
   });
   if (!validationResult.success) {
     const errorMessages = validationResult.error.errors.map(
       (err) => err.message
     );
-    throw new Error(errorMessages.join(" "));
+    throw new Error(errorMessages.join(' '));
   }
 
   const nameExists = await User.findOne({ name });
-  if (nameExists) throw new Error("Name already exists");
+  if (nameExists) throw new Error('Name already exists');
 
   const userExists = await User.findOne({ email });
-  if (userExists) throw new Error("User already exists!");
+  if (userExists) throw new Error('User already exists!');
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = new User({ name, email, password: hashedPassword });
   await newUser.save();
 
   const token = jwt.sign({ id: newUser._id, email: newUser.email }, secret, {
-    expiresIn: "1d",
+    expiresIn: '1d'
   });
-  return { token, message: "User created!" };
+  return { token, message: 'User created!' };
 };
 
 export const loginUserService = async (email: string, password: string) => {
   const user = await User.findOne({ email });
-  if (!user) throw new Error("User not found!");
+  if (!user) throw new Error('User not found!');
 
   const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) throw new Error("Invalid credentials!");
+  if (!validPassword) throw new Error('Invalid credentials!');
 
-  const token = jwt.sign({ id: user._id }, secret, { expiresIn: "1d" });
-  return { token, message: "Successful Login!" };
+  const token = jwt.sign({ id: user._id }, secret, { expiresIn: '1d' });
+  return { token, message: 'Successful Login!' };
 };
 
 export const getUserReviewsService = async (userId: string) => {
   const user = await User.findById(userId);
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   return user.reviews;
 };
 
 export const getUserProfileService = async (userId: string) => {
-  const user = await User.findById(userId).select("-password");
+  const user = await User.findById(userId).select('-password');
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   return {
     name: user.name,
     email: user.email,
-    bio: user.bio,
+    bio: user.bio
   };
 };
 
@@ -82,32 +82,32 @@ export const updateUserProfileService = async (
 ) => {
   const nameExists = await User.findOne({ name, _id: { $ne: userId } });
   if (nameExists) {
-    throw new Error("Name already exists");
+    throw new Error('Name already exists');
   }
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     { name, bio },
     { new: true }
-  ).select("-password");
+  ).select('-password');
 
   if (!updatedUser) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   return {
     name: updatedUser.name,
-    email: updatedUser.email,
+    email: updatedUser.email
   };
 };
 
 export const getUserByUsernameService = async (username: string) => {
   const users = await User.find({
-    name: { $regex: username, $options: "i" },
-  }).select("-password");
+    name: { $regex: username, $options: 'i' }
+  }).select('-password');
 
   if (!users) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   return users || [];

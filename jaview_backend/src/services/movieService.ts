@@ -1,5 +1,5 @@
-import { Movie } from "../models/moviesModel";
-import { User } from "../models/usersModel";
+import { Movie } from '../models/moviesModel';
+import { User } from '../models/usersModel';
 
 export const addReviewService = async (
   userId: string,
@@ -14,7 +14,7 @@ export const addReviewService = async (
       (review) => review.user_id.toString() === userId
     );
     if (existingReview) {
-      throw new Error("You have already reviewed this movie.");
+      throw new Error('You have already reviewed this movie.');
     }
   } else {
     movie = new Movie({ _id: movieId, reviews: [] });
@@ -24,7 +24,7 @@ export const addReviewService = async (
     user_id: userId,
     review,
     rating,
-    created_at: new Date(),
+    created_at: new Date()
   };
   movie.reviews.push(movieReview);
   const savedMovie = await movie.save();
@@ -38,13 +38,13 @@ export const addReviewService = async (
       review,
       rating,
       created_at: new Date(),
-      _id: newReviewId,
+      _id: newReviewId
     };
     user.reviews.push(userReview);
     await user.save();
   }
 
-  return { message: "Review added successfully!", movie };
+  return { message: 'Review added successfully!', movie };
 };
 
 export const removeReviewService = async (
@@ -55,7 +55,7 @@ export const removeReviewService = async (
   const movie = await Movie.findById(movieId);
 
   if (!movie) {
-    throw new Error("Movie not found");
+    throw new Error('Movie not found');
   }
 
   const reviewIndexInMovie = movie.reviews.findIndex(
@@ -64,7 +64,7 @@ export const removeReviewService = async (
   );
 
   if (reviewIndexInMovie === -1) {
-    throw new Error("Review not found for this movie");
+    throw new Error('Review not found for this movie');
   }
 
   movie.reviews.splice(reviewIndexInMovie, 1);
@@ -73,7 +73,7 @@ export const removeReviewService = async (
   const user = await User.findById(userId);
 
   if (!user) {
-    throw new Error("User not found");
+    throw new Error('User not found');
   }
 
   const reviewIndexInUser = user.reviews.findIndex(
@@ -82,7 +82,7 @@ export const removeReviewService = async (
   );
 
   if (reviewIndexInUser === -1) {
-    throw new Error("Review not found in user profile");
+    throw new Error('Review not found in user profile');
   }
 
   user.reviews.splice(reviewIndexInUser, 1);
@@ -91,8 +91,8 @@ export const removeReviewService = async (
 
 export const getMovieReviewsService = async (movieId: string) => {
   const movie = await Movie.findById(movieId).populate({
-    path: "reviews.user_id",
-    select: "name",
+    path: 'reviews.user_id',
+    select: 'name'
   });
 
   if (!movie) {
