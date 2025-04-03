@@ -1,0 +1,36 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    /* Regras de TypeScript */
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ], // Ignorar variáveis prefixadas com _
+    "@typescript-eslint/explicit-function-return-type": "off", // Deixe o TypeScript inferir os tipos
+    "@typescript-eslint/no-explicit-any": "warn", // Evitar o uso de `any`
+    "@typescript-eslint/ban-ts-comment": "warn", // Avisar sobre @ts-ignore
+    /* Outras boas práticas */
+    "no-console": "warn", // Avisar sobre console.log em produção
+    "no-debugger": "error", // Evitar debugger
+    "no-unused-vars": "off", // Desativar em favor do @typescript-eslint
+    "eqeqeq": ["error", "always"], // Exigir comparações estritas
+    "prefer-const": "warn", // Sugerir uso de const quando aplicável
+    "no-var": "error" // Proibir var
+  }
+}
