@@ -9,16 +9,16 @@ import {
 
 const router = Router();
 
-router.get('/reviews', authMiddleware as any, getUserReviewsController as any);
+router.get('/reviews', authMiddleware, getUserReviewsController);
 
-router.get('/profile', authMiddleware as any, getUserProfileController as any);
+router.get('/profile', authMiddleware, getUserProfileController);
 
-router.get('/search-user', getUserByUsernameController as any);
+router.get('/search-user', getUserByUsernameController);
 
 router.put(
   '/update-profile',
-  authMiddleware as any,
-  updateUserProfileController as any
+  authMiddleware,
+  updateUserProfileController
 );
 
 export default router;
