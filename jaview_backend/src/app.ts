@@ -1,4 +1,4 @@
-import express, { response } from 'express';
+import express from 'express';
 import connectDB from './lib/mongodb';
 import authRoutes from './routes/authRoutes';
 import movieRoutes from './routes/movieRoutes';
@@ -27,7 +27,7 @@ connectDB()
     });
   })
   .catch((error) => {
-    `Error connecting with the database: ${error}`;
+    console.log(`Error connecting with the database: ${error}`);
   });
 
 app.use('/auth', authRoutes);
