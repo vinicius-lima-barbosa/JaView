@@ -11,7 +11,7 @@ import {
 export const createUserController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const { name, email, password, confirmedPassword } = request.body;
     const result = await createUserService(
@@ -20,22 +20,22 @@ export const createUserController = async (
       password,
       confirmedPassword
     );
-    return response.status(201).json(result);
+    response.status(201).send(result);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
 export const loginUserController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const { email, password } = request.body;
     const result = await loginUserService(email, password);
-    return response.status(200).json(result);
+    response.status(200).send(result);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(400).send({ message: error.message });
   }
 };
 
