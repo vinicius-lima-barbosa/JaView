@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   addReviewService,
   getMovieReviewsService,
-  removeReviewService
-} from '../services/movieService';
+  removeReviewService,
+} from "../services/movieService";
 
 export const addReviewController = async (
   request: Request,
@@ -17,9 +17,11 @@ export const addReviewController = async (
     const result = await addReviewService(userId, movieId, review, rating);
     return response.status(201).json(result);
   } catch (error) {
-    return response.status(500).json({
-      message: `An error occurred while deleting the review! ${error.message}`
-    });
+    return response
+      .status(500)
+      .json({
+        message: `An error occurred while deleting the review! ${error.message}`,
+      });
   }
 };
 
@@ -35,10 +37,10 @@ export const removeReviewController = async (
 
     return response
       .status(200)
-      .json({ message: 'Review deleted successfully!' });
+      .json({ message: "Review deleted successfully!" });
   } catch (error) {
     return response.status(500).json({
-      message: `An error occurred while deleting the review! ${error.message}`
+      message: `An error occurred while deleting the review! ${error.message}`,
     });
   }
 };
@@ -55,7 +57,7 @@ export const getMovieReviewsController = async (
     return response.status(200).json({ reviews });
   } catch (error) {
     return response.status(500).json({
-      message: `Error while fetching reviews! ${error.message}`
+      message: `Error while fetching reviews! ${error.message}`,
     });
   }
 };

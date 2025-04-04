@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 dotenv.config();
 
 const db_user = process.env.DB_USERNAME;
@@ -14,7 +14,7 @@ const mongoPATH =
 const connectDB = async () => {
   try {
     await mongoose.connect(mongoPATH);
-    console.log('Database connected!');
+    console.log("Database connected!");
   } catch (error) {
     console.log(`Error connecting database: ${error}`);
   }

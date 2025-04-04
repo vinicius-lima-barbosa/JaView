@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET || ' ';
+const secret = process.env.JWT_SECRET || " ";
 
 type tokenPayload = {
   id: string;
@@ -18,11 +18,11 @@ export const authMiddleware = (
 
   if (!authorization) {
     return response.status(401).json({
-      error: 'Token not provided!'
+      error: "Token not provided!",
     });
   }
 
-  const [, token] = authorization.split(' ');
+  const [, token] = authorization.split(" ");
 
   try {
     const decoded = jwt.verify(token, secret) as tokenPayload;
@@ -33,7 +33,7 @@ export const authMiddleware = (
     next();
   } catch (error) {
     return response.status(500).json({
-      message: `Invalid token`
+      message: `Invalid token!`,
     });
   }
 };
