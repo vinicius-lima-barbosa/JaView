@@ -33,7 +33,8 @@ export const authMiddleware = (
     next();
   } catch (error) {
     return response.status(500).json({
-      message: `Invalid token`
+      message: `Invalid token`,
+      error
     });
   }
 };
