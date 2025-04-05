@@ -15,10 +15,6 @@ router.get('/profile', authMiddleware, getUserProfileController);
 
 router.get('/search-user', getUserByUsernameController);
 
-router.put(
-  '/update-profile',
-  authMiddleware,
-  updateUserProfileController
-);
+router.put('/update-profile', authMiddleware, updateUserProfileController);
 
 export default router;

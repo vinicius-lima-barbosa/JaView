@@ -33,9 +33,7 @@ export const removeReviewController = async (
 
     await removeReviewService(movieId, reviewId, userId);
 
-    response
-      .status(200)
-      .send({ message: 'Review deleted successfully!' });
+    response.status(200).send({ message: 'Review deleted successfully!' });
   } catch (error) {
     response.status(500).send({
       message: `An error occurred while deleting the review! ${error.message}`

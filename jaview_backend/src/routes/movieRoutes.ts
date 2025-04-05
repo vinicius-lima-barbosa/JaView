@@ -8,11 +8,7 @@ import {
 
 const router = Router();
 
-router.post(
-  '/:movieId/reviews',
-  authMiddleware,
-  addReviewController
-);
+router.post('/:movieId/reviews', authMiddleware, addReviewController);
 
 router.delete(
   '/:movieId/reviews/:reviewId',
