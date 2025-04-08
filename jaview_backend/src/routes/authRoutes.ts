@@ -6,8 +6,8 @@ import {
 
 const router = Router();
 
-router.post('/register', createUserController as any);
+router.post('/register', createUserController);
 
-router.post('/login', loginUserController as any);
+router.post('/login', loginUserController);
 
 export default router;

@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import 'express';
 
 declare global {
   namespace Express {

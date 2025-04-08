@@ -11,7 +11,7 @@ import {
 export const createUserController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const { name, email, password, confirmedPassword } = request.body;
     const result = await createUserService(
@@ -20,80 +20,80 @@ export const createUserController = async (
       password,
       confirmedPassword
     );
-    return response.status(201).json(result);
+    response.status(201).send(result);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).json({ message: error.message });
   }
 };
 
 export const loginUserController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const { email, password } = request.body;
     const result = await loginUserService(email, password);
-    return response.status(200).json(result);
+    response.status(200).send(result);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(400).send({ message: error.message });
   }
 };
 
 export const getUserReviewsController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const userId = request.userId;
     const reviews = await getUserReviewsService(userId);
 
-    return response.status(200).json({ reviews });
+    response.status(200).send({ reviews });
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).send({ message: error.message });
   }
 };
 
 export const getUserProfileController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const userId = request.userId;
     const profile = await getUserProfileService(userId);
 
-    return response.status(200).json(profile);
+    response.status(200).send(profile);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).send({ message: error.message });
   }
 };
 
 export const updateUserProfileController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const userId = request.userId;
     const { name, bio } = request.body;
 
     const newProfile = await updateUserProfileService(userId, name, bio);
 
-    return response.status(200).json(newProfile);
+    response.status(200).send(newProfile);
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).send({ message: error.message });
   }
 };
 
 export const getUserByUsernameController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const { username } = request.query;
 
     const users = await getUserByUsernameService(username as string);
 
-    return response.status(200).json({ users });
+    response.status(200).send({ users });
   } catch (error) {
-    return response.status(500).json({ message: error.message });
+    response.status(500).send({ message: error.message });
   }
 };
