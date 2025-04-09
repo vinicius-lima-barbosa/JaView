@@ -1,0 +1,1 @@
+cd jaview_backend && npx lint-staged && cd .. && cd jaview_frontend && npx lint-staged

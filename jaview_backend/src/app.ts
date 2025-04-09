@@ -14,7 +14,7 @@ const app = express();
 
 const corsOptions = {
   origin: url_front,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -30,6 +30,6 @@ connectDB()
     console.log(`Error connecting with the database: ${error}`);
   });
 
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.use('/movies', movieRoutes);
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+app.use("/movies", movieRoutes);

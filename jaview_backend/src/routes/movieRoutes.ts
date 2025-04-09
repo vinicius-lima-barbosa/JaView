@@ -1,12 +1,13 @@
-import { Router } from 'express';
-import { authMiddleware } from '../middleware/authMiddleware';
+import { Router } from "express";
+import { authMiddleware } from "../middleware/authMiddleware";
 import {
   addReviewController,
   getMovieReviewsController,
-  removeReviewController
-} from '../controller/movieController';
+  removeReviewController,
+} from "../controller/movieController";
 
 const router = Router();
+
 
 router.post('/:movieId/reviews', authMiddleware, addReviewController);
 

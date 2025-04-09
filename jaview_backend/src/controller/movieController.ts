@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   addReviewService,
   getMovieReviewsService,
-  removeReviewService
-} from '../services/movieService';
+  removeReviewService,
+} from "../services/movieService";
 
 export const addReviewController = async (
   request: Request,

@@ -1,6 +1,5 @@
 {
   "name": "jaview_frontend",
-  "description": "Frontend do sistema JaView",
   "private": true,
   "version": "0.0.0",
   "type": "module",

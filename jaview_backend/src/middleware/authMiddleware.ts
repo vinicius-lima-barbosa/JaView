@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-const secret = process.env.JWT_SECRET || ' ';
+const secret = process.env.JWT_SECRET || " ";
 
 type tokenPayload = {
   id: string;
@@ -30,6 +30,7 @@ export const authMiddleware = (
 
     next();
   } catch (error) {
+
     if (error instanceof jwt.TokenExpiredError) {
       response.status(401).json({
         message: error.message,
