@@ -5,6 +5,9 @@ import movieRoutes from './routes/movieRoutes';
 import userRoutes from './routes/userRoutes';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './lib/swagger-jaview.json';
+
 dotenv.config();
 
 const url_front = process.env.FRONT_URL;
@@ -14,11 +17,12 @@ const app = express();
 
 const corsOptions = {
   origin: url_front,
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 connectDB()
   .then(() => {
@@ -30,6 +34,6 @@ connectDB()
     console.log(`Error connecting with the database: ${error}`);
   });
 
-app.use("/auth", authRoutes);
-app.use("/user", userRoutes);
-app.use("/movies", movieRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/movies', movieRoutes);
