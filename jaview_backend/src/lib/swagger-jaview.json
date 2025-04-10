@@ -1,0 +1,391 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JaView API",
+    "version": "1.0.0",
+    "description": "Documenta\u00e7\u00e3o da API do JaView"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Registrar novo usu\u00e1rio",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "johndoe",
+                "email": "johndoe@email.com",
+                "password": "strongpassword123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usu\u00e1rio criado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Usu\u00e1rio criado com sucesso",
+                  "user": {
+                    "id": "12345",
+                    "name": "johndoe",
+                    "email": "johndoe@email.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de valida\u00e7\u00e3o"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login de usu\u00e1rio",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "johndoe@email.com",
+                "password": "strongpassword123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inv\u00e1lidas"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/reviews": {
+      "post": {
+        "summary": "Adicionar review em um filme",
+        "tags": [
+          "Movies"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "review",
+                  "rating"
+                ],
+                "properties": {
+                  "review": {
+                    "type": "string"
+                  },
+                  "rating": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                }
+              },
+              "example": {
+                "review": "Um dos melhores filmes que j\u00e1 vi!",
+                "rating": 4.5
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review adicionada com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Review adicionada com sucesso",
+                  "review": {
+                    "review": "Um dos melhores filmes que j\u00e1 vi!",
+                    "rating": 4.5,
+                    "user_id": "abc123",
+                    "created_at": "2025-04-09T14:32:00Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inv\u00e1lidos"
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar reviews de um filme",
+        "tags": [
+          "Movies"
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de reviews retornada com sucesso"
+          }
+        }
+      }
+    },
+    "/movies/{movieId}/reviews/{reviewId}": {
+      "delete": {
+        "summary": "Remover uma review de um filme",
+        "tags": [
+          "Movies"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Review removida com sucesso"
+          },
+          "404": {
+            "description": "Review n\u00e3o encontrada"
+          }
+        }
+      }
+    },
+    "/user/reviews": {
+      "get": {
+        "summary": "Listar reviews do usu\u00e1rio logado",
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de reviews retornada com sucesso"
+          }
+        }
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "summary": "Obter perfil do usu\u00e1rio logado",
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Perfil do usu\u00e1rio retornado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "name": "johndoe",
+                  "bio": "Desenvolvedor apaixonado por cinema.",
+                  "email": "johndoe@email.com",
+                  "role": "user"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/search-user": {
+      "get": {
+        "summary": "Buscar usu\u00e1rio pelo username",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usu\u00e1rio encontrado com sucesso"
+          },
+          "404": {
+            "description": "Usu\u00e1rio n\u00e3o encontrado"
+          }
+        }
+      }
+    },
+    "/user/update-profile": {
+      "put": {
+        "summary": "Atualizar bio do usu\u00e1rio",
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bio": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil atualizado com sucesso"
+          },
+          "400": {
+            "description": "Erro na atualiza\u00e7\u00e3o"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Endpoints de autentica\u00e7\u00e3o"
+    },
+    {
+      "name": "Movies",
+      "description": "Endpoints relacionados a filmes"
+    },
+    {
+      "name": "User",
+      "description": "Endpoints de usu\u00e1rio"
+    }
+  ]
+}
