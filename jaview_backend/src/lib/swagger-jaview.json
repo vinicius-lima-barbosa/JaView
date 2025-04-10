@@ -3,7 +3,7 @@
   "info": {
     "title": "JaView API",
     "version": "1.0.0",
-    "description": "Documenta\u00e7\u00e3o da API do JaView"
+    "description": "JaView's API Documentation"
   },
   "servers": [
     {
@@ -27,21 +27,15 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "summary": "Registrar novo usu\u00e1rio",
-        "tags": [
-          "Auth"
-        ],
+        "summary": "Register new user",
+        "tags": ["Auth"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
+                "required": ["name", "email", "password"],
                 "properties": {
                   "name": {
                     "type": "string"
@@ -64,11 +58,11 @@
         },
         "responses": {
           "201": {
-            "description": "Usu\u00e1rio criado com sucesso",
+            "description": "User created with success",
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Usu\u00e1rio criado com sucesso",
+                  "message": "User created with success",
                   "user": {
                     "id": "12345",
                     "name": "johndoe",
@@ -79,27 +73,22 @@
             }
           },
           "400": {
-            "description": "Erro de valida\u00e7\u00e3o"
+            "description": "Validation Error"
           }
         }
       }
     },
     "/auth/login": {
       "post": {
-        "summary": "Login de usu\u00e1rio",
-        "tags": [
-          "Auth"
-        ],
+        "summary": "User login",
+        "tags": ["Auth"],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string"
@@ -118,7 +107,7 @@
         },
         "responses": {
           "200": {
-            "description": "Login realizado com sucesso",
+            "description": "Logged with success",
             "content": {
               "application/json": {
                 "example": {
@@ -128,17 +117,15 @@
             }
           },
           "401": {
-            "description": "Credenciais inv\u00e1lidas"
+            "description": "Invalid credentials"
           }
         }
       }
     },
     "/movies/{movieId}/reviews": {
       "post": {
-        "summary": "Adicionar review em um filme",
-        "tags": [
-          "Movies"
-        ],
+        "summary": "Add review in a movie",
+        "tags": ["Movies"],
         "security": [
           {
             "bearerAuth": []
@@ -160,10 +147,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "review",
-                  "rating"
-                ],
+                "required": ["review", "rating"],
                 "properties": {
                   "review": {
                     "type": "string"
@@ -176,7 +160,7 @@
                 }
               },
               "example": {
-                "review": "Um dos melhores filmes que j\u00e1 vi!",
+                "review": "One of the best movies i've ever see.",
                 "rating": 4.5
               }
             }
@@ -184,13 +168,13 @@
         },
         "responses": {
           "201": {
-            "description": "Review adicionada com sucesso",
+            "description": "Review added with success",
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Review adicionada com sucesso",
+                  "message": "Review added with success",
                   "review": {
-                    "review": "Um dos melhores filmes que j\u00e1 vi!",
+                    "review": "One of the best movies i've ever see.",
                     "rating": 4.5,
                     "user_id": "abc123",
                     "created_at": "2025-04-09T14:32:00Z"
@@ -200,15 +184,13 @@
             }
           },
           "400": {
-            "description": "Dados inv\u00e1lidos"
+            "description": "Invalid data"
           }
         }
       },
       "get": {
-        "summary": "Listar reviews de um filme",
-        "tags": [
-          "Movies"
-        ],
+        "summary": "List movie reviews",
+        "tags": ["Movies"],
         "parameters": [
           {
             "name": "movieId",
@@ -221,17 +203,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de reviews retornada com sucesso"
+            "description": "List movie reviews returned with success"
           }
         }
       }
     },
     "/movies/{movieId}/reviews/{reviewId}": {
       "delete": {
-        "summary": "Remover uma review de um filme",
-        "tags": [
-          "Movies"
-        ],
+        "summary": "Remove movie review",
+        "tags": ["Movies"],
         "security": [
           {
             "bearerAuth": []
@@ -257,20 +237,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Review removida com sucesso"
+            "description": "Review removed with success"
           },
           "404": {
-            "description": "Review n\u00e3o encontrada"
+            "description": "Review not found"
           }
         }
       }
     },
     "/user/reviews": {
       "get": {
-        "summary": "Listar reviews do usu\u00e1rio logado",
-        "tags": [
-          "User"
-        ],
+        "summary": "List reviews of a logged user",
+        "tags": ["User"],
         "security": [
           {
             "bearerAuth": []
@@ -278,17 +256,15 @@
         ],
         "responses": {
           "200": {
-            "description": "Lista de reviews retornada com sucesso"
+            "description": "Reviews list returned with success"
           }
         }
       }
     },
     "/user/profile": {
       "get": {
-        "summary": "Obter perfil do usu\u00e1rio logado",
-        "tags": [
-          "User"
-        ],
+        "summary": "Get logged user profile",
+        "tags": ["User"],
         "security": [
           {
             "bearerAuth": []
@@ -296,12 +272,12 @@
         ],
         "responses": {
           "200": {
-            "description": "Perfil do usu\u00e1rio retornado com sucesso",
+            "description": "Logged user profile returned with success",
             "content": {
               "application/json": {
                 "example": {
                   "name": "johndoe",
-                  "bio": "Desenvolvedor apaixonado por cinema.",
+                  "bio": "Developer in love with cinema",
                   "email": "johndoe@email.com",
                   "role": "user"
                 }
@@ -313,10 +289,8 @@
     },
     "/user/search-user": {
       "get": {
-        "summary": "Buscar usu\u00e1rio pelo username",
-        "tags": [
-          "User"
-        ],
+        "summary": "Search user by username",
+        "tags": ["User"],
         "parameters": [
           {
             "name": "name",
@@ -329,20 +303,18 @@
         ],
         "responses": {
           "200": {
-            "description": "Usu\u00e1rio encontrado com sucesso"
+            "description": "User found with success"
           },
           "404": {
-            "description": "Usu\u00e1rio n\u00e3o encontrado"
+            "description": "User not found"
           }
         }
       }
     },
     "/user/update-profile": {
       "put": {
-        "summary": "Atualizar bio do usu\u00e1rio",
-        "tags": [
-          "User"
-        ],
+        "summary": "Update user bio",
+        "tags": ["User"],
         "security": [
           {
             "bearerAuth": []
@@ -365,10 +337,10 @@
         },
         "responses": {
           "200": {
-            "description": "Perfil atualizado com sucesso"
+            "description": "Profile updated with success"
           },
           "400": {
-            "description": "Erro na atualiza\u00e7\u00e3o"
+            "description": "Error in profile update"
           }
         }
       }
@@ -377,15 +349,15 @@
   "tags": [
     {
       "name": "Auth",
-      "description": "Endpoints de autentica\u00e7\u00e3o"
+      "description": "Auth Endpoints"
     },
     {
       "name": "Movies",
-      "description": "Endpoints relacionados a filmes"
+      "description": "Movie Endpoints"
     },
     {
       "name": "User",
-      "description": "Endpoints de usu\u00e1rio"
+      "description": "User Endpoints"
     }
   ]
 }
