@@ -76,7 +76,7 @@ export default function SearchUser() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center min-h-screen">
           <BallTriangle />
         </div>
       ) : results.length > 0 ? (

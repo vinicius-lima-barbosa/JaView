@@ -22,7 +22,7 @@ export default function TopRatedMovies() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center min-h-screen">
         <BallTriangle />
       </div>
     );

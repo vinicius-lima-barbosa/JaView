@@ -88,7 +88,7 @@ export default function UserReviews() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center min-h-screen">
         <BallTriangle />
       </div>
     );
