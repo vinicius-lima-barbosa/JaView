@@ -23,6 +23,7 @@ router.put('/update-profile', authMiddleware, updateUserProfileController);
 router.post(
   '/upload-avatar',
   upload.single('avatar'),
+  authMiddleware,
   uploadUserAvatarContoller
 );
 
