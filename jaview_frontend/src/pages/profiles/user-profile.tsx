@@ -19,6 +19,9 @@ const UserProfile: React.FC = () => {
   const [editing, setEditing] = useState(false);
   const [newName, setNewName] = useState('');
   const [newBio, setBio] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState(undefined);
+  const [buttonAvatarText, setButtonAvatarText] = useState('Update Avatar');
+  const [avatarImg, setAvatarImg] = useState<File | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [type, setType] = useState<'success' | 'error'>('success');
 
@@ -50,6 +53,7 @@ const UserProfile: React.FC = () => {
         setProfile(data);
         setNewName(data.name);
         setBio(data.bio);
+        setAvatarUrl(data.avatar_url);
       } catch (error) {
         setMessage('An error occurred while fetching your profile.');
         setType('error');
@@ -69,6 +73,39 @@ const UserProfile: React.FC = () => {
 
   const toggleEdit = () => {
     setEditing(!editing);
+  };
+
+  const updateAvatar = async () => {
+    if (!avatarImg) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    try {
+      const formDataAvatar = new FormData();
+      formDataAvatar.append('avatar', avatarImg as File);
+
+      setButtonAvatarText('Uploading...');
+
+      const response = await fetch(`${API_BACKEND}user/upload-avatar`, {
+        method: 'POST',
+        body: formDataAvatar,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        await response.json();
+        setButtonAvatarText('Update Avatar');
+        navigate(0);
+      }
+    } catch (error) {
+      setMessage('An error occurred while updating your avatar.');
+      setType('error');
+      console.log(error);
+    }
   };
 
   const updateProfile = async () => {
@@ -124,7 +161,7 @@ const UserProfile: React.FC = () => {
           <div className="flex flex-col">
             <div className="flex justify-center items-center mb-5">
               <img
-                src={avatar}
+                src={avatarUrl ?? avatar}
                 alt="avatar"
                 className="rounded-full mr-4 w-28 h-28 object-cover border-2 border-white "
               />
@@ -191,6 +228,26 @@ const UserProfile: React.FC = () => {
                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 text-black"
                 placeholder="Tell us about yourself..."
               />
+            </div>
+            <div className="mb-10 flex flex-col gap-2">
+              <label className="block text-slate-200">Avatar:</label>
+              <input
+                type="file"
+                name="avatar"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setAvatarImg(e.target.files[0]);
+                  }
+                }}
+                required
+              />
+              <button
+                onClick={updateAvatar}
+                className="w-fit bg-blue-500 hover:bg-blue-700 transition-all duration-200 text-white px-4 py-2 rounded"
+              >
+                {buttonAvatarText}
+              </button>
             </div>
             <button
               className="bg-green-500 hover:bg-green-700 transition-all duration-200 text-white px-4 py-2 rounded"
