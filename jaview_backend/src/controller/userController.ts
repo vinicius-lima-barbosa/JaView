@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { clientS3 } from '../lib/client.supabase';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
 import {
   createUserService,
@@ -8,6 +8,7 @@ import {
   getUserProfileService,
   getUserReviewsService,
   loginUserService,
+  updateUserAvatarService,
   updateUserProfileService
 } from '../services/userService';
 
@@ -105,25 +106,42 @@ export const uploadUserAvatarContoller = async (
   request: Request,
   response: Response
 ): Promise<void> => {
+  const userId = request.userId;
+
   try {
     if (!request.file) {
       response.status(400).json({ message: 'Missing file' });
     }
 
-    const filename = randomUUID();
+    const profile = await getUserProfileService(userId);
+
+    if (profile.avatar_url) {
+      const key = profile.avatar_url.split('avatar/')[1];
+
+      const deletePdfObjectCommand = new DeleteObjectCommand({
+        Bucket: 'avatar',
+        Key: key
+      });
+
+      await clientS3.send(deletePdfObjectCommand);
+    }
+
+    const new_avatar_url_filename = randomUUID();
 
     const putObjectCommand = new PutObjectCommand({
       Bucket: 'avatar',
-      Key: filename,
+      Key: new_avatar_url_filename,
       Body: request.file.buffer,
       ContentType: request.file.mimetype
     });
 
     await clientS3.send(putObjectCommand);
 
-    const avatar_url = `https://ucaxwlukyjnbjufoplzq.supabase.co/storage/v1/object/public/avatar/${filename}`;
+    const avatar_url = `https://ucaxwlukyjnbjufoplzq.supabase.co/storage/v1/object/public/avatar/${new_avatar_url_filename}`;
 
-    response.status(200).json({ avatar_url });
+    const UserWithNewAvatar = await updateUserAvatarService(userId, avatar_url);
+
+    response.status(200).json({ avatar_url: UserWithNewAvatar.avatar_url });
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
