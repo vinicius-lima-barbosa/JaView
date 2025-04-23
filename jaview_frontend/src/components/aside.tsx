@@ -25,6 +25,7 @@ export default function Aside() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     navigate('/login');
+    window.location.reload();
   };
 
   const fetchUserData = async () => {
