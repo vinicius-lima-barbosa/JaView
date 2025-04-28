@@ -1,51 +1,55 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
 const reviewSchemaUsers = new Schema({
   movie_id: {
     type: String,
-    required: true,
+    required: true
   },
   review: {
     type: String,
-    required: true,
+    required: true
   },
   rating: {
     type: Number,
     min: 0,
     max: 5,
-    required: true,
+    required: true
   },
   created_at: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
 const userSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   bio: {
     type: String,
-    required: false,
+    required: false
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
+  },
+  avatar_url: {
+    type: String,
+    required: false
   },
   role: {
     type: String,
-    enum: ["user", "admin"],
-    default: "user",
+    enum: ['user', 'admin'],
+    default: 'user'
   },
-  reviews: [reviewSchemaUsers],
+  reviews: [reviewSchemaUsers]
 });
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema);

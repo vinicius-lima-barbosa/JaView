@@ -18,12 +18,14 @@ export default function Aside() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
   const [userName, setUserName] = useState('user');
+  const [avatarUrl, setAvatarUrl] = useState(undefined);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
     navigate('/login');
+    window.location.reload();
   };
 
   const fetchUserData = async () => {
@@ -43,6 +45,7 @@ export default function Aside() {
 
         const data = await response.json();
         setUserName(data.name);
+        setAvatarUrl(data.avatar_url);
       } catch (error) {
         console.error(error);
       }
@@ -79,7 +82,7 @@ export default function Aside() {
       >
         <div className="flex items-center mb-8">
           <img
-            src={avatar}
+            src={avatarUrl ?? avatar}
             alt="avatar"
             className="rounded-full w-14 h-14 object-cover border-2 border-white"
           />
