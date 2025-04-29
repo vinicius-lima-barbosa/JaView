@@ -5,5 +5,6 @@ export type User = {
   name: string;
   bio?: string;
   email: string;
+  avatar_url?: string;
   reviews: Review[];
 };

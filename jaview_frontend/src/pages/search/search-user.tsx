@@ -4,6 +4,7 @@ import { User } from '../../types/user-type';
 import { IoIosSearch } from 'react-icons/io';
 import { Review } from '../../types/review-type';
 import { BallTriangle } from 'react-loader-spinner';
+import avatar from '../../assets/images/avatar/default_avatar.jpg';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -57,7 +58,7 @@ export default function SearchUser() {
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10">
-      <h2 className="text-4xl font-bold  mb-10 text-center">Find Users</h2>
+      <h2 className="text-4xl font-bold mb-10 text-center">Find Users</h2>
 
       <div className="flex items-center w-80 md:w-96 shadow-lg rounded-full bg-white overflow-hidden transition duration-300 ease-in-out p-1 mb-10">
         <input
@@ -80,8 +81,8 @@ export default function SearchUser() {
           <BallTriangle />
         </div>
       ) : results.length > 0 ? (
-        <div className="w-full max-w-3xl mt-8">
-          <h1 className="text-xl font-semibold mb-4">
+        <div className="w-96 md:w-full max-w-3xl mt-8">
+          <h1 className="flex justify-center text-xl font-semibold mb-4">
             {results.length} Users Found
           </h1>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -95,9 +96,11 @@ export default function SearchUser() {
                   state={{ user }}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 bg-green-800 rounded-full flex items-center justify-center text-2xl font-bold text-white mb-3">
-                    {user.name[0].toUpperCase()}
-                  </div>
+                  <img
+                    src={user.avatar_url ?? avatar}
+                    alt={`${user.name} avatar`}
+                    className="w-20 h-20 rounded-full border-2 border-white mb-3"
+                  />
                   <span className="text-lg font-medium hover:text-slate-300">
                     {user.name}
                   </span>
