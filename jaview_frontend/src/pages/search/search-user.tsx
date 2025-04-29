@@ -58,7 +58,7 @@ export default function SearchUser() {
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10">
-      <h2 className="text-4xl font-bold  mb-10 text-center">Find Users</h2>
+      <h2 className="text-4xl font-bold mb-10 text-center">Find Users</h2>
 
       <div className="flex items-center w-80 md:w-96 shadow-lg rounded-full bg-white overflow-hidden transition duration-300 ease-in-out p-1 mb-10">
         <input
@@ -81,8 +81,8 @@ export default function SearchUser() {
           <BallTriangle />
         </div>
       ) : results.length > 0 ? (
-        <div className="w-full max-w-3xl mt-8">
-          <h1 className="text-xl font-semibold mb-4">
+        <div className="w-96 md:w-full max-w-3xl mt-8">
+          <h1 className="flex justify-center text-xl font-semibold mb-4">
             {results.length} Users Found
           </h1>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
