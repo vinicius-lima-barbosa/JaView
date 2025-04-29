@@ -84,11 +84,11 @@ export default function MoviesDetails() {
     <div className="min-h-screen flex justify-center items-center p-5">
       {movie && (
         <div className="max-w-6xl flex flex-col md:flex-col items-center md:items-start gap-8 bg-gray-900 p-5 rounded-lg shadow-2xl">
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <img
               src={imagesURL + movie.poster_path}
               alt={movie.title}
-              className="rounded-2xl shadow-2xl w-full max-w-sm md:w-80"
+              className="rounded-2xl shadow-2xl"
             />
 
             <div className="flex flex-col justify-start items-start text-pretty">
