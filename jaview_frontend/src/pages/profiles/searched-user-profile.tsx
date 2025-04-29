@@ -14,7 +14,7 @@ export default function SearchedUserProfile() {
       <div className="flex items-center bg-gray-900 p-6 rounded-lg shadow-lg mb-8">
         <div className="flex-shrink-0">
           <img
-            src={avatar}
+            src={user.avatar_url ?? avatar}
             alt="avatar"
             className="rounded-full w-28 h-28 object-cover border-4 border-slate-700"
           />

@@ -4,6 +4,7 @@ import { User } from '../../types/user-type';
 import { IoIosSearch } from 'react-icons/io';
 import { Review } from '../../types/review-type';
 import { BallTriangle } from 'react-loader-spinner';
+import avatar from '../../assets/images/avatar/default_avatar.jpg';
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_URL;
@@ -95,9 +96,11 @@ export default function SearchUser() {
                   state={{ user }}
                   className="flex flex-col items-center text-center"
                 >
-                  <div className="w-16 h-16 bg-green-800 rounded-full flex items-center justify-center text-2xl font-bold text-white mb-3">
-                    {user.name[0].toUpperCase()}
-                  </div>
+                  <img
+                    src={user.avatar_url ?? avatar}
+                    alt={`${user.name} avatar`}
+                    className="w-20 h-20 rounded-full border-2 border-white mb-3"
+                  />
                   <span className="text-lg font-medium hover:text-slate-300">
                     {user.name}
                   </span>
