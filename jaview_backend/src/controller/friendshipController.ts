@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {
   acceptFriendRequestService,
   listFriendsRequestsService,
+  listFriendsRequestsSentService,
   listFriendsService,
   rejectFriendRequestService,
   removeFriendRequestService,
@@ -96,6 +97,19 @@ export const listFriendsRequestsController = async (
     const userId = request.userId;
 
     const friendships = await listFriendsRequestsService(userId);
+    response.status(200).send({ friendships });
+  } catch (error) {
+    response.status(400).send({ message: error.message });
+  }
+};
+export const listFriendsRequestsSentController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  try {
+    const userId = request.userId;
+
+    const friendships = await listFriendsRequestsSentService(userId);
     response.status(200).send({ friendships });
   } catch (error) {
     response.status(400).send({ message: error.message });

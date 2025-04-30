@@ -4,6 +4,7 @@ import {
   acceptFriendRequestController,
   listFriendsController,
   listFriendsRequestsController,
+  listFriendsRequestsSentController,
   rejectFriendRequestController,
   removeFriendController,
   sendFriendRequestController
@@ -30,5 +31,11 @@ router.delete('/:friendshipId/delete', authMiddleware, removeFriendController);
 router.get('/friends', authMiddleware, listFriendsController);
 
 router.get('/friends-requests', authMiddleware, listFriendsRequestsController);
+
+router.get(
+  '/friends-requests-sent',
+  authMiddleware,
+  listFriendsRequestsSentController
+);
 
 export default router;
