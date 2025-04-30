@@ -88,9 +88,7 @@ export const listFriendsService = async (userId: string) => {
     ]
   }).populate('friend_id', 'name email avatar_url');
 
-  return friendships.map((friend) =>
-    friend.user_id._id.equals(userId) ? friend.friend_id : friend.user_id
-  );
+  return friendships;
 };
 
 export const listFriendsRequestsService = async (userId: string) => {
@@ -99,5 +97,14 @@ export const listFriendsRequestsService = async (userId: string) => {
     status: 'pending'
   }).populate('user_id', 'name email avatar_url');
 
-  return friendships.map((friend) => friend.user_id);
+  return friendships;
+};
+
+export const listFriendsRequestsSentService = async (userId: string) => {
+  const friendships = await Friendship.find({
+    user_id: userId,
+    status: 'pending'
+  }).populate('friend_id', 'name email avatar_url');
+
+  return friendships;
 };
