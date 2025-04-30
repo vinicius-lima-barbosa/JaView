@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavItem from './nav-items';
+import { HiFaceSmile } from 'react-icons/hi2';
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
@@ -105,6 +106,12 @@ export default function Aside() {
                   to="/user/reviews"
                   icon={<FaStar size={20} />}
                   label="My Reviews"
+                  isExpanded={true}
+                />
+                <NavItem
+                  to="/user/friends"
+                  icon={<HiFaceSmile size={20} />}
+                  label="Friends"
                   isExpanded={true}
                 />
               </>
