@@ -15,6 +15,7 @@ import Layout from './layout.tsx';
 import UserProfile from './pages/profiles/user-profile.tsx';
 import SearchUser from './pages/search/search-user.tsx';
 import SearchedUserProfile from './pages/profiles/searched-user-profile.tsx';
+import UserFriends from './pages/profiles/user-friends.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/movie/:id" element={<MoviesDetails />} />
           <Route path="/search" element={<Search />} />
           <Route path="/user/reviews" element={<UserReviews />} />
+          <Route path="/user/friends" element={<UserFriends />} />
           <Route path="/top-rated-movies" element={<TopRatedMovies />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/success" element={<SuccessPage />} />
