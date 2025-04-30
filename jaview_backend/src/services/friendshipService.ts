@@ -86,7 +86,9 @@ export const listFriendsService = async (userId: string) => {
       { user_id: userId, status: 'accepted' },
       { friend_id: userId, status: 'accepted' }
     ]
-  }).populate('friend_id', 'name email avatar_url');
+  })
+    .populate('friend_id', 'name email avatar_url')
+    .populate('user_id', 'name email avatar_url');
 
   return friendships;
 };
