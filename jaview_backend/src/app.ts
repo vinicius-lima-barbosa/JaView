@@ -3,6 +3,7 @@ import connectDB from './lib/mongodb';
 import authRoutes from './routes/authRoutes';
 import movieRoutes from './routes/movieRoutes';
 import userRoutes from './routes/userRoutes';
+import friendshipRoutes from './routes/friendshipRoutes';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
@@ -37,3 +38,4 @@ connectDB()
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/movies', movieRoutes);
+app.use('/friendships', friendshipRoutes);
