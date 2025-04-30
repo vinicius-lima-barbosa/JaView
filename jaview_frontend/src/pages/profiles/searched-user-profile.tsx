@@ -1,10 +1,100 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Review } from '../../types/review-type';
 import avatar from '../../assets/images/avatar/default_avatar.jpg';
+import { useEffect, useState } from 'react';
+const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function SearchedUserProfile() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = location.state;
+  const [friendshipRequestsIds, setFriendshipRequestsIds] = useState<string[]>(
+    []
+  );
+  const [buttonText, setButtonText] = useState('Add Friend');
+
+  useEffect(() => {
+    if (friendshipRequestsIds.includes(user._id)) {
+      setButtonText('Requested');
+    }
+  }, [friendshipRequestsIds]);
+
+  useEffect(() => {
+    const fetchFriendshipRequests = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          navigate('/error', { state: { message: 'You must be logged in!' } });
+          return;
+        }
+
+        setButtonText('Loading...');
+
+        const response = await fetch(
+          `${API_BACKEND}friendships/friends-requests-sent`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        const requestsIds = data.friendships.map((f: any) => f.friend_id._id);
+
+        setFriendshipRequestsIds(requestsIds);
+
+        setButtonText('Add Friend');
+      } catch (error) {
+        console.log(error);
+        navigate('/error', { state: { message: 'An error occurred!' } });
+      }
+    };
+
+    fetchFriendshipRequests();
+  }, [navigate]);
+
+  const handleRequestFriendship = async (friendId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/error', { state: { message: 'You must be logged in!' } });
+        return;
+      }
+
+      if (friendshipRequestsIds.includes(user._id)) return;
+
+      setButtonText('Requesting...');
+      const response = await fetch(`${API_BACKEND}friendships/send-request`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({ friendId }),
+        method: 'POST'
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        setButtonText('Requested');
+      } else {
+        navigate('/error', {
+          state: { message: data.message }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      navigate('/error', {
+        state: { message: 'Error requesting friendship!' }
+      });
+    }
+  };
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -12,12 +102,19 @@ export default function SearchedUserProfile() {
         Profile
       </h1>
       <div className="flex items-center bg-gray-900 p-6 rounded-lg shadow-lg mb-8">
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex flex-col gap-6">
           <img
             src={user.avatar_url ?? avatar}
             alt="avatar"
             className="rounded-full w-28 h-28 object-cover border-4 border-slate-700"
           />
+          <button
+            disabled={friendshipRequestsIds.includes(user._id)}
+            onClick={() => handleRequestFriendship(user._id)}
+            className="px-4 py-2 bg-blue-700 rounded-md hover:bg-blue-900 transition-colors"
+          >
+            {buttonText}
+          </button>
         </div>
         <div className="ml-6 flex-grow">
           <div className="mb-4">
