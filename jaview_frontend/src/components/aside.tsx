@@ -7,7 +7,8 @@ import {
   FaFilm,
   FaSearch,
   FaSignInAlt,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaAddressCard
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavItem from './nav-items';
@@ -112,6 +113,12 @@ export default function Aside() {
                   to="/user/friends"
                   icon={<HiFaceSmile size={20} />}
                   label="Friends"
+                  isExpanded={true}
+                />
+                <NavItem
+                  to="/user/requests"
+                  icon={<FaAddressCard size={20} />}
+                  label="Requests"
                   isExpanded={true}
                 />
               </>
