@@ -8,52 +8,109 @@ export default function SearchedUserProfile() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = location.state;
-  const [friendshipRequestsIds, setFriendshipRequestsIds] = useState<string[]>(
-    []
+  const [relationshipState, setRelationshipState] = useState<
+    'friends' | 'pending' | 'requested' | 'none'
+  >();
+  const [friendshipId, setFriendshipId] = useState<string | undefined>(
+    undefined
   );
-  const [buttonText, setButtonText] = useState('Add Friend');
 
-  useEffect(() => {
-    if (friendshipRequestsIds.includes(user._id)) {
-      setButtonText('Requested');
-    }
-  }, [friendshipRequestsIds]);
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const fetchFriendshipRequests = async () => {
-      try {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-          navigate('/error', { state: { message: 'You must be logged in!' } });
-          return;
-        }
-
-        setButtonText('Loading...');
-
-        const response = await fetch(
-          `${API_BACKEND}friendships/friends-requests-sent`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
-
-        const data = await response.json();
-
-        const requestsIds = data.friendships.map((f: any) => f.friend_id._id);
-
-        setFriendshipRequestsIds(requestsIds);
-
-        setButtonText('Add Friend');
-      } catch (error) {
-        console.log(error);
-        navigate('/error', { state: { message: 'An error occurred!' } });
+      if (!token) {
+        navigate('/error', { state: { message: 'You must be logged in!' } });
+        return;
       }
-    };
 
-    fetchFriendshipRequests();
+      const friendshipRequestsResponse = await fetch(
+        `${API_BACKEND}friendships/friends-requests-sent`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const friendshipRequestsData = await friendshipRequestsResponse.json();
+      const requestsIds: { friendshipId: string; id: string }[] =
+        friendshipRequestsData.friendships.map((f: any) => {
+          return {
+            friendshipId: f._id,
+            id: f.friend_id._id
+          };
+        });
+
+      if (requestsIds.length > 0) {
+        const friendshipRequestId = requestsIds.find(
+          (f) => f.id === user._id
+        )?.friendshipId;
+
+        setFriendshipId(friendshipRequestId);
+      }
+
+      if (requestsIds.some((f) => f.id === user._id)) {
+        setRelationshipState('requested');
+        return;
+      }
+
+      const friendshipInvitesResponse = await fetch(
+        `${API_BACKEND}friendships/friends-requests`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const friendshipInvitesData = await friendshipInvitesResponse.json();
+      const inviteIds: { friendshipId: string; id: string }[] =
+        friendshipInvitesData.friendships.map((f: any) => {
+          return {
+            friendshipId: f._id,
+            id: f.user_id._id
+          };
+        });
+
+      if (inviteIds.length > 0) {
+        const friendshipInviteId = inviteIds.find(
+          (f) => f.id === user._id
+        )?.friendshipId;
+
+        setFriendshipId(friendshipInviteId);
+      }
+
+      if (inviteIds.some((f) => f.id === user._id)) {
+        setRelationshipState('pending');
+        return;
+      }
+
+      const friendsResponse = await fetch(`${API_BACKEND}friendships/friends`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const friendsData = await friendsResponse.json();
+      const isFriend = friendsData.friendships.some(
+        (f: any) => f.friend_id._id === user._id || f.user_id._id === user._id
+      );
+
+      if (isFriend) {
+        setRelationshipState('friends');
+        return;
+      }
+
+      setRelationshipState('none');
+    } catch (error) {
+      console.log(error);
+      navigate('/error', { state: { message: 'An error occurred!' } });
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [navigate]);
 
   const handleRequestFriendship = async (friendId: string) => {
@@ -65,9 +122,6 @@ export default function SearchedUserProfile() {
         return;
       }
 
-      if (friendshipRequestsIds.includes(user._id)) return;
-
-      setButtonText('Requesting...');
       const response = await fetch(`${API_BACKEND}friendships/send-request`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -82,7 +136,7 @@ export default function SearchedUserProfile() {
       console.log(data);
 
       if (response.ok) {
-        setButtonText('Requested');
+        fetchData();
       } else {
         navigate('/error', {
           state: { message: data.message }
@@ -92,6 +146,82 @@ export default function SearchedUserProfile() {
       console.log(error);
       navigate('/error', {
         state: { message: 'Error requesting friendship!' }
+      });
+    }
+  };
+
+  const handleAcceptRequest = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/error', { state: { message: 'You must be logged in!' } });
+        return;
+      }
+
+      const response = await fetch(
+        `${API_BACKEND}friendships/${friendshipId}/accept`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+
+          method: 'PUT'
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        fetchData();
+      } else {
+        navigate('/error', {
+          state: { message: data.message }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      navigate('/error', {
+        state: { message: 'Error accepting friendship!' }
+      });
+    }
+  };
+
+  const handleRejectRequest = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/error', { state: { message: 'You must be logged in!' } });
+        return;
+      }
+
+      const response = await fetch(
+        `${API_BACKEND}friendships/${friendshipId}/reject`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+
+          method: 'PUT'
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        fetchData();
+      } else {
+        navigate('/error', {
+          state: { message: data.message }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      navigate('/error', {
+        state: { message: 'Error rejecting friendship!' }
       });
     }
   };
@@ -108,13 +238,40 @@ export default function SearchedUserProfile() {
             alt="avatar"
             className="rounded-full w-28 h-28 object-cover border-4 border-slate-700"
           />
-          <button
-            disabled={friendshipRequestsIds.includes(user._id)}
-            onClick={() => handleRequestFriendship(user._id)}
-            className="px-4 py-2 bg-blue-700 rounded-md hover:bg-blue-900 transition-colors"
-          >
-            {buttonText}
-          </button>
+          {relationshipState === 'friends' && (
+            <span className="px-4 py-2 text-center bg-blue-700 rounded-md">
+              Friends
+            </span>
+          )}
+          {relationshipState === 'requested' && (
+            <span className="px-4 py-2 text-center bg-blue-700 rounded-md">
+              Requested
+            </span>
+          )}
+          {relationshipState === 'none' && (
+            <button
+              onClick={() => handleRequestFriendship(user._id)}
+              className="px-4 py-2 bg-blue-700 rounded-md hover:bg-blue-800 transition-colors"
+            >
+              Add Friend
+            </button>
+          )}
+          {relationshipState === 'pending' && (
+            <>
+              <button
+                onClick={() => handleAcceptRequest()}
+                className="px-4 py-2 bg-green-700 rounded-md hover:bg-green-800 transition-colors"
+              >
+                Accept Request
+              </button>
+              <button
+                onClick={() => handleRejectRequest()}
+                className="px-4 py-2 bg-red-700 rounded-md hover:bg-red-800 transition-colors -mt-4"
+              >
+                Reject Request
+              </button>
+            </>
+          )}
         </div>
         <div className="ml-6 flex-grow">
           <div className="mb-4">
