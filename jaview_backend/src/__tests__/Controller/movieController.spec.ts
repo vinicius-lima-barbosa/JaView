@@ -1,13 +1,13 @@
 // MOCKS DEVEM VIR ANTES DOS IMPORTS
-jest.mock('../src/services/movieService');
+jest.mock('../../services/movieService');
 
 import { Request, Response } from 'express';
 import {
   addReviewController,
   removeReviewController,
   getMovieReviewsController
-} from '../src/controller/movieController';
-import * as movieService from '../src/services/movieService';
+} from '../../controller/movieController';
+import * as movieService from '../../services/movieService';
 
 const mockRes = () => {
   const res = {} as any;

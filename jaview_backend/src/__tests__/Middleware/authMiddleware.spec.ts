@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { authMiddleware } from '../src/middleware/authMiddleware';
+import { authMiddleware } from '../../middleware/authMiddleware';
 
 jest.mock('jsonwebtoken');
 
@@ -93,7 +93,7 @@ describe('authMiddleware', () => {
       mockRes as Response,
       mockNext as NextFunction
     );
-    
+
     expect(mockRes.status).toHaveBeenCalledWith(401);
     expect(mockRes.json).toHaveBeenCalledWith({
       message: "",

@@ -1,4 +1,4 @@
-import { userSchemaZod } from '../src/services/userValidation';
+import { userSchemaZod } from '../../services/userValidation';
 
 describe('userSchemaZod', () => {
   it('valida dados corretos com sucesso', () => {
@@ -23,7 +23,7 @@ describe('userSchemaZod', () => {
 
     expect(result.success).toBe(false);
     if (!result.success) {
-        expect(result.error.errors[0].message).toBe('The name is required!');
+      expect(result.error.errors[0].message).toBe('The name is required!');
     }
   });
 
@@ -37,9 +37,9 @@ describe('userSchemaZod', () => {
 
     expect(result.success).toBe(false);
     if (!result.success) {
-        expect(result.error.errors[0].message).toBe('Invalid email format!');
+      expect(result.error.errors[0].message).toBe('Invalid email format!');
     }
-});
+  });
 
   it('retorna erro se a senha tiver menos de 6 caracteres', () => {
     const result = userSchemaZod.safeParse({
@@ -50,8 +50,8 @@ describe('userSchemaZod', () => {
     });
 
     expect(result.success).toBe(false);
-    if (!result.success){
-        expect(result.error.errors[0].message).toBe('The password must have at leats 6 characters!');
+    if (!result.success) {
+      expect(result.error.errors[0].message).toBe('The password must have at leats 6 characters!');
     }
   });
 
@@ -65,7 +65,7 @@ describe('userSchemaZod', () => {
 
     expect(result.success).toBe(false);
     if (!result.success) {
-        expect(result.error.errors[0].message).toBe('The password must be the same!');
+      expect(result.error.errors[0].message).toBe('The password must be the same!');
     }
   });
 });
