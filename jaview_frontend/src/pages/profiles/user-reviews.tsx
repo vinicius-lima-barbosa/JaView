@@ -80,7 +80,9 @@ export default function UserReviews() {
         });
       }
     } catch (error) {
-      navigate('/error', { state: { message: 'Error deleting review!', error } });
+      navigate('/error', {
+        state: { message: 'Error deleting review!', error }
+      });
     }
   };
 

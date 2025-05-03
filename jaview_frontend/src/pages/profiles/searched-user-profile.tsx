@@ -95,7 +95,8 @@ export default function SearchedUserProfile() {
 
       const friendsData = await friendsResponse.json();
       const isFriend = friendsData.friendships.some(
-        (f: Friendship) => f.friend_id._id === user._id || f.user_id._id === user._id
+        (f: Friendship) =>
+          f.friend_id._id === user._id || f.user_id._id === user._id
       );
 
       if (isFriend) {
@@ -104,7 +105,7 @@ export default function SearchedUserProfile() {
       }
 
       setRelationshipState('none');
-    } catch  {
+    } catch {
       navigate('/error', { state: { message: 'An error occurred!' } });
     }
   };
@@ -141,7 +142,7 @@ export default function SearchedUserProfile() {
           state: { message: data.message }
         });
       }
-    } catch  {
+    } catch {
       navigate('/error', {
         state: { message: 'Error requesting friendship!' }
       });
