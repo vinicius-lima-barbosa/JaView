@@ -11,8 +11,7 @@ export async function FetchMovies(page = 1) {
 
     const data = await response.json();
     return data.results;
-  } catch (error) {
-    console.log(`Error while fetching movies: ${error}`);
+  } catch  {
     return [];
   }
 }

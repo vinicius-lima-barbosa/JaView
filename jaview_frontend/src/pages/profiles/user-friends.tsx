@@ -57,8 +57,7 @@ export default function UserReviews() {
         setFriendships(data.friendships);
         setLoading(false);
         setUserId(data.userId);
-      } catch (error) {
-        console.log(error);
+      } catch {
         navigate('/error', { state: { message: 'An error occurred!' } });
       }
     };
@@ -100,8 +99,7 @@ export default function UserReviews() {
           state: { message: 'Failed to delete the friend.' }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       navigate('/error', { state: { message: 'Error deleting friend!' } });
     }
   };
@@ -112,7 +110,7 @@ export default function UserReviews() {
         Your Friends
       </h1>
       {friendships.length === 0 ? (
-        <p className="text-center text-gray-500">You haven't friends.</p>
+        <p className="text-center text-gray-500">You haven`t friends.</p>
       ) : (
         <ul className="space-y-6">
           {friendships.map((friendship) => {

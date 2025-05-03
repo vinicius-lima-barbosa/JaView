@@ -46,8 +46,7 @@ export default function UserReviews() {
         setReviews(getDetails);
         setLoading(false);
       } catch (error) {
-        console.log(error);
-        navigate('/error', { state: { message: 'An error occurred!' } });
+        navigate('/error', { state: { message: 'An error occurred!', error } });
       }
     };
 
@@ -81,8 +80,7 @@ export default function UserReviews() {
         });
       }
     } catch (error) {
-      console.log(error);
-      navigate('/error', { state: { message: 'Error deleting review!' } });
+      navigate('/error', { state: { message: 'Error deleting review!', error } });
     }
   };
 
@@ -101,7 +99,7 @@ export default function UserReviews() {
       </h1>
       {reviews.length === 0 ? (
         <p className="text-center text-gray-500">
-          You haven't reviewed any movies yet.
+          You haven´t reviewed any movies yet.
         </p>
       ) : (
         <ul className="space-y-6">

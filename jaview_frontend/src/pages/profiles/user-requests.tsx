@@ -83,13 +83,12 @@ export default function UserRequests() {
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      navigate('/error', { state: { message: 'An error occurred!' } });
+      navigate('/error', { state: { message: 'An error occurred!', error } });
     }
   };
   useEffect(() => {
     fetchData();
-  }, [navigate]);
+  });
 
   const handleAcceptRequest = async (friendshipId: string) => {
     try {
@@ -121,9 +120,8 @@ export default function UserRequests() {
         });
       }
     } catch (error) {
-      console.log(error);
       navigate('/error', {
-        state: { message: 'Error accepting friendship!' }
+        state: { message: 'Error accepting friendship!', error }
       });
     }
   };
@@ -158,9 +156,8 @@ export default function UserRequests() {
         });
       }
     } catch (error) {
-      console.log(error);
       navigate('/error', {
-        state: { message: 'Error rejecting friendship!' }
+        state: { message: 'Error rejecting friendship!', error }
       });
     }
   };
@@ -180,7 +177,7 @@ export default function UserRequests() {
           Your Requests
         </h1>
         {requests.length === 0 ? (
-          <p className="text-center text-gray-500">You haven't requests.</p>
+          <p className="text-center text-gray-500">You haven`t requests.</p>
         ) : (
           <ul className="space-y-6">
             {requests.map((friendship) => {
@@ -251,7 +248,7 @@ export default function UserRequests() {
         </h1>
         {requestsSent.length === 0 ? (
           <p className="text-center text-gray-500">
-            You haven't requests you sent.
+            You haven`t requests you sent.
           </p>
         ) : (
           <ul className="space-y-6">

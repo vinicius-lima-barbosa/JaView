@@ -54,10 +54,9 @@ const UserProfile: React.FC = () => {
         setNewName(data.name);
         setBio(data.bio);
         setAvatarUrl(data.avatar_url);
-      } catch (error) {
+      } catch {
         setMessage('An error occurred while fetching your profile.');
         setType('error');
-        console.log(error);
       }
     };
 
@@ -101,10 +100,9 @@ const UserProfile: React.FC = () => {
         setButtonAvatarText('Update Avatar');
         navigate(0);
       }
-    } catch (error) {
+    } catch {
       setMessage('An error occurred while updating your avatar.');
       setType('error');
-      console.log(error);
     }
   };
 
@@ -132,10 +130,9 @@ const UserProfile: React.FC = () => {
         setMessage('User already exists!');
         setType('error');
       }
-    } catch (error) {
+    } catch {
       setMessage('An error occurred while updating your profile.');
       setType('error');
-      console.log(error);
     }
   };
 
@@ -154,7 +151,7 @@ const UserProfile: React.FC = () => {
       )}
 
       <h1 className="text-3xl font-bold mb-6 text-center">
-        {profile.name}'s Profile
+        {profile.name}`s Profile
       </h1>
       <div className="w-full max-w-md bg-gray-900 p-8 rounded-lg shadow-2xl">
         {!editing ? (

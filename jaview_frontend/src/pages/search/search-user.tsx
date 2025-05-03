@@ -49,8 +49,7 @@ export default function SearchUser() {
 
       setResults(usersWithMovieDetails || []);
     } catch (error) {
-      console.error('Error searching for users:', error);
-      navigate('/error', { state: { message: 'An error occurred!' } });
+      navigate('/error', { state: { message: 'An error occurred!', error } });
     } finally {
       setLoading(false);
     }

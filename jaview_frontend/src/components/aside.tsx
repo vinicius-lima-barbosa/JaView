@@ -48,8 +48,9 @@ export default function Aside() {
         const data = await response.json();
         setUserName(data.name);
         setAvatarUrl(data.avatar_url);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        localStorage.removeItem('token');
+        setLoggedIn(false);
       }
     }
   };
