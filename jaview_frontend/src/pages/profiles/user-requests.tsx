@@ -144,7 +144,7 @@ export default function UserRequests() {
             Authorization: `Bearer ${token}`
           },
 
-          method: 'PUT'
+          method: 'DELETE'
         }
       );
 

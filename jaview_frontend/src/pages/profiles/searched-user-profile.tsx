@@ -204,7 +204,7 @@ export default function SearchedUserProfile() {
             Authorization: `Bearer ${token}`
           },
 
-          method: 'PUT'
+          method: 'DELETE'
         }
       );
 
