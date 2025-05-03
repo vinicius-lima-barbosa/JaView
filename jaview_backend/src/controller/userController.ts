@@ -7,10 +7,15 @@ import {
   getUserByUsernameService,
   getUserProfileService,
   getUserReviewsService,
-  loginUserService,
-  updateUserAvatarService,
-  updateUserProfileService
+  loginUserService
 } from '../services/userService';
+import { User } from '../models/usersModel';
+
+type ProfileUpdate = {
+  name?: string;
+  bio?: string;
+  avatar_url?: string;
+};
 
 export const createUserController = async (
   request: Request,
@@ -75,15 +80,69 @@ export const updateUserProfileController = async (
   request: Request,
   response: Response
 ): Promise<void> => {
+  const userId = request.userId as string;
+  const { name, bio } = request.body;
+
+  let avatar_url: string | undefined;
+  if (request.file) {
+    const existing = await getUserProfileService(userId);
+    if (existing?.avatar_url) {
+      const key = existing.avatar_url.split('avatar/')[1];
+      const deletePdfObjectCommand = new DeleteObjectCommand({
+        Bucket: 'avatar',
+        Key: key
+      });
+
+      await clientS3.send(deletePdfObjectCommand);
+    }
+    const new_avatar_url_filename = randomUUID();
+
+    const putObjectCommand = new PutObjectCommand({
+      Bucket: 'avatar',
+      Key: new_avatar_url_filename,
+      Body: request.file.buffer,
+      ContentType: request.file.mimetype
+    });
+
+    await clientS3.send(putObjectCommand);
+
+    avatar_url = `https://zmkvvgwcxqjqsvjwfrcp.supabase.co/storage/v1/object/public/avatar/${new_avatar_url_filename}`;
+  }
+
+  const updateData: Partial<
+    Pick<ProfileUpdate, 'name' | 'bio' | 'avatar_url'>
+  > = {};
+  if (name) updateData.name = name;
+  updateData.bio = bio ? bio : '';
+  if (avatar_url) updateData.avatar_url = avatar_url;
+
+  if (name) {
+    const nameTaken = await User.findOne({ name, _id: { $ne: userId } });
+    if (nameTaken) {
+      response.status(400).json({ message: 'Name already exists' });
+      return;
+    }
+  }
+
   try {
-    const userId = request.userId;
-    const { name, bio } = request.body;
+    const updated = await User.findByIdAndUpdate(userId, updateData, {
+      new: true
+    }).select('-password');
 
-    const newProfile = await updateUserProfileService(userId, name, bio);
+    if (!updated) {
+      response.status(404).json({ message: 'User not found' });
+      return;
+    }
 
-    response.status(200).send(newProfile);
-  } catch (error) {
-    response.status(500).send({ message: error.message });
+    response.status(200).json({
+      name: updated.name,
+      email: updated.email,
+      bio: updated.bio,
+      avatar_url: updated.avatar_url
+    });
+  } catch (err) {
+    response.status(500).json({ message: err.message });
+    return;
   }
 };
 
@@ -99,50 +158,5 @@ export const getUserByUsernameController = async (
     response.status(200).send({ users });
   } catch (error) {
     response.status(500).send({ message: error.message });
-  }
-};
-
-export const uploadUserAvatarContoller = async (
-  request: Request,
-  response: Response
-): Promise<void> => {
-  const userId = request.userId;
-
-  try {
-    if (!request.file) {
-      response.status(400).json({ message: 'Missing file' });
-    }
-
-    const profile = await getUserProfileService(userId);
-
-    if (profile.avatar_url) {
-      const key = profile.avatar_url.split('avatar/')[1];
-
-      const deletePdfObjectCommand = new DeleteObjectCommand({
-        Bucket: 'avatar',
-        Key: key
-      });
-
-      await clientS3.send(deletePdfObjectCommand);
-    }
-
-    const new_avatar_url_filename = randomUUID();
-
-    const putObjectCommand = new PutObjectCommand({
-      Bucket: 'avatar',
-      Key: new_avatar_url_filename,
-      Body: request.file.buffer,
-      ContentType: request.file.mimetype
-    });
-
-    await clientS3.send(putObjectCommand);
-
-    const avatar_url = `https://ucaxwlukyjnbjufoplzq.supabase.co/storage/v1/object/public/avatar/${new_avatar_url_filename}`;
-
-    const UserWithNewAvatar = await updateUserAvatarService(userId, avatar_url);
-
-    response.status(200).json({ avatar_url: UserWithNewAvatar.avatar_url });
-  } catch (error) {
-    response.status(500).json({ message: error.message });
   }
 };
