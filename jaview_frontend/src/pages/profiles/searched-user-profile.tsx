@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Review } from '../../types/review-type';
 import avatar from '../../assets/images/avatar/default_avatar.jpg';
 import { useEffect, useState } from 'react';
+import { Friendship } from '../../types/friendship-type';
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
 export default function SearchedUserProfile() {
@@ -35,7 +36,7 @@ export default function SearchedUserProfile() {
 
       const friendshipRequestsData = await friendshipRequestsResponse.json();
       const requestsIds: { friendshipId: string; id: string }[] =
-        friendshipRequestsData.friendships.map((f: any) => {
+        friendshipRequestsData.friendships.map((f: Friendship) => {
           return {
             friendshipId: f._id,
             id: f.friend_id._id
@@ -66,7 +67,7 @@ export default function SearchedUserProfile() {
 
       const friendshipInvitesData = await friendshipInvitesResponse.json();
       const inviteIds: { friendshipId: string; id: string }[] =
-        friendshipInvitesData.friendships.map((f: any) => {
+        friendshipInvitesData.friendships.map((f: Friendship) => {
           return {
             friendshipId: f._id,
             id: f.user_id._id
@@ -94,7 +95,8 @@ export default function SearchedUserProfile() {
 
       const friendsData = await friendsResponse.json();
       const isFriend = friendsData.friendships.some(
-        (f: any) => f.friend_id._id === user._id || f.user_id._id === user._id
+        (f: Friendship) =>
+          f.friend_id._id === user._id || f.user_id._id === user._id
       );
 
       if (isFriend) {
@@ -103,15 +105,14 @@ export default function SearchedUserProfile() {
       }
 
       setRelationshipState('none');
-    } catch (error) {
-      console.log(error);
+    } catch {
       navigate('/error', { state: { message: 'An error occurred!' } });
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [navigate]);
+  });
 
   const handleRequestFriendship = async (friendId: string) => {
     try {
@@ -133,7 +134,6 @@ export default function SearchedUserProfile() {
       });
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         fetchData();
@@ -142,8 +142,7 @@ export default function SearchedUserProfile() {
           state: { message: data.message }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       navigate('/error', {
         state: { message: 'Error requesting friendship!' }
       });
@@ -171,7 +170,6 @@ export default function SearchedUserProfile() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         fetchData();
@@ -180,8 +178,7 @@ export default function SearchedUserProfile() {
           state: { message: data.message }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       navigate('/error', {
         state: { message: 'Error accepting friendship!' }
       });
@@ -204,12 +201,11 @@ export default function SearchedUserProfile() {
             Authorization: `Bearer ${token}`
           },
 
-          method: 'PUT'
+          method: 'DELETE'
         }
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         fetchData();
@@ -218,8 +214,7 @@ export default function SearchedUserProfile() {
           state: { message: data.message }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       navigate('/error', {
         state: { message: 'Error rejecting friendship!' }
       });
@@ -297,7 +292,7 @@ export default function SearchedUserProfile() {
       </h1>
       {user.reviews.length === 0 ? (
         <p className="text-center text-gray-400 text-lg">
-          This user hasn't reviewed any movies yet.
+          This user hasn`t reviewed any movies yet.
         </p>
       ) : (
         <div className="space-y-6">

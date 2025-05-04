@@ -95,7 +95,7 @@ export default function Login() {
           </button>
         </form>
         <div className="flex justify-between items-center mt-4 text-sm text-gray-600">
-          <p>Don't have an account?</p>
+          <p>Don`t have an account?</p>
           <Link to={'/register'} className="text-blue-600 hover:text-blue-800">
             Register
           </Link>

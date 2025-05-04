@@ -20,7 +20,7 @@ export default function NavItem({
       <Link
         to={to}
         className={`${
-          color ? color : 'text-gray-300'
+          color ? color : 'text-gray-400'
         } hover:text-white flex items-center text-lg transition-all duration-200`}
       >
         {icon}

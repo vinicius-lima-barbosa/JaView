@@ -20,7 +20,7 @@ router.put(
   acceptFriendRequestController
 );
 
-router.put(
+router.delete(
   '/:friendshipId/reject',
   authMiddleware,
   rejectFriendRequestController

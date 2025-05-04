@@ -102,31 +102,6 @@ export const updateUserProfileService = async (
   };
 };
 
-export const updateUserAvatarService = async (
-  userId: string,
-  avatar_url: string
-) => {
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    {
-      avatar_url
-    },
-    {
-      new: true
-    }
-  ).select('-password');
-
-  if (!updatedUser) {
-    throw new Error('User not found');
-  }
-
-  return {
-    name: updatedUser.name,
-    email: updatedUser.email,
-    avatar_url: updatedUser.avatar_url
-  };
-};
-
 export const getUserByUsernameService = async (username: string) => {
   const users = await User.find({
     name: { $regex: username, $options: 'i' }

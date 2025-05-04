@@ -48,8 +48,9 @@ export default function Aside() {
         const data = await response.json();
         setUserName(data.name);
         setAvatarUrl(data.avatar_url);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        localStorage.removeItem('token');
+        setLoggedIn(false);
       }
     }
   };
@@ -113,12 +114,6 @@ export default function Aside() {
                   to="/user/friends"
                   icon={<HiFaceSmile size={20} />}
                   label="Friends"
-                  isExpanded={true}
-                />
-                <NavItem
-                  to="/user/requests"
-                  icon={<FaAddressCard size={20} />}
-                  label="Requests"
                   isExpanded={true}
                 />
               </>

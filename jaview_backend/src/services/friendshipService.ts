@@ -55,8 +55,10 @@ export const rejectFriendRequestService = async (
   if (!friendship.friend_id.equals(userId)) {
     throw new Error('You are not authorized to reject this friend request');
   }
-  friendship.status = 'rejected';
-  await friendship.save();
+  if (friendship.status !== 'pending') {
+    throw new Error('Friend request is not pending');
+  }
+  await Friendship.deleteOne({ _id: friendshipId });
   return friendship;
 };
 

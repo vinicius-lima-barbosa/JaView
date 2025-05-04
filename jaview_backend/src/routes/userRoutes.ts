@@ -5,8 +5,7 @@ import {
   getUserByUsernameController,
   getUserProfileController,
   getUserReviewsController,
-  updateUserProfileController,
-  uploadUserAvatarContoller
+  updateUserProfileController
 } from '../controller/userController';
 
 const upload = multer({});
@@ -18,13 +17,11 @@ router.get('/profile', authMiddleware, getUserProfileController);
 
 router.get('/search-user', getUserByUsernameController);
 
-router.put('/update-profile', authMiddleware, updateUserProfileController);
-
-router.post(
-  '/upload-avatar',
-  upload.single('avatar'),
+router.put(
+  '/update-profile',
   authMiddleware,
-  uploadUserAvatarContoller
+  upload.single('avatar'),
+  updateUserProfileController
 );
 
 export default router;
