@@ -88,7 +88,8 @@ export default function UserRequests() {
   };
   useEffect(() => {
     fetchData();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAcceptRequest = async (friendshipId: string) => {
     try {

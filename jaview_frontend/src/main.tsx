@@ -30,7 +30,6 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/search" element={<Search />} />
           <Route path="/user/reviews" element={<UserReviews />} />
           <Route path="/user/friends" element={<UserFriends />} />
-          <Route path="/user/requests" element={<UserRequests />} />
           <Route path="/top-rated-movies" element={<TopRatedMovies />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/success" element={<SuccessPage />} />

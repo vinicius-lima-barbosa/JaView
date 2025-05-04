@@ -116,12 +116,6 @@ export default function Aside() {
                   label="Friends"
                   isExpanded={true}
                 />
-                <NavItem
-                  to="/user/requests"
-                  icon={<FaAddressCard size={20} />}
-                  label="Requests"
-                  isExpanded={true}
-                />
               </>
             )}
             <NavItem
