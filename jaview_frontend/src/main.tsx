@@ -8,7 +8,6 @@ import Search from './pages/search/search.tsx';
 import Login from './pages/auth/login.tsx';
 import Register from './pages/auth/register.tsx';
 import UserReviews from './pages/profiles/user-reviews.tsx';
-import UserRequests from './pages/profiles/user-requests.tsx';
 import TopRatedMovies from './pages/collections/top-rated-movies.tsx';
 import ErrorPage from './pages/responses/error.tsx';
 import SuccessPage from './pages/responses/success.tsx';
@@ -17,6 +16,7 @@ import UserProfile from './pages/profiles/user-profile.tsx';
 import SearchUser from './pages/search/search-user.tsx';
 import SearchedUserProfile from './pages/profiles/searched-user-profile.tsx';
 import UserFriends from './pages/profiles/user-friends.tsx';
+import Feed from './pages/collections/feed.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -36,6 +36,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/search-user" element={<SearchUser />} />
           <Route path="/users/:userId" element={<SearchedUserProfile />} />
+          <Route path="/feed" element={<Feed />} />
         </Routes>
       </Layout>
     </Router>

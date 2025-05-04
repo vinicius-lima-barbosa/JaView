@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   addReviewService,
   getMovieReviewsService,
-  removeReviewService,
-} from "../services/movieService";
+  getUserFeedService,
+  removeReviewService
+} from '../services/movieService';
 
 export const addReviewController = async (
   request: Request,
@@ -54,6 +55,23 @@ export const getMovieReviewsController = async (
   } catch (error) {
     response.status(500).send({
       message: `Error while fetching reviews! ${error.message}`
+    });
+  }
+};
+
+export const getUserFeedController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  try {
+    const userId = request.userId;
+
+    const reviews = await getUserFeedService(userId);
+
+    response.status(200).send({ reviews });
+  } catch (error) {
+    response.status(500).send({
+      message: `Error while fetching user feed! ${error.message}`
     });
   }
 };
