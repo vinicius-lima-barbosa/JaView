@@ -3,6 +3,7 @@ import { authMiddleware } from '../middleware/authMiddleware';
 import {
   addReviewController,
   getMovieReviewsController,
+  getUserFeedController,
   removeReviewController
 } from '../controller/movieController';
 
@@ -17,5 +18,7 @@ router.delete(
 );
 
 router.get('/:movieId/reviews', getMovieReviewsController);
+
+router.get('/feed', authMiddleware, getUserFeedController);
 
 export default router;

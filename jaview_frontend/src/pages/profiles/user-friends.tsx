@@ -220,7 +220,7 @@ export default function UserSocial() {
         actions={
           <button
             onClick={() =>
-              handleAction(r._id, 'reject', requestsSent, setRequestsSent)
+              handleAction(r._id, 'delete', requestsSent, setRequestsSent)
             }
             className="absolute top-2 right-2 px-3 py-1 bg-red-700 rounded hover:bg-red-800"
           >

@@ -7,12 +7,12 @@ import {
   FaFilm,
   FaSearch,
   FaSignInAlt,
-  FaSignOutAlt,
-  FaAddressCard
+  FaSignOutAlt
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavItem from './nav-items';
 import { HiFaceSmile } from 'react-icons/hi2';
+import { MdOutlineFeed } from 'react-icons/md';
 
 const API_BACKEND = import.meta.env.VITE_BACKEND;
 
@@ -102,6 +102,12 @@ export default function Aside() {
                   to="/profile"
                   icon={<FaUser size={20} />}
                   label="Profile"
+                  isExpanded={true}
+                />
+                <NavItem
+                  to="/feed"
+                  icon={<MdOutlineFeed size={20} />}
+                  label="Feed"
                   isExpanded={true}
                 />
                 <NavItem
