@@ -100,7 +100,15 @@ export default function Feed() {
                     {item.movie.title}
                   </h2>
                   <p className="text-gray-500 text-sm flex items-center gap-1">
-                    <FaClock /> {new Date(item.createdAt).toLocaleDateString()}
+                    <FaClock />{' '}
+                    {new Date(item.createdAt).toLocaleDateString('en', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      second: '2-digit'
+                    })}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">

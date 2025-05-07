@@ -106,7 +106,7 @@ export const updateUserProfileController = async (
 
     await clientS3.send(putObjectCommand);
 
-    avatar_url = `https://zmkvvgwcxqjqsvjwfrcp.supabase.co/storage/v1/object/public/avatar/${new_avatar_url_filename}`;
+    avatar_url = `${process.env.ENDPOINT_URL}/storage/v1/object/public/avatar/${new_avatar_url_filename}`;
   }
 
   const updateData: Partial<
