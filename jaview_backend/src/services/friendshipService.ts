@@ -112,3 +112,26 @@ export const listFriendsRequestsSentService = async (userId: string) => {
 
   return friendships;
 };
+
+export const listFriendshipCountsService = async (userId: string) => {
+  const [friends, sent, received] = await Promise.all([
+    Friendship.countDocuments({
+      $or: [{ user_id: userId }, { friend_id: userId }],
+      status: 'accepted'
+    }),
+    Friendship.countDocuments({
+      user_id: userId,
+      status: 'pending'
+    }),
+    Friendship.countDocuments({
+      friend_id: userId,
+      status: 'pending'
+    })
+  ]);
+
+  return {
+    friends,
+    sent,
+    received
+  };
+};

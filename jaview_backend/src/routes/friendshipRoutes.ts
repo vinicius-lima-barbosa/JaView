@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authMiddleware } from '../middleware/authMiddleware';
 import {
   acceptFriendRequestController,
+  getFriendshipCountsController,
   listFriendsController,
   listFriendsRequestsController,
   listFriendsRequestsSentController,
@@ -37,5 +38,7 @@ router.get(
   authMiddleware,
   listFriendsRequestsSentController
 );
+
+router.get('/counts', authMiddleware, getFriendshipCountsController);
 
 export default router;

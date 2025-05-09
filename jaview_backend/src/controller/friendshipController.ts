@@ -6,7 +6,8 @@ import {
   listFriendsService,
   rejectFriendRequestService,
   removeFriendRequestService,
-  sendFriendRequestService
+  sendFriendRequestService,
+  listFriendshipCountsService
 } from '../services/friendshipService';
 
 export const sendFriendRequestController = async (
@@ -102,6 +103,7 @@ export const listFriendsRequestsController = async (
     response.status(400).send({ message: error.message });
   }
 };
+
 export const listFriendsRequestsSentController = async (
   request: Request,
   response: Response
@@ -111,6 +113,20 @@ export const listFriendsRequestsSentController = async (
 
     const friendships = await listFriendsRequestsSentService(userId);
     response.status(200).send({ friendships });
+  } catch (error) {
+    response.status(400).send({ message: error.message });
+  }
+};
+
+export const getFriendshipCountsController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  try {
+    const userId = request.userId;
+
+    const counts = await listFriendshipCountsService(userId);
+    response.status(200).send(counts);
   } catch (error) {
     response.status(400).send({ message: error.message });
   }
