@@ -28,7 +28,7 @@ const commentSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },
-  content: {
+  comment: {
     type: String,
     required: true
   },
