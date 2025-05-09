@@ -39,6 +39,12 @@ type CardProps = {
   actions?: ReactNode;
 };
 
+type Counts = {
+  friends: number;
+  sent: number;
+  received: number;
+};
+
 export default function UserSocial() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,6 +53,11 @@ export default function UserSocial() {
   );
   const [requestsSent, setRequestsSent] = useState<RequestSent[]>([]);
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [counts, setCounts] = useState<Counts>({
+    friends: 0,
+    sent: 0,
+    received: 0
+  });
   const [userId, setUserId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>('received');
 
@@ -57,7 +68,7 @@ export default function UserSocial() {
       return;
     }
     try {
-      const [recvRes, sentRes, friendsRes] = await Promise.all([
+      const [recvRes, sentRes, friendsRes, countsRes] = await Promise.all([
         fetch(`${API_BACKEND}friendships/friends-requests`, {
           headers: { Authorization: `Bearer ${token}` }
         }),
@@ -66,17 +77,22 @@ export default function UserSocial() {
         }),
         fetch(`${API_BACKEND}friendships/friends`, {
           headers: { Authorization: `Bearer ${token}` }
+        }),
+        fetch(`${API_BACKEND}friendships/counts`, {
+          headers: { Authorization: `Beader ${token}` }
         })
       ]);
       const recvData: { friendships: RequestReceived[] } = await recvRes.json();
       const sentData: { friendships: RequestSent[] } = await sentRes.json();
       const friendsData: { friendships: Friend[]; userId: string } =
         await friendsRes.json();
+      const countsData: Counts = await countsRes.json();
 
       setRequestsReceived(recvData.friendships);
       setRequestsSent(sentData.friendships);
       setFriends(friendsData.friendships);
       setUserId(friendsData.userId);
+      setCounts(countsData);
     } catch {
       navigate('/error', { state: { message: 'Error fetching social data.' } });
     } finally {
@@ -94,11 +110,22 @@ export default function UserSocial() {
     id: string
   ) => setter(list.filter((item) => item._id !== id));
 
+  const isRequestReceived = (item: any): item is RequestReceived => {
+    return (
+      item &&
+      typeof item === 'object' &&
+      'user_id' in item &&
+      typeof item.user_id === 'object' &&
+      '_id' in item.user_id
+    );
+  };
+
   const handleAction = async <T extends FriendshipBase>(
     id: string,
     action: 'accept' | 'reject' | 'delete',
     list: T[],
-    setter: React.Dispatch<React.SetStateAction<T[]>>
+    setter: React.Dispatch<React.SetStateAction<T[]>>,
+    listType: 'received' | 'sent' | 'friends'
   ) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -113,8 +140,47 @@ export default function UserSocial() {
         method,
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (res.ok) updateLocal(list, setter, id);
-      else {
+      if (res.ok) {
+        updateLocal(list, setter, id);
+
+        if (action === 'accept' && listType === 'received') {
+          const acceptedRaw = list.find((item) => item._id === id);
+
+          if (acceptedRaw && isRequestReceived(acceptedRaw)) {
+            const accepted = acceptedRaw;
+
+            const newFriend: Friend = {
+              _id: accepted._id,
+              status: 'accepted',
+              created_at: accepted.created_at,
+              updated_at: new Date().toISOString(),
+              user_id: accepted.user_id,
+              friend_id: { _id: userId || '', name: '', email: '' } // ajuste se necessário
+            };
+
+            setFriends((prev) => [...prev, newFriend]);
+          }
+        }
+
+        setCounts((prev) => ({
+          ...prev,
+          received:
+            listType === 'received' &&
+            (action === 'accept' || action === 'reject')
+              ? prev.received - 1
+              : prev.received,
+          sent:
+            listType === 'sent' && action === 'delete'
+              ? prev.sent - 1
+              : prev.sent,
+          friends:
+            listType === 'friends' && action === 'delete'
+              ? prev.friends - 1
+              : action === 'accept' && listType === 'received'
+                ? prev.friends + 1
+                : prev.friends
+        }));
+      } else {
         const err = await res.json();
         navigate('/error', { state: { message: err.message } });
       }
@@ -181,7 +247,8 @@ export default function UserSocial() {
                   r._id,
                   'accept',
                   requestsReceived,
-                  setRequestsReceived
+                  setRequestsReceived,
+                  'received'
                 )
               }
               className="px-3 py-1 bg-green-700 rounded hover:bg-green-800"
@@ -194,7 +261,8 @@ export default function UserSocial() {
                   r._id,
                   'reject',
                   requestsReceived,
-                  setRequestsReceived
+                  setRequestsReceived,
+                  'received'
                 )
               }
               className="px-3 py-1 bg-red-700 rounded hover:bg-red-800"
@@ -220,7 +288,13 @@ export default function UserSocial() {
         actions={
           <button
             onClick={() =>
-              handleAction(r._id, 'delete', requestsSent, setRequestsSent)
+              handleAction(
+                r._id,
+                'delete',
+                requestsSent,
+                setRequestsSent,
+                'sent'
+              )
             }
             className="absolute top-2 right-2 px-3 py-1 bg-red-700 rounded hover:bg-red-800"
           >
@@ -245,7 +319,9 @@ export default function UserSocial() {
           date={`Friends ${formatFriendshipDuration(f.updated_at)}`}
           actions={
             <button
-              onClick={() => handleAction(f._id, 'delete', friends, setFriends)}
+              onClick={() =>
+                handleAction(f._id, 'delete', friends, setFriends, 'friends')
+              }
               className="absolute top-2 right-2 p-2 rounded-full hover:bg-slate-800"
             >
               <FaTrash className="text-slate-400 hover:text-red-500" />
@@ -282,10 +358,10 @@ export default function UserSocial() {
               }`}
             >
               {tab === 'received'
-                ? 'Incoming'
+                ? `Incoming (${counts.received})`
                 : tab === 'sent'
-                  ? 'Sent'
-                  : 'Friends'}
+                  ? `Sent (${counts.sent})`
+                  : `Friends (${counts.friends})`}
             </button>
           ))}
         </nav>
