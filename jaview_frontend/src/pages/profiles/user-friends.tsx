@@ -275,7 +275,11 @@ export default function UserSocial() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg ${activeTab === tab ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+              className={`px-4 py-2 rounded-lg ${
+                activeTab === tab
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
             >
               {tab === 'received'
                 ? 'Incoming'
