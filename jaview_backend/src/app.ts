@@ -8,6 +8,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './lib/swagger-jaview.json';
+import reviewInteractionRoutes from './routes/reviewInteractionRoutes';
 
 dotenv.config();
 
@@ -39,3 +40,4 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/movies', movieRoutes);
 app.use('/friendships', friendshipRoutes);
+app.use('/reviews', reviewInteractionRoutes);
