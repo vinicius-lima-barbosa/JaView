@@ -44,10 +44,10 @@ export const commentReviewController = async (
   try {
     const user_id = request.userId;
     const review_id = request.params.id;
-    const { content } = request.body;
+    const { comment } = request.body;
 
-    const comment = new Comment({ user_id, review_id, content });
-    await comment.save();
+    const newComment = new Comment({ user_id, review_id, comment });
+    await newComment.save();
 
     response.status(201).json({ message: 'Comment added', comment });
   } catch (error) {
@@ -67,6 +67,21 @@ export const getCommentsController = async (
       .sort({ created_at: -1 });
 
     response.status(200).json({ comments });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+};
+
+export const getLikesController = async (
+  request: Request,
+  response: Response
+) => {
+  try {
+    const review_id = request.params.id;
+
+    const likes = await Like.countDocuments({ review_id });
+
+    response.status(200).json({ review_id, likes });
   } catch (error) {
     response.status(500).json({ message: error.message });
   }

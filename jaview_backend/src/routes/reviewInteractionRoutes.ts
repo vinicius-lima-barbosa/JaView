@@ -3,6 +3,7 @@ import { authMiddleware } from '../middleware/authMiddleware';
 import {
   commentReviewController,
   getCommentsController,
+  getLikesController,
   likeReviewController,
   unlikeReviewController
 } from '../controller/reviewInteractionController';
@@ -17,5 +18,6 @@ router.delete(
   unlikeReviewController
 );
 router.post('/:id/like', authMiddleware, likeReviewController);
+router.get('/:id/likes', authMiddleware, getLikesController);
 
 export default router;
