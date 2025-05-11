@@ -4,7 +4,7 @@ import { Like, Comment } from '../models/reviewInteractionModel';
 export const likeReviewController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const user_id = request.userId;
     const review_id = request.params.id;
@@ -25,7 +25,7 @@ export const likeReviewController = async (
 export const unlikeReviewController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const user_id = request.userId;
     const review_id = request.params.id;
@@ -40,7 +40,7 @@ export const unlikeReviewController = async (
 export const commentReviewController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const user_id = request.userId;
     const review_id = request.params.id;
@@ -58,7 +58,7 @@ export const commentReviewController = async (
 export const getCommentsController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const review_id = request.params.id;
 
@@ -75,13 +75,43 @@ export const getCommentsController = async (
 export const getLikesController = async (
   request: Request,
   response: Response
-) => {
+): Promise<void> => {
   try {
     const review_id = request.params.id;
 
     const likes = await Like.countDocuments({ review_id });
 
     response.status(200).json({ review_id, likes });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteCommentController = async (
+  request: Request,
+  response: Response
+): Promise<void> => {
+  try {
+    const user_id = request.userId;
+    const { reviewId, commentId } = request.params;
+
+    const comment = await Comment.findOne({
+      _id: commentId,
+      review_id: reviewId
+    });
+
+    if (!comment) {
+      response.status(404).json({ message: 'Comment not found' });
+    }
+
+    if (comment.user_id.toString() !== user_id) {
+      response
+        .status(403)
+        .json({ message: 'You can only delete your own comments' });
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+    response.status(200).json({ message: 'Comment deleted successfully' });
   } catch (error) {
     response.status(500).json({ message: error.message });
   }

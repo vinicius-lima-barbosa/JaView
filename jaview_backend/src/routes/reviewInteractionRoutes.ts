@@ -2,6 +2,7 @@ import express from 'express';
 import { authMiddleware } from '../middleware/authMiddleware';
 import {
   commentReviewController,
+  deleteCommentController,
   getCommentsController,
   getLikesController,
   likeReviewController,
@@ -19,5 +20,10 @@ router.delete(
 );
 router.post('/:id/like', authMiddleware, likeReviewController);
 router.get('/:id/likes', authMiddleware, getLikesController);
+router.delete(
+  '/:reviewId/comments/:commentId',
+  authMiddleware,
+  deleteCommentController
+);
 
 export default router;
