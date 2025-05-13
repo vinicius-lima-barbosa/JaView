@@ -119,11 +119,19 @@ export const getUserFeedService = async (userId: string) => {
 
   const users = await User.find({ _id: { $in: idsToInclude } });
 
-  const feed = [];
+  const feed: Array<{
+    reviewId: string;
+    movieId: string;
+    review: string;
+    rating: number;
+    createdAt: Date;
+    user: { id: string; name: string; avatarUrl?: string };
+  }> = [];
 
   for (const user of users) {
     for (const review of user.reviews) {
       feed.push({
+        reviewId: review._id.toString(),
         movieId: review.movie_id,
         review: review.review,
         rating: review.rating,

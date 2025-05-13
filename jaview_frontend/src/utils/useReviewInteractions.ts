@@ -3,7 +3,7 @@ import { CommentType } from '../types/commentType';
 
 const API = import.meta.env.VITE_BACKEND;
 
-export const useReviewInteraction = (reviewId: string) => {
+export const useReviewInteractions = (reviewId: string) => {
   const [likes, setLikes] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
   const [comments, setComments] = useState<CommentType[]>([]);
@@ -21,19 +21,25 @@ export const useReviewInteraction = (reviewId: string) => {
           Authorization: `Bearer ${token}`
         }
       }),
-      fetch(`${API}reviews/${reviewId}/comments`)
+      fetch(`${API}reviews/${reviewId}/comments`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
     ]);
 
     const { likes: likesCount, hasLiked: userLiked } =
       await likesResponse.json();
     const { comments: commentsList } = await commentsResponse.json();
     setLikes(likesCount);
-    setHasLiked(!!userLiked);
+    setHasLiked(Boolean(userLiked));
     setComments(
       commentsList.map((comment: CommentType) => ({
-        id: comment.id,
-        user: comment.user,
-        date: comment.date,
+        user_id: {
+          _id: comment._id,
+          name: comment.user_id.name
+        },
+        date: new Date(comment.created_at).toLocaleString(),
         comment: comment.comment
       }))
     );
@@ -47,7 +53,7 @@ export const useReviewInteraction = (reviewId: string) => {
   const toggleLike = async () => {
     if (!token) return;
     const method = hasLiked ? 'DELETE' : 'POST';
-    await fetch(`${API}reviews/${reviewId}/likes`, {
+    await fetch(`${API}reviews/${reviewId}/like`, {
       method,
       headers: {
         Authorization: `Bearer ${token}`
