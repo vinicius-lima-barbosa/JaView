@@ -16,13 +16,19 @@ export const useReviewInteraction = (reviewId: string) => {
     setLoading(true);
 
     const [likesResponse, commentsResponse] = await Promise.all([
-      fetch(`${API}reviews/${reviewId}/likes`),
+      fetch(`${API}reviews/${reviewId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }),
       fetch(`${API}reviews/${reviewId}/comments`)
     ]);
 
-    const { likes: likesCount } = await likesResponse.json();
+    const { likes: likesCount, hasLiked: userLiked } =
+      await likesResponse.json();
     const { comments: commentsList } = await commentsResponse.json();
     setLikes(likesCount);
+    setHasLiked(!!userLiked);
     setComments(
       commentsList.map((comment: CommentType) => ({
         id: comment.id,
@@ -61,9 +67,7 @@ export const useReviewInteraction = (reviewId: string) => {
       },
       body: JSON.stringify({ comment })
     });
-    if (response.ok) {
-      await fetchInteractions();
-    }
+    if (response.ok) await fetchInteractions();
   };
 
   return { likes, hasLiked, comments, loading, toggleLike, addComment };
