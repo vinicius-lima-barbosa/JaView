@@ -76,5 +76,28 @@ export const useReviewInteractions = (reviewId: string) => {
     if (response.ok) await fetchInteractions();
   };
 
-  return { likes, hasLiked, comments, loading, toggleLike, addComment };
+  const deleteComment = async (commentId: string) => {
+    if (!token) return;
+
+    const response = await fetch(
+      `${API}reviews/${reviewId}/comments/${commentId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    if (response.ok) fetchInteractions();
+  };
+
+  return {
+    likes,
+    hasLiked,
+    comments,
+    loading,
+    toggleLike,
+    addComment,
+    deleteComment
+  };
 };
