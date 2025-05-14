@@ -35,8 +35,9 @@ export const useReviewInteractions = (reviewId: string) => {
     setHasLiked(Boolean(userLiked));
     setComments(
       commentsList.map((comment: CommentType) => ({
+        _id: comment._id,
         user_id: {
-          _id: comment._id,
+          _id: comment.user_id._id,
           name: comment.user_id.name
         },
         date: new Date(comment.created_at).toLocaleString(),

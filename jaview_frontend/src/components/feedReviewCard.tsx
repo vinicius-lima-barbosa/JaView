@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { BallTriangle } from 'react-loader-spinner';
-import { FaStar, FaClock } from 'react-icons/fa';
+import { FaStar, FaClock, FaTrash } from 'react-icons/fa';
 import avatarPlaceholder from '../assets/images/avatar/default_avatar.jpg';
 import { useReviewInteractions } from '../utils/useReviewInteractions';
 
@@ -26,7 +26,8 @@ export function FeedReviewCard({ review }: { review: EnrichedReview }) {
     comments,
     loading: interactionLoading,
     toggleLike,
-    addComment
+    addComment,
+    deleteComment
   } = useReviewInteractions(reviewId);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -118,9 +119,20 @@ export function FeedReviewCard({ review }: { review: EnrichedReview }) {
 
           <div className="mt-4 space-y-2">
             {comments.map((c, index) => (
-              <div key={index} className="p-2 bg-gray-800 rounded">
-                <p className="text-sm text-gray-400">{c.user_id.name}</p>
-                <p className="text-white">{c.comment}</p>
+              <div
+                key={index}
+                className="flex justify-between items-start p-2 bg-gray-800 rounded"
+              >
+                <div>
+                  <p className="text-sm text-gray-400">{c.user_id.name}</p>
+                  <p className="text-white">{c.comment}</p>
+                </div>
+                <div
+                  onClick={() => deleteComment(c._id)}
+                  className="p-1 text-red-500 hover:text-red-600 cursor-pointer"
+                >
+                  <FaTrash />
+                </div>
               </div>
             ))}
           </div>
