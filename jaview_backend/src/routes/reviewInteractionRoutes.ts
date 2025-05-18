@@ -13,11 +13,7 @@ const router = express.Router();
 
 router.get('/:id/comments', authMiddleware, getCommentsController);
 router.post('/:id/comments', authMiddleware, commentReviewController);
-router.delete(
-  '/:id/comments/:commentId',
-  authMiddleware,
-  unlikeReviewController
-);
+router.delete('/:id/like', authMiddleware, unlikeReviewController);
 router.post('/:id/like', authMiddleware, likeReviewController);
 router.get('/:id/likes', authMiddleware, getLikesController);
 router.delete(

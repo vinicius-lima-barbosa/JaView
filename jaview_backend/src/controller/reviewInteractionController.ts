@@ -78,10 +78,15 @@ export const getLikesController = async (
 ): Promise<void> => {
   try {
     const review_id = request.params.id;
+    const user_id = request.userId;
 
     const likes = await Like.countDocuments({ review_id });
 
-    response.status(200).json({ review_id, likes });
+    const hasLiked = user_id
+      ? await Like.exists({ review_id, user_id })
+      : false;
+
+    response.status(200).json({ review_id, likes, hasLiked });
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
